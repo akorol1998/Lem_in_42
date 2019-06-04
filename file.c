@@ -27,7 +27,7 @@ t_table		*create_table()
 	return (point);
 }
 
-t_node		*create_node()
+t_node		*create_node(void)
 {
 	t_node	*node;
 
@@ -35,15 +35,26 @@ t_node		*create_node()
 	node->weight = 99999;
 	node->current = 1;
 	node->pos = NULL;
+	node->link = NULL;
 	node->branch = NULL;
 	node->name = NULL;
+	return (node);
 }
 
 int			fill_node(char **data, t_node *node, t_table *tbl)
 {
-	tbl->nodes = node;
+	t_node	*tbl_node;
+
+	tbl_node = tbl->nodes;
+	while (tbl_node && tbl_node->link != NULL)
+		tbl_node = tbl_node->link;
+	if (!tbl_node)
+		tbl->nodes = node;
+	else
+		tbl_node->link = node;
 	node->name = data[0];
-	node->pos = (int*)malloc(sizeof(int) * 2);
-	node->pos[0] = data[1];
-	node->pos[0] = data[2];
+	node->pos = (int *)malloc(sizeof(int) * 2);
+	node->pos[0] = ft_atoi(data[1]);
+	node->pos[1] = ft_atoi(data[2]);
+	return (1);
 }

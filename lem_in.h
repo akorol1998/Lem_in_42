@@ -31,12 +31,17 @@ typedef struct 			s_table
 typedef struct			s_node
 {
 	struct s_node		**branch;
+	struct s_node		*link;
 	int					weight;
 	int					current;
-	int					**pos;	// to check duplicated coordinates
+	int					*pos;	// to check duplicated coordinates
 	char				*name;
 }						t_node;
 
 t_table					*create_table();
-
+int						ant_check(char	*line);
+t_node					*create_node(void);
+int						check_room(char **data);
+int						fill_node(char **data, t_node *node, t_table *tbl);
+int						read_start(t_table *tbl);
 #endif

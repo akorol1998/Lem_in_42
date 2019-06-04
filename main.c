@@ -22,9 +22,13 @@ int			get_ants(t_table *tbl)
 	while (1)
 	{
 		get_next_line(0, &line);
-		if (!ft_strcmp(line, "##start"))
+		if (ant_check(line))
+		{
+			ants = ft_atoi(line);
+			printf("foo\n");
 			break ;
-		ants = ft_atoi(line);
+		}
+		printf("goo\n");
 		free(line);
 	}
 	if (ants < 0 || !ants)
@@ -62,7 +66,6 @@ int			check_room(char **data)
 			;
 	if (k != 3)
 	{
-		;
 		// while (data && data[++k])
 		// {
 		// 	free(data[k]);
@@ -76,12 +79,12 @@ int			check_room(char **data)
 	return (1);
 }
 
-void		reading_rooms(t_table *tbl)
+int			reading_rooms(t_table *tbl)
 {
 	char	*line;
 	char	**data;
 	int		flag;
-	int		k;
+	t_node	*node;
 
 	flag = 1;
 	line = NULL;
@@ -89,25 +92,28 @@ void		reading_rooms(t_table *tbl)
 	{
 		get_next_line(0, &line);
 		data = ft_strsplit(line, ' ');
-		free(line);
-		k = -1;
 		if (check_room(data))
 		{
-			flag = 0;
-			for(int j = 0;j < 3;j++)
-				printf("%s\n", data[j]);
+			node = create_node();
+			fill_node(data, node, tbl);
 		}
+		if (!ft_strcmp(line, "##start"))
+		{
+			if (!read_start(tbl))
+				return (0);
+		}
+		printf("privet\n");
+		// free(line); What da fuck??
 	}
+	return (1);
 }
 
 int			start_reading(void)
 {
 	t_table	*table;
-	t_node	*node;
 	int		ants;
 
 	table = create_table();
-	node = create_node()
 	ants = get_ants(table);
 	reading_rooms(table);
 	printf("Your ants %d\n", table->ants);

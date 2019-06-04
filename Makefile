@@ -14,6 +14,7 @@ NAME = lem-in
 
 SRC =   main.c	\
 		file.c	\
+		file1.c \
 
 CFLAGS = -Wextra -Wall -Werror
 
