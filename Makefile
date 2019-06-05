@@ -15,6 +15,8 @@ NAME = lem-in
 SRC =   main.c	\
 		file.c	\
 		file1.c \
+		file2.c \
+		support.c\
 
 CFLAGS = -Wextra -Wall -Werror
 
@@ -25,7 +27,7 @@ OBJ = $(SRC:%.c=%.o)
 all: $(NAME)
 
 $(NAME):$(LIB) $(OBJ)
-	gcc -o $@ $(OBJ) $(LIB)
+	gcc -g -o $@ $(OBJ) $(LIB)
 
 $(OBJ):%.o:%.c
 	gcc $(CFLAGS) -c $< -o $@

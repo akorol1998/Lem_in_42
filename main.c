@@ -31,10 +31,9 @@ int			get_ants(t_table *tbl)
 		printf("goo\n");
 		free(line);
 	}
+	free(line);
 	if (ants < 0 || !ants)
 		return (0);
-	else
-		free(line);
 	tbl->ants = ants;
 	return (1);
 }
@@ -66,63 +65,61 @@ int			check_room(char **data)
 			;
 	if (k != 3)
 	{
-		// while (data && data[++k])
-		// {
-		// 	free(data[k]);
-		// 	free(data);
-		// }
+		k = -1;
+		while (data && data[++k])
+			free(data[k]);
+		free(data);
 		return (0);
 	}
 	else if (!check_num(data))
 		return (0);
-	printf("Yep here is a room [%s]\n", data[0]);
 	return (1);
 }
 
-int			reading_rooms(t_table *tbl)
+char		*reading_rooms(t_table *tbl)
 {
 	char	*line;
-	char	**data;
-	int		flag;
-	t_node	*node;
 
-	flag = 1;
 	line = NULL;
-	while (flag)
+	while (get_next_line(0, &line))
 	{
-		get_next_line(0, &line);
-		data = ft_strsplit(line, ' ');
-		if (check_room(data))
+		if (ft_strchr(line, '-'))
+			return (line);
+		if (!check_line(line, tbl))
 		{
-			node = create_node();
-			fill_node(data, node, tbl);
+			free(line);
+			return (NULL);
 		}
-		if (!ft_strcmp(line, "##start"))
-		{
-			if (!read_start(tbl))
-				return (0);
-		}
-		printf("privet\n");
-		// free(line); What da fuck??
+		free(line);
 	}
-	return (1);
+	return (NULL);
 }
 
 int			start_reading(void)
 {
 	t_table	*table;
-	int		ants;
+	char	*line;
+	int		flag;
 
 	table = create_table();
-	ants = get_ants(table);
-	reading_rooms(table);
-	printf("Your ants %d\n", table->ants);
+	get_ants(table);
+	flag = 0;
+	if ((line = reading_rooms(table)) && table->start && table->end)
+	{
+
+		flag = reading_links(line, table);
+		print_list(table);
+		// system("leaks lem-in");
+	}
+	else
+		printf("not valid\n");
+	if (flag)
+		printf("Proceed with algorithm\n");
 	return (0);
 }
 
 int		main(void)
 {
 	start_reading();
-	// system("leaks lem-in");
 	return (0);
 }
