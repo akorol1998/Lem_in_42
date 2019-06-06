@@ -88,40 +88,53 @@ void		through_net(t_node *nodder, t_table *tbl, int w, t_node *tail)
 int			set_levels(t_table *tbl)
 {
 	t_pipe	*pip;
-	t_node	*node;
+	t_pipe	*headpip;
 	t_node	*head_node;
-	int		w;
-	int		count;
+	t_node	*node;
 
-	w = 0;
-	count = -1;
 	head_node = tbl->end;
 	head_node->weight = 0;
 	head_node->visited = 1;
-	if (head_node->branch)
+	pip = head_node->branch
+	if (pip)
 	{
-		while (++count < tbl->rooms)
+		headpip = pip;
+		while (pip)
 		{
-			w++;	
-			pip = head_node->branch;
-			head_node = pip->node;
-			while (pip)
-			{
-				node = pip->node;
-				if (!node->visited)
-				{
-					node->visited = 1;
-					node->weight = w;
-				}
-				pip = pip->next;
-			}
-			if (!ft_strcmp(head_node->name, tbl->start->name))	// Fuck i don't know when to stop
-				return (1);
+			node = pip->node;
+			algo(tbl, node);
+			pip = pip->next;
 		}
-		return (0);
-		// printf("main END %d", tail->weight);
-		// through_net(tail->branch->node, tbl, w, tail);
+		pip = headpip;
+		pip = pip->node->branch;
+		
+		return (1);
 	}
 	else
 		return (0);
 }
+
+void		algo(t_table *tbl, t_node *node)
+{
+	int		count;
+	int		w;
+	t_pipe	*pip;
+	t_node	*cnode;
+
+	w = 0;
+	count = -1;
+	pip = node->branch;
+	while (pip)
+	{
+		cnode = pip->node;
+		if (!cnode->visited)
+		{
+			node->visited = 1;
+			node->weight = w;
+		}
+		pip = pip->next;
+	}
+	return (1);
+}
+		// if (!ft_strcmp(head_node->name, tbl->start->name))	// Fuck i don't know when to stop
+		// 	return (1);

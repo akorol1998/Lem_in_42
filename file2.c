@@ -22,7 +22,7 @@ int			linking(char **data, t_table *tbl)
 	node = tbl->nodes;
 	node2 = tbl->nodes;
 	if (!ft_strcmp(data[0], data[1]))
-		return (0);
+		return (1);
 	while (node && ft_strcmp(node->name, data[0]))
 	{
 		printf("--------LINK1-------\n\n");
@@ -33,10 +33,9 @@ int			linking(char **data, t_table *tbl)
 		printf("--------LINK2-------\n\n");
 		node2 = node2->link;
 	}
-	if (node && node2 && connecting_nodes(node, node2))
-		return (1);
-	else
-		return (0);				// FREE !!
+	if (node && node2)
+		connecting_nodes(node, node2); // Shoudl i skip when there is a node that does not exist or should i reaturn (0)?
+	return (1);
 	printf("\nwell hello\n");
 	printf("%s-%s\n", data[0], data[1]);
 }
@@ -59,7 +58,7 @@ int			connecting_nodes(t_node *node, t_node *node2)
 		while (pip->next)
 		{
 			if (!ft_strcmp(pip->node->name, node2->name))
-				return (0);
+				return (1);
 			pip = pip->next;
 		}
 		pip->next = (t_pipe *)malloc(sizeof(t_pipe));
@@ -87,7 +86,7 @@ int			connect_node2(t_node *node2, t_node *node)
 		while (pip->next)
 		{
 			if (!ft_strcmp(pip->node->name, node->name))
-				return (0);
+				return (1);
 			pip = pip->next;
 		}
 		pip->next = (t_pipe *)malloc(sizeof(t_pipe));
@@ -108,7 +107,7 @@ int			creating_arrays(t_table *tbl)
 	tbl->unvis[tbl->rooms] = NULL;
 	tbl->vert = (char **)malloc(sizeof(char*) * tbl->rooms + 1);
 	tbl->vert[tbl->rooms] = NULL;
-	tbl->start->weight = 0;
+	// tbl->start->weight = 0;
 	fill_unvis(tbl);	
 	return (1);
 }

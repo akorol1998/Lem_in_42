@@ -69,4 +69,5 @@ int						launch_algorithm(t_table *tbl);
 int						list_len(char **list);
 int						set_levels(t_table *tbl);
 void					through_net(t_node *nodder, t_table *tbl, int w, t_node *tail);
+void					algo(t_table *tbl, t_node *head_node, t_pipe *pip);
 #endif
