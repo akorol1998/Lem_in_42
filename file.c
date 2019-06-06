@@ -18,7 +18,7 @@ t_table		*create_table()
 
 	point = (t_table*)malloc(sizeof(t_table));
 	point->prev = NULL;
-	point->way = NULL;
+	point->vert = NULL;
 	point->prev = NULL;
 	point->nodes = NULL;
 	point->vis = NULL;
@@ -42,6 +42,7 @@ t_node		*create_node(void)
 	node->link = NULL;
 	node->branch = NULL;
 	node->name = NULL;
+	node->visited = 0;
 	node->branch = NULL;
 	return (node);
 }

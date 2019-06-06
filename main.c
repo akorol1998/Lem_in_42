@@ -25,10 +25,10 @@ int			get_ants(t_table *tbl)
 		if (ant_check(line))
 		{
 			ants = ft_atoi(line);
-			printf("foo\n");
+			// printf("foo\n");
 			break ;
 		}
-		printf("goo\n");
+		// printf("goo\n");
 		free(line);
 	}
 	free(line);
@@ -108,14 +108,23 @@ int			start_reading(void)
 	{
 
 		flag = reading_links(line, table);
-		print_list(table);
+		// print_list(table);
 		// system("leaks lem-in");
 	}
 	else
 		printf("not valid\n");
 	if (flag)
+	{
+		creating_arrays(table);
+		print_list(table);
 		printf("Proceed with algorithm\n");
-	return (0);
+		return (1);
+	}
+	else
+	{
+		printf("Error \n");
+		return (0);
+	}
 }
 
 int		main(void)

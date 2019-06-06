@@ -18,7 +18,7 @@
 
 typedef struct 			s_table
 {
-	int					*way;	// shortest way
+	char				**vert;	// shortest way
 	char				**prev;	// Previous node's name
 	struct s_node		*nodes;	// all the available nodes
 	struct s_node		*start;
@@ -39,6 +39,8 @@ typedef struct			s_node
 	int					current;
 	int					*pos;	// to check duplicated coordinates
 	char				*name;
+	int					idx;
+	char				visited;
 }						t_node;
 
 typedef struct			s_pipe
@@ -61,4 +63,10 @@ int						reading_links(char *line0, t_table *tbl);
 int						linking(char **data, t_table *tbl);
 int						connecting_nodes(t_node *node, t_node *node2);
 int						connect_node2(t_node *node2, t_node *node);
+int						creating_arrays(t_table *tbl);
+void					fill_unvis(t_table *tbl);
+int						launch_algorithm(t_table *tbl);
+int						list_len(char **list);
+int						set_levels(t_table *tbl);
+void					through_net(t_node *nodder, t_table *tbl, int w, t_node *tail);
 #endif
