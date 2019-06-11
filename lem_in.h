@@ -19,7 +19,7 @@
 typedef struct 			s_table
 {
 	char				**vert;	// shortest way
-	char				**prev;	// Previous node's name
+	struct s_node		**q;	// Previous node's name
 	struct s_node		*nodes;	// all the available nodes
 	struct s_node		*start;
 	struct s_node		*end;
@@ -35,11 +35,13 @@ typedef struct			s_node
 {
 	struct s_pipe		*branch;
 	struct s_node		*link;
+	struct s_node		*prev;
 	int					weight;
 	int					current;
 	int					*pos;	// to check duplicated coordinates
 	char				*name;
 	int					idx;
+
 	char				visited;
 }						t_node;
 

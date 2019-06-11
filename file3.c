@@ -12,38 +12,6 @@
 
 #include "lem_in.h"
 
-int			list_len(char **list)
-{
-	int		i;
-
-	i = -1;
-	while(list[++i])
-		;
-	return (i);
-}
-
-int			calculate_dist(t_node *curr, t_table *tbl)
-{
-	t_pipe	*pip;
-	t_node	*contrl;
-
-	tbl = NULL; // HHHHHHEEEEEYYYYyyyyy !!!!!
-	if (curr->branch)
-	{
-		pip = curr->branch;
-		if (pip->node && !pip->node->visited)
-		{
-			contrl = pip->node;
-			while (pip)
-			{
-				pip = pip->next;
-				// if (pip->node->current < contrl->current)
-
-			}
-		}
-	}
-	return (1);
-}
 
 int			launch_algorithm(t_table *tbl)
 {
@@ -51,11 +19,65 @@ int			launch_algorithm(t_table *tbl)
 
 	curr = tbl->nodes;
 	set_levels(tbl);
-	// while (list_len(tbl->unvis))
-	// {
-	// 	printf("-()_()-");
-	// 	calculate_dist(curr, tbl);
-	// }
+	return (1);
+}
+
+void		add_to_queue(t_table *tbl, t_node *node)
+{
+	t_pipe	*pip;
+	int		i;
+	int		flag;
+	int		idx;
+
+	idx = -1;
+	pip = node->branch;
+	while (tbl->q[++idx])
+		;
+	while (pip)
+	{
+		i = -1;
+		flag = 1;
+		while (tbl->q[++i])
+		{
+			if (!ft_strcmp(tbl->q[i]->name, pip->node->name))
+				flag = 0;
+		}
+		if (flag)
+		{
+			tbl->q[idx] = pip->node;
+			pip->node->prev = node;
+			idx++;
+		}
+		pip = pip->next;
+	}
+}
+
+int			set_levels(t_table *tbl)
+{
+	t_node	*cur;
+	int		idx;
+
+	idx = 0;
+	cur = tbl->nodes;
+	tbl->q[idx] = cur;
+	while (cur && ft_strcmp(cur->name, tbl->end->name))
+	{
+		add_to_queue(tbl, cur);
+		cur = tbl->q[++idx];
+		ft_putstr("Room = ");
+		if (cur)
+			ft_putstr("exists = ");
+		else
+			ft_putstr(" not = ");
+		ft_putstr(cur->name);
+		ft_putstr("\n");
+	}
+	ft_putstr("here is a node ");
+	ft_putstr(cur->name);
+	ft_putstr("\n");
+	ft_putstr("here is end name");
+	ft_putstr(tbl->end->name);
+	ft_putstr("\n");
 	return (1);
 }
 
@@ -83,45 +105,4 @@ void		through_net(t_node *nodder, t_table *tbl, int w, t_node *tail)
 			pip = pip->next;
 		}
 	}
-}
-
-int			set_levels(t_table *tbl)
-{
-	t_pipe	*pip;
-	t_node	*node;
-	t_node	*head_node;
-	int		w;
-	int		count;
-
-	w = 0;
-	count = -1;
-	head_node = tbl->end;
-	head_node->weight = 0;
-	head_node->visited = 1;
-	if (head_node->branch)
-	{
-		while (++count < tbl->rooms)
-		{
-			w++;	
-			pip = head_node->branch;
-			head_node = pip->node;
-			while (pip)
-			{
-				node = pip->node;
-				if (!node->visited)
-				{
-					node->visited = 1;
-					node->weight = w;
-				}
-				pip = pip->next;
-			}
-			if (!ft_strcmp(head_node->name, tbl->start->name))	// Fuck i don't know when to stop
-				return (1);
-		}
-		return (0);
-		// printf("main END %d", tail->weight);
-		// through_net(tail->branch->node, tbl, w, tail);
-	}
-	else
-		return (0);
 }

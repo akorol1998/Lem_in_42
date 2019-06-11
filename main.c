@@ -107,24 +107,23 @@ int			start_reading(void)
 	if ((line = reading_rooms(table)) && table->start && table->end)
 	{
 
-		flag = reading_links(line, table);
+		reading_links(line, table);
+		creating_arrays(table);
+		flag = launch_algorithm(table);
+		// print_list(table);
+		printf("Proceed with algorithm\n");
+		return (1);
+		if (!flag)
+		{
+			printf("Error \n");
+			return (0);
+		}
 		// print_list(table);
 		// system("leaks lem-in");
 	}
 	else
-		printf("not valid\n");
-	if (flag)
-	{
-		creating_arrays(table);
-		print_list(table);
-		printf("Proceed with algorithm\n");
-		return (1);
-	}
-	else
-	{
-		printf("Error \n");
-		return (0);
-	}
+		printf("No Start or\n no End or\n some another unknown ERROR\n");
+	return (0);
 }
 
 int		main(void)

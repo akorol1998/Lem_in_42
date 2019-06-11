@@ -17,9 +17,8 @@ t_table		*create_table()
 	t_table	*point;
 
 	point = (t_table*)malloc(sizeof(t_table));
-	point->prev = NULL;
 	point->vert = NULL;
-	point->prev = NULL;
+	point->q = NULL;
 	point->nodes = NULL;
 	point->vis = NULL;
 	point->unvis = NULL;
@@ -44,6 +43,7 @@ t_node		*create_node(void)
 	node->name = NULL;
 	node->visited = 0;
 	node->branch = NULL;
+	node->prev = NULL;
 	return (node);
 }
 
@@ -77,7 +77,15 @@ int			check_for_links(char **data, t_table *tbl)
 {
 	int		i;
 	int		k;
+	static int	c;
 
+	c++;
+	printf("%d\n", c);
+	if (c == 447)
+	{
+		for(int j = 0;data[j];j++)
+		printf("%s\n", data[j]);
+	}
 	i = -1;
 	while (data && data[++i])
 			;
@@ -87,6 +95,7 @@ int			check_for_links(char **data, t_table *tbl)
 		while (data && data[++i])
 			free(data[i]);
 		free(data);
+		printf("here zero");
 		return (0);
 	}
 	k = linking(data, tbl);

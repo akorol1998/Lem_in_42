@@ -98,7 +98,10 @@ int				check_line(char *line, t_table *tbl)
 			return (0);
 	}
 	else if (!(line[0] == '#'))
+	{
+		printf("not a comment - %s\n", line);
 		return (0);
+	}
 	return (1);
 }
 

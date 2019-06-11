@@ -22,21 +22,27 @@ int			linking(char **data, t_table *tbl)
 	node = tbl->nodes;
 	node2 = tbl->nodes;
 	if (!ft_strcmp(data[0], data[1]))
-		return (0);
+	{
+		printf("same name");
+		return (1);
+	}
 	while (node && ft_strcmp(node->name, data[0]))
 	{
-		printf("--------LINK1-------\n\n");
+		// printf("--------LINK1-------\n\n");
 		node = node->link;
 	}
 	while (node2 && ft_strcmp(node2->name, data[1]))
 	{
-		printf("--------LINK2-------\n\n");
+		// printf("--------LINK2-------\n\n");
 		node2 = node2->link;
 	}
 	if (node && node2 && connecting_nodes(node, node2))
 		return (1);
 	else
+	{
+		ft_putstr("Here we go");
 		return (0);				// FREE !!
+	}
 	printf("\nwell hello\n");
 	printf("%s-%s\n", data[0], data[1]);
 }
@@ -100,8 +106,13 @@ int			connect_node2(t_node *node2, t_node *node)
 
 int			creating_arrays(t_table *tbl)
 {
-	tbl->prev = (char **)malloc(sizeof(char*) * tbl->rooms + 1);
-	tbl->prev[tbl->rooms] = NULL;
+	int		i;
+
+	i = -1;
+	tbl->q = (t_node**)malloc(sizeof(t_node*) * tbl->rooms + 1);
+	tbl->q[tbl->rooms] = NULL;
+	while (++i < tbl->rooms)
+		tbl->q[i] = NULL;
 	tbl->vis = (char **)malloc(sizeof(char*) * tbl->rooms + 1);
 	tbl->vis[tbl->rooms] = NULL;
 	tbl->unvis = (char **)malloc(sizeof(char*) * tbl->rooms + 1);
@@ -120,14 +131,13 @@ void		fill_unvis(t_table *tbl)
 
 	i = -1;
 	node = tbl->nodes;
-	while (node)
-	{
-		++i;
-		tbl->unvis[i] = ft_strdup(node->name);
-		tbl->vert[i] = ft_strdup(node->name);
-		node->idx = i;
-		node = node->link;
-		printf("node %s\n", tbl->unvis[i]);
-	}
-	launch_algorithm(tbl);
+	// while (node)
+	// {
+	// 	++i;
+	// 	tbl->unvis[i] = ft_strdup(node->name);
+	// 	tbl->vert[i] = ft_strdup(node->name);
+	// 	node->idx = i;
+	// 	node = node->link;
+	// 	printf("node %s\n", tbl->unvis[i]);
+	// }
 }

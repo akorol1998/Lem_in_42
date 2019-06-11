@@ -46,7 +46,7 @@ void		print_list(t_table *tbl)
 		n = tbl->nodes;
 		printf("Address %p\n", n);
 		printf("Ants %d\n", tbl->ants);
-		//test; printf("end %s\n", tbl->end);
+		printf("end %s\n", tbl->end->name);
 		printf("THE NODE\n");
 		while (n)
 		{	printf("---------NODE-------\n\n");
