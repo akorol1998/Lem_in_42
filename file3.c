@@ -16,10 +16,51 @@
 int			launch_algorithm(t_table *tbl)
 {
 	t_node	*curr;
+	int		idx;
 
 	curr = tbl->nodes;
-	set_levels(tbl);
+	idx = set_levels(tbl);
+	extract_path(tbl, idx);
 	return (1);
+}
+
+void		making_path(t_table *tbl, int idx, int	j)
+{
+	t_node	*node;
+
+	node = tbl->q[idx];
+	tbl->path[j][idx - 1] = node->name;
+	printf("index %d\n", idx);
+	printf("room %s\n", tbl->path[j][idx - 1]);
+	idx--;
+	while (ft_strcmp(node->name, tbl->start->name))
+	{
+		node = node->prev;
+		printf("index %d\n", idx);
+		printf("node name %s\n", node->name);
+		tbl->path[j][idx - 1] = node->name;
+		idx--;
+	}
+	printf("start name %s\n", tbl->start->name);
+}
+
+void		extract_path(t_table *tbl, int idx)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while (tbl->q[++i])
+		;
+	j = -1;
+	while (tbl->path[++j])
+		;
+	tbl->path[j] = (char**)malloc(sizeof(char*) * idx + 1);
+	tbl->path[j][idx] = NULL;
+	making_path(tbl, idx, j);
+	printf("%d\n", i);
+	printf("%d\n", j);
+	printf("Extracting path");
 }
 
 void		add_to_queue(t_table *tbl, t_node *node)
@@ -33,6 +74,7 @@ void		add_to_queue(t_table *tbl, t_node *node)
 	pip = node->branch;
 	while (tbl->q[++idx])
 		;
+	printf("iteration\n");					// Look here BITCH  check pip for being a NULL and file 'file'
 	while (pip)
 	{
 		i = -1;
@@ -46,6 +88,7 @@ void		add_to_queue(t_table *tbl, t_node *node)
 		{
 			tbl->q[idx] = pip->node;
 			pip->node->prev = node;
+			printf(" queue name %s\n", pip->node->name);
 			idx++;
 		}
 		pip = pip->next;
@@ -60,49 +103,25 @@ int			set_levels(t_table *tbl)
 	idx = 0;
 	cur = tbl->nodes;
 	tbl->q[idx] = cur;
+	printf("index is %d\n", idx);
 	while (cur && ft_strcmp(cur->name, tbl->end->name))
 	{
 		add_to_queue(tbl, cur);
 		cur = tbl->q[++idx];
+		printf("cycle index is %d\n", idx);
 		ft_putstr("Room = ");
 		if (cur)
-			ft_putstr("exists = ");
-		else
-			ft_putstr(" not = ");
-		ft_putstr(cur->name);
-		ft_putstr("\n");
+		{
+			ft_putstr(cur->name);
+			ft_putnbr(idx);
+			ft_putstr("\n");
+		}
 	}
 	ft_putstr("here is a node ");
 	ft_putstr(cur->name);
 	ft_putstr("\n");
-	ft_putstr("here is end name");
+	ft_putstr("here is end name ");
 	ft_putstr(tbl->end->name);
 	ft_putstr("\n");
-	return (1);
-}
-
-void		through_net(t_node *nodder, t_table *tbl, int w, t_node *tail)
-{
-	t_pipe	*pip;
-	t_node	*node;
-
-	printf("hi there\n");
-	if (nodder->branch && ft_strcmp(nodder->name, tbl->start->name))
-	{
-		printf("Not start\n");
-		pip = nodder->branch;
-		while (pip)
-		{
-			node = pip->node;
-			if (!node->visited)
-			{
-				printf("---===---\n");
-				node->weight = w + 1;
-				node->visited = 1;
-				printf("END %d", tail->weight);
-				through_net(node, tbl, w + 1, tail);
-			}
-			pip = pip->next;
-		}
-	}
+	return (idx);
 }

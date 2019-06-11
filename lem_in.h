@@ -18,13 +18,13 @@
 
 typedef struct 			s_table
 {
-	char				**vert;	// shortest way
+	// char				**vert;	// shortest way
 	struct s_node		**q;	// Previous node's name
 	struct s_node		*nodes;	// all the available nodes
 	struct s_node		*start;
 	struct s_node		*end;
-	char				**vis;		// visited nodes
-	char				**unvis;	// unvisited nodes
+	char				***path;
+	// char				**unvis;	// unvisited nodes
 	int					ants;	// Number of ants
 	int					rooms;
 
@@ -66,9 +66,8 @@ int						linking(char **data, t_table *tbl);
 int						connecting_nodes(t_node *node, t_node *node2);
 int						connect_node2(t_node *node2, t_node *node);
 int						creating_arrays(t_table *tbl);
-void					fill_unvis(t_table *tbl);
 int						launch_algorithm(t_table *tbl);
 int						list_len(char **list);
 int						set_levels(t_table *tbl);
-void					through_net(t_node *nodder, t_table *tbl, int w, t_node *tail);
+void					extract_path(t_table *tbl, int idx);
 #endif

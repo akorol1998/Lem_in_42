@@ -17,11 +17,8 @@ t_table		*create_table()
 	t_table	*point;
 
 	point = (t_table*)malloc(sizeof(t_table));
-	point->vert = NULL;
 	point->q = NULL;
 	point->nodes = NULL;
-	point->vis = NULL;
-	point->unvis = NULL;
 	point->start = NULL;
 	point->end = NULL;
 	point->ants = 0;

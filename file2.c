@@ -111,33 +111,12 @@ int			creating_arrays(t_table *tbl)
 	i = -1;
 	tbl->q = (t_node**)malloc(sizeof(t_node*) * tbl->rooms + 1);
 	tbl->q[tbl->rooms] = NULL;
+	tbl->path = (char***)malloc(sizeof(char**) * tbl->ants);
 	while (++i < tbl->rooms)
 		tbl->q[i] = NULL;
-	tbl->vis = (char **)malloc(sizeof(char*) * tbl->rooms + 1);
-	tbl->vis[tbl->rooms] = NULL;
-	tbl->unvis = (char **)malloc(sizeof(char*) * tbl->rooms + 1);
-	tbl->unvis[tbl->rooms] = NULL;
-	tbl->vert = (char **)malloc(sizeof(char*) * tbl->rooms + 1);
-	tbl->vert[tbl->rooms] = NULL;
-	tbl->start->weight = 0;
-	fill_unvis(tbl);	
+	i = -1;
+	while (++i < tbl->ants)
+		tbl->path[i] = NULL;
 	return (1);
 }
 
-void		fill_unvis(t_table *tbl)
-{
-	t_node	*node;
-	int		i;
-
-	i = -1;
-	node = tbl->nodes;
-	// while (node)
-	// {
-	// 	++i;
-	// 	tbl->unvis[i] = ft_strdup(node->name);
-	// 	tbl->vert[i] = ft_strdup(node->name);
-	// 	node->idx = i;
-	// 	node = node->link;
-	// 	printf("node %s\n", tbl->unvis[i]);
-	// }
-}
