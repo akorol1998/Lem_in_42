@@ -27,30 +27,20 @@ int			linking(char **data, t_table *tbl)
 		return (1);
 	}
 	while (node && ft_strcmp(node->name, data[0]))
+	{
 		node = node->link;
+	}
 	while (node2 && ft_strcmp(node2->name, data[1]))
 		node2 = node2->link;
-	// ft_putstr("node ");
-	// ft_putstr(node->name);
-	// ft_putstr("\n");
-	// t_pipe	*tub;
-	// if (node->branch)
-	// {
-	// 	tub = node->branch;
-	// 	ft_putstr(tub->node->name);
-	// 	tub = node->branch->next;
-	// 	if (tub)
-	// 		ft_putstr(tub->node->name);
-	// }
 	if (node && node2 && connecting_nodes(node, node2))
+	{
 		return (1);
+	}
 	else
 	{
 		ft_putstr("Here we go");
 		return (0);				// FREE !!
 	}
-	printf("\nwell hello\n");
-	printf("%s-%s\n", data[0], data[1]);
 }
 
 // Very careful with linking nodes to each other, so that you didn't create infinite loop in the future
@@ -117,11 +107,11 @@ int			creating_arrays(t_table *tbl)
 	i = -1;
 	tbl->q = (t_node**)malloc(sizeof(t_node*) * tbl->rooms + 1);
 	tbl->q[tbl->rooms] = NULL;
-	tbl->path = (char***)malloc(sizeof(char**) * tbl->ants);
+	tbl->path = (char***)malloc(sizeof(char**) * tbl->rooms);
 	while (++i < tbl->rooms)
 		tbl->q[i] = NULL;
 	i = -1;
-	while (++i < tbl->ants)
+	while (++i < tbl->rooms)
 		tbl->path[i] = NULL;
 	return (1);
 }

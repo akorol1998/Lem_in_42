@@ -70,4 +70,6 @@ int						launch_algorithm(t_table *tbl);
 int						list_len(char **list);
 int						set_levels(t_table *tbl);
 int						extract_path(t_table *tbl, int idx);
+int						parsing_ants(t_table *tbl);
+int						count_nodes(t_table *tbl, int idx);
 #endif

@@ -21,49 +21,57 @@ int			launch_algorithm(t_table *tbl)
 	int		i;
 
 	curr = tbl->nodes;
-	
-	while ((idx = set_levels(tbl)))
+	f = 1;
+	ft_putstr("node before ");	
+	while ((idx = set_levels(tbl)) && f)
 	{
+		if (idx == -1)
+		{
+			printf("There are no available paths to an end Not enough info, can't reach end\n"); // One ending
+			return (0);
+		}
 		f = extract_path(tbl, idx);
-		if (f == -1)
-			printf("Erro, Not enough info, can't reach end\n");
 		i = -1;
 		while (tbl->q[++i])
 			tbl->q[i] = NULL;
 	}
-		
-	if (f)
-		printf("good\n");
+	if (!idx)
+	{
+		printf("Start has no linkage or all available paths are taken\n");
+		return (0);
+	}
 	else
-		printf("bad\n");
+		printf("good\n");
 	return (1);
 }
 
-void		making_path(t_table *tbl, int idx, int	j)
+void		making_path(t_table *tbl, int idx, int	j, int size)
 {
 	t_node	*node;
 
 	node = tbl->q[idx];
-	tbl->path[j][idx - 1] = ft_strdup(node->name); // End node, don't mark as visited
-	printf("\nnode %s [%d]\n", node->name, node->visited);
-	idx--;
+	tbl->path[j][size] = ft_strdup(node->name); // End node, don't mark as visited
 	while (ft_strcmp(node->name, tbl->start->name))
 	{
 		node = node->prev;
 		node->visited = 1;
-		printf("node %s [%d]\n", node->name, node->visited);
-		tbl->path[j][idx - 1] = ft_strdup(node->name);
-		idx--;
+		ft_putstr(" middle node");
+		ft_putstr(node->name);
+		ft_putstr("\n");
+		size--;
+		tbl->path[j][size] = ft_strdup(node->name);
 	}
 	if (!ft_strcmp(node->name, tbl->start->name))
 		node->visited = 0;
-	printf("node %s [%d]\n", node->name, node->visited);
+	ft_putnbr(tbl->end->visited);
+	ft_putstr("\n");
 }
 
 int			extract_path(t_table *tbl, int idx)
 {
 	int		i;
 	int		j;
+	int 	size;
 
 	i = -1;
 	while (tbl->q[++i])
@@ -73,11 +81,12 @@ int			extract_path(t_table *tbl, int idx)
 		;
 	if (!tbl->q[idx])
 		return (-1);
-	tbl->path[j] = (char**)malloc(sizeof(char*) * idx + 1);
-	tbl->path[j][idx] = NULL;
-	making_path(tbl, idx, j);
-	printf("path number %d\n", j);
-	printf("Extracting path\n");
+	size = count_nodes(tbl, idx);
+	tbl->path[j] = (char**)malloc(sizeof(char*) * size + 1);
+	tbl->path[j][size] = NULL;
+	making_path(tbl, idx, j, size - 1);
+	if (j + 1 == tbl->ants)
+		return (0);
 	return (1);
 }
 
@@ -93,25 +102,13 @@ void		add_to_queue(t_table *tbl, t_node *cur)
 	while (tbl->q[++idx])
 		;
 	pip = cur->branch;
-	// t_pipe	*tub;
-	// t_node	*node;
-
-	// node = tbl->end;
-	// tub = node->branch;
-	// while (tub)
-	// {
-	// 	ft_putstr("yes ");
-	// 	ft_putstr(node->name);
-	// 	ft_putstr("\n");
-	// 	tub = tub->next;
-	// }
 	while (pip)
 	{
 		i = -1;
 		flag = 1;
 		while (tbl->q[++i])
 		{
-			if (pip->node->visited && !ft_strcmp(tbl->q[i]->name, pip->node->name))
+			if (pip->node->visited || !ft_strcmp(tbl->q[i]->name, pip->node->name))
 				flag = 0;
 		}
 		if (flag)
@@ -120,15 +117,7 @@ void		add_to_queue(t_table *tbl, t_node *cur)
 			pip->node->prev = cur;
 			idx++;
 		}
-		ft_putstr("going from ");
-		ft_putstr(pip->node->name);
-		ft_putstr(" -> ");
 		pip = pip->next;
-		if (pip)
-		{
-			ft_putstr(pip->node->name);
-			ft_putstr("\n");
-		}
 	}
 }
 
@@ -157,5 +146,7 @@ int			set_levels(t_table *tbl)
 		add_to_queue(tbl, cur);
 		cur = tbl->q[++idx];
 	}
+	if (!tbl->q[idx])
+		return (-1);
 	return (idx);
 }
