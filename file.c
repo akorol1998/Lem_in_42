@@ -77,12 +77,6 @@ int			check_for_links(char **data, t_table *tbl)
 	static int	c;
 
 	c++;
-	printf("%d\n", c);
-	if (c == 447)
-	{
-		for(int j = 0;data[j];j++)
-		printf("%s\n", data[j]);
-	}
 	i = -1;
 	while (data && data[++i])
 			;
@@ -96,6 +90,17 @@ int			check_for_links(char **data, t_table *tbl)
 		return (0);
 	}
 	k = linking(data, tbl);
+	// t_pipe	*tub;
+	// t_node	*node;
+
+	// node = tbl->end;
+	// tub = node->branch;
+	// if (tub)
+	// {
+	// 	ft_putstr(node->name);
+	// 	ft_putstr("\n");
+	// 	tub = tub->next;
+	// }
 	i = -1;
 	while (data && data[++i])
 		free(data[i]);

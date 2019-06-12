@@ -36,7 +36,7 @@ int			start_end_node(char c, char **data, t_node *node, t_table *tbl)
 	{
 		tbl->start = node;
 		if (tbl->nodes)
-		{
+			{
 			node->link = tbl->nodes;
 			tbl->nodes = node;
 		}

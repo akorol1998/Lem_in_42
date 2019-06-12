@@ -69,5 +69,5 @@ int						creating_arrays(t_table *tbl);
 int						launch_algorithm(t_table *tbl);
 int						list_len(char **list);
 int						set_levels(t_table *tbl);
-void					extract_path(t_table *tbl, int idx);
+int						extract_path(t_table *tbl, int idx);
 #endif

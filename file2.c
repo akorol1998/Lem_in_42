@@ -27,15 +27,21 @@ int			linking(char **data, t_table *tbl)
 		return (1);
 	}
 	while (node && ft_strcmp(node->name, data[0]))
-	{
-		// printf("--------LINK1-------\n\n");
 		node = node->link;
-	}
 	while (node2 && ft_strcmp(node2->name, data[1]))
-	{
-		// printf("--------LINK2-------\n\n");
 		node2 = node2->link;
-	}
+	// ft_putstr("node ");
+	// ft_putstr(node->name);
+	// ft_putstr("\n");
+	// t_pipe	*tub;
+	// if (node->branch)
+	// {
+	// 	tub = node->branch;
+	// 	ft_putstr(tub->node->name);
+	// 	tub = node->branch->next;
+	// 	if (tub)
+	// 		ft_putstr(tub->node->name);
+	// }
 	if (node && node2 && connecting_nodes(node, node2))
 		return (1);
 	else
