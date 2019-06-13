@@ -50,7 +50,7 @@ void		making_path(t_table *tbl, int idx, int	j, int size)
 	t_node	*node;
 
 	node = tbl->q[idx];
-	tbl->path[j][size] = ft_strdup(node->name); // End node, don't mark as visited
+	tbl->path[j][size] = node; // End node, don't mark as visited
 	while (ft_strcmp(node->name, tbl->start->name))
 	{
 		node = node->prev;
@@ -59,7 +59,7 @@ void		making_path(t_table *tbl, int idx, int	j, int size)
 		ft_putstr(node->name);
 		ft_putstr("\n");
 		size--;
-		tbl->path[j][size] = ft_strdup(node->name);
+		tbl->path[j][size] = node;
 	}
 	if (!ft_strcmp(node->name, tbl->start->name))
 		node->visited = 0;
@@ -82,7 +82,7 @@ int			extract_path(t_table *tbl, int idx)
 	if (!tbl->q[idx])
 		return (-1);
 	size = count_nodes(tbl, idx);
-	tbl->path[j] = (char**)malloc(sizeof(char*) * size + 1);
+	tbl->path[j] = (t_node**)malloc(sizeof(t_node*) * size + 1);
 	tbl->path[j][size] = NULL;
 	making_path(tbl, idx, j, size - 1);
 	if (j + 1 == tbl->ants)

@@ -107,7 +107,7 @@ int			creating_arrays(t_table *tbl)
 	i = -1;
 	tbl->q = (t_node**)malloc(sizeof(t_node*) * tbl->rooms + 1);
 	tbl->q[tbl->rooms] = NULL;
-	tbl->path = (char***)malloc(sizeof(char**) * tbl->rooms);
+	tbl->path = (t_node***)malloc(sizeof(t_node**) * tbl->rooms);
 	while (++i < tbl->rooms)
 		tbl->q[i] = NULL;
 	i = -1;

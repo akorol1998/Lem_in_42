@@ -23,7 +23,7 @@ typedef struct 			s_table
 	struct s_node		*nodes;	// all the available nodes
 	struct s_node		*start;
 	struct s_node		*end;
-	char				***path;
+	struct s_node		***path;
 	// char				**unvis;	// unvisited nodes
 	int					ants;	// Number of ants
 	int					rooms;
@@ -40,8 +40,7 @@ typedef struct			s_node
 	int					current;
 	int					*pos;	// to check duplicated coordinates
 	char				*name;
-	int					idx;
-
+	int					lem;
 	char				visited;
 }						t_node;
 
@@ -70,6 +69,9 @@ int						launch_algorithm(t_table *tbl);
 int						list_len(char **list);
 int						set_levels(t_table *tbl);
 int						extract_path(t_table *tbl, int idx);
-int						parsing_ants(t_table *tbl);
+int						display_ants(t_table *tbl);
 int						count_nodes(t_table *tbl, int idx);
+void					parsing_ants(t_table *tbl);
+int						len_arr(t_node **nodes, t_node ***arr);
+int						finish_ants(t_node **node, int ants);
 #endif
