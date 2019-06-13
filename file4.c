@@ -72,8 +72,6 @@ int			move_lems(t_node **node, int ants)
 			if (node[i]->lem)
 				printf("L%d->%s ", node[i]->lem, node[i]->name);
 			flag = 1;
-			// if (node[i + 1]) Case of another function
-			// 	printf("L%d->%s ", ants, node[i + 1]->name);
 		}
 		else if (i == 1)
 		{
@@ -88,21 +86,25 @@ int			move_lems(t_node **node, int ants)
 	return (flag);
 }
 
-void		parsing_ants(t_table *tbl)
+int			parsing_ants(t_table *tbl)
 {
 	int		i;
 	int		ants;
 	int		move;
-	int		flag;
+	int		count;
 
 	ants = 1;
+	count = 0;
+	printf("NUMBER OF ANTS IS           %D\n", tbl->ants);
+	if (!tbl->path[0])
+		return (0);
 	move = len_arr(tbl->path[0], NULL) + ants - 2;
-	printf("ants number %d\n", tbl->ants);
 	while (ants <= tbl->ants)
 	{
 		i = -1;
 		while (ants <= tbl->ants && tbl->path[++i])
 		{
+			count++;
 			if ((len_arr(tbl->path[i], NULL) + ants - 2) - move < ants)
 				move_lems(tbl->path[i], ants);
 			else
@@ -111,93 +113,30 @@ void		parsing_ants(t_table *tbl)
 				move_lems(tbl->path[i], ants);
 			}
 			ants++;
+			printf("\n");
 		}
-		printf("\n");
-		if (ants == tbl->ants)
-		{
-			flag = 1;
-			while (flag)
-			{
-				flag = 0;
-				i = -1;
-				while (tbl->path[++i])
-				{
-					if (move_lems(tbl->path[i], 0))
-						flag = 1;
-				}
-				printf("\n");
-			}
-		}
-			//moving lems
-	}
+	}	
+	return (end_part_of_parsing(tbl, count));
 }
 
-int			display_ants(t_table *tbl)
+int		end_part_of_parsing(t_table *tbl, int count)
 {
+	int 	flag;
 	int		i;
-	int		j;
 
-	i =	-1;
-	// printf(" length %d\n", len_arr(NULL, tbl->path));
-	// sort_arr(tbl);
-	while (tbl->path[++i])
+	flag = 1;
+	while (flag)
 	{
-		j = -1;
-		printf("path is: ");
-		while (tbl->path[i][++j])
+		flag = 0;
+		i = -1;
+		while (tbl->path[++i])
 		{
-			printf("[%s] ", tbl->path[i][j]->name);
+			if (move_lems(tbl->path[i], 0))
+				flag = 1;
 		}
+		count++;
 		printf("\n");
 	}
-	parsing_ants(tbl);
+	printf("number of lines [%d]\n", count);
 	return (1);
 }
-
-int			len_arr(t_node **nodes, t_node ***arr)
-{
-	int		i;
-
-	if (!arr)
-	{
-		i = -1;
-		while (nodes[++i])
-			;
-	}
-	else
-	{
-		i = -1;
-		while (arr[++i])
-			;
-	}
-	return (i);
-}
-
-// void		sort_arr(t_table *tbl)
-// {
-// 	t_node	**least;
-// 	int		flag;
-// 	int		leng;
-// 	int		i;
-
-// 	flag = 1;
-// 	leng = len_arr(NULL, tbl->path);
-// 	if (tbl->path)
-// 		least = tbl->path[0];
-// 	while (flag)
-// 	{
-// 		flag = 0;
-// 		i = -1;
-// 		while (++i < leng)
-// 		{
-// 			if (tbl->path[i + 1] && len_arr(tbl->path[i], NULL) >
-// 			len_arr(tbl->path[i + 1], NULL))
-// 			{
-// 				least = tbl->path[i + 1];
-// 				tbl->path[i + 1] = tbl->path[i];
-// 				tbl->path[i] = least;
-// 				flag = 1;
-// 			}
-// 		}
-// 	}
-// }

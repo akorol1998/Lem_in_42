@@ -110,7 +110,7 @@ int			start_reading(void)
 		reading_links(line, table);
 		creating_arrays(table);
 		flag = launch_algorithm(table);
-		parsing_ants(table);
+		display_ants(table);
 		// print_list(table);
 		printf("Proceed with algorithm\n");
 		return (1);

@@ -71,7 +71,8 @@ int						set_levels(t_table *tbl);
 int						extract_path(t_table *tbl, int idx);
 int						display_ants(t_table *tbl);
 int						count_nodes(t_table *tbl, int idx);
-void					parsing_ants(t_table *tbl);
+int						parsing_ants(t_table *tbl);
 int						len_arr(t_node **nodes, t_node ***arr);
 int						finish_ants(t_node **node, int ants);
+int						end_part_of_parsing(t_table *tbl, int count);
 #endif

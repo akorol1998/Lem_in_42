@@ -18,6 +18,7 @@ SRC =   main.c	\
 		file2.c \
 		file3.c \
 		file4.c \
+		file5.c \
 		support.c\
 
 CFLAGS = -Wextra -Wall -Werror
