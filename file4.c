@@ -38,14 +38,14 @@ int			finish_ants(t_node **node, int ants)
 	flag = 0;
 	while(node[++i])
 	{
-		if (node[i]->lem)
+		if (node[i]->lem || buf == ants)
 		{
 			buf = node[i]->lem;
 			node[i]->lem = ants;
 			ants = buf;
 			flag = 1;
-			if (node[i + 1])
-				printf("L%d->%s ", ants, node[i + 1]->name);
+			if (node[i]->lem)
+				printf("L%d->%s ", node[i]->lem, node[i]->name);
 		}
 	}
 	return (flag);
@@ -64,20 +64,11 @@ int			move_lems(t_node **node, int ants)
 		return (finish_ants(node, ants));
 	while(node[++i])
 	{
-		if (node[i]->lem || buf == ants)
+		if (node[i]->lem || buf == ants || i == 1)
 		{
 			buf = node[i]->lem;
 			node[i]->lem = ants;
 			ants = buf;
-			if (node[i]->lem)
-				printf("L%d->%s ", node[i]->lem, node[i]->name);
-			flag = 1;
-		}
-		else if (i == 1)
-		{
-			if (node[i]->lem)
-				buf = node[i]->lem;
-			node[i]->lem = ants;
 			if (node[i]->lem)
 				printf("L%d->%s ", node[i]->lem, node[i]->name);
 			flag = 1;
@@ -90,7 +81,6 @@ int			parsing_ants(t_table *tbl)
 {
 	int		i;
 	int		ants;
-	int		move;
 	int		count;
 
 	ants = 1;
@@ -98,14 +88,14 @@ int			parsing_ants(t_table *tbl)
 	printf("NUMBER OF ANTS IS           %D\n", tbl->ants);
 	if (!tbl->path[0])
 		return (0);
-	move = len_arr(tbl->path[0], NULL) + ants - 2;
 	while (ants <= tbl->ants)
 	{
 		i = -1;
 		while (ants <= tbl->ants && tbl->path[++i])
 		{
 			count++;
-			if ((len_arr(tbl->path[i], NULL) + ants - 2) - move < ants)
+			if ((len_arr(tbl->path[i], NULL) + (tbl->ants - ants) - 2) -
+			(len_arr(tbl->path[0], NULL) + (tbl->ants - ants) - 2) < tbl->ants - ants)
 				move_lems(tbl->path[i], ants);
 			else
 			{
@@ -115,6 +105,7 @@ int			parsing_ants(t_table *tbl)
 			ants++;
 			printf("\n");
 		}
+		count++;
 	}	
 	return (end_part_of_parsing(tbl, count));
 }

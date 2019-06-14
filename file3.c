@@ -98,7 +98,6 @@ void		add_to_queue(t_table *tbl, t_node *cur)
 	int		idx;
 
 	idx = -1;
-	pip = cur->branch;
 	while (tbl->q[++idx])
 		;
 	pip = cur->branch;
@@ -115,6 +114,7 @@ void		add_to_queue(t_table *tbl, t_node *cur)
 		{
 			tbl->q[idx] = pip->node;
 			pip->node->prev = cur;
+			pip->node->level = cur->level + 1;
 			idx++;
 		}
 		pip = pip->next;
@@ -124,14 +124,13 @@ void		add_to_queue(t_table *tbl, t_node *cur)
 int			set_levels(t_table *tbl)
 {
 	t_node	*cur;
-	int		idx;
 	int		flag;
 	t_pipe	*pip;
 
-	idx = 0;
 	flag = 0;
 	cur = tbl->nodes;
 	pip = cur->branch;
+	cur->level = 0;
 	while (pip)
 	{
 		if (!pip->node->visited)
@@ -140,13 +139,5 @@ int			set_levels(t_table *tbl)
 	}
 	if (!flag)
 		return (0);
-	tbl->q[idx] = cur;
-	while (cur && ft_strcmp(cur->name, tbl->end->name))
-	{
-		add_to_queue(tbl, cur);
-		cur = tbl->q[++idx];
-	}
-	if (!tbl->q[idx])
-		return (-1);
-	return (idx);
+	return (setting_levels(cur, tbl));
 }

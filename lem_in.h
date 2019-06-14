@@ -36,8 +36,7 @@ typedef struct			s_node
 	struct s_pipe		*branch;
 	struct s_node		*link;
 	struct s_node		*prev;
-	int					weight;
-	int					current;
+	int					level;
 	int					*pos;	// to check duplicated coordinates
 	char				*name;
 	int					lem;
