@@ -26,8 +26,6 @@ void		print_list(t_table *tbl)
 	printf("link %p\n", start->link);
 	for(int j=0;j<2;j++)
 		printf(" pos=%d\n ", start->pos[j]);
-	printf("weight=%d\n ", start->weight);
-	printf("current=%d\n ", start->current);
 	printf("----------------\n\n");
 
 	printf(" END %p\n", tbl->end);
@@ -37,9 +35,6 @@ void		print_list(t_table *tbl)
 	printf("link %p\n", end->link);
 	for(int j=0;j<2;j++)
 		printf("pos=%d\n ", end->pos[j]);
-	printf("weight=%d\n ", end->weight);
-	printf("current=%d\n ", end->current);
-	printf("current=%d\n ", end->current);
 	printf("----------------\n\n");
 	if (tbl && tbl->nodes)
 	{
@@ -49,28 +44,31 @@ void		print_list(t_table *tbl)
 		printf("end %s\n", tbl->end->name);
 		printf("THE NODE\n");
 		while (n)
-		{	printf("---------NODE-------\n\n");
-			printf("Address %p\n", n);
-			printf("name %s\n", n->name);
-			printf("link %p\n", n->link);
-			for(int j=0;j<2;j++)
-				printf(" pos=%d\n ", n->pos[j]);
-			printf(" weight=%d\n ", n->weight);
-			printf(" current=%d\n ", n->current);
-			pip = n->branch;
-			while (pip)
+		{
+			if (n->level)
 			{
-				printf("---------BRANCH-------\n\n");
-				printf("Address %p\n", pip->node);
-				printf("name %s\n", pip->node->name);
-				printf("link %p\n", pip->node->link);
+				printf("---------NODE-------\n\n");
+				printf("Address %p\n", n);
+				printf("name %s\n", n->name);
+				printf("in %d\n", n->in);
+				printf("out %d\n", n->out);
+				printf("level %d\n", n->level);
+				printf("link %p\n", n->link);
 				for(int j=0;j<2;j++)
-					printf(" pos=%d\n ", pip->node->pos[j]);
-				printf(" weight=%d\n ", pip->node->weight);
-				printf(" current=%d\n ", pip->node->current);
-				printf("                    \n\n");
-				printf("                    \n\n");
-				pip = pip->next;
+					printf(" pos=%d\n ", n->pos[j]);
+				pip = n->branch;
+				while (pip)
+				{
+					printf("---------BRANCH-------\n\n");
+					printf("Address %p\n", pip->node);
+					printf("name %s\n", pip->node->name);
+					printf("link %p\n", pip->node->link);
+					for(int j=0;j<2;j++)
+						printf(" pos=%d\n ", pip->node->pos[j]);
+					printf("                    \n\n");
+					printf("                    \n\n");
+					pip = pip->next;
+				}
 			}
 			n = n->link;
 		}

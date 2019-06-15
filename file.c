@@ -32,9 +32,10 @@ t_node		*create_node(void)
 
 
 	node = (t_node*)malloc(sizeof(t_node));
-	node->weight = 99999;
-	node->current = 1;
+	node->level = -1;
 	node->lem = 0;
+	node->out = 0;
+	node->in = 0;
 	node->pos = NULL;
 	node->link = NULL;
 	node->branch = NULL;

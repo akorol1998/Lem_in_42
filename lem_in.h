@@ -15,6 +15,7 @@
 #ifndef LEM_IN_H
 # define LEM_IN_H
 # include "libft/libft.h"
+# include "limits.h"
 
 typedef struct 			s_table
 {
@@ -36,11 +37,12 @@ typedef struct			s_node
 	struct s_pipe		*branch;
 	struct s_node		*link;
 	struct s_node		*prev;
-	int					weight;
-	int					current;
+	int					level;
 	int					*pos;	// to check duplicated coordinates
 	char				*name;
 	int					lem;
+	int					in;
+	int					out;
 	char				visited;
 }						t_node;
 
@@ -76,4 +78,12 @@ int						len_arr(t_node **nodes, t_node ***arr);
 int						finish_ants(t_node **node, int ants);
 int						end_part_of_parsing(t_table *tbl, int count);
 int						finish_rest(t_table *tbl, int idx);
+int						setting_levels(t_table *tbl, t_node *cur);
+void					add_to_queue(t_table *tbl, t_node *cur);
+void					directions(t_table *tbl);
+void					in_and_out(t_table *tbl, t_node *node);
+void					bad_links(t_table *tbl);
+void					data_tunage(t_table *tbl);
+void					bad_in_outs(t_table *tbl);
+void					in_out_to_zero(t_table *tbl);
 #endif

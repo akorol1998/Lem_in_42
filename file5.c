@@ -43,6 +43,7 @@ int			display_ants(t_table *tbl)
 		while (tbl->path[i][++j])
 		{
 			printf("[%s] ", tbl->path[i][j]->name);
+			printf("[%d] ", tbl->path[i][j]->level);
 		}
 		printf("\n");
 	}

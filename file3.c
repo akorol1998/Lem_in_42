@@ -17,23 +17,31 @@ int			launch_algorithm(t_table *tbl)
 {
 	t_node	*curr;
 	int		idx;
-	int		f;
+	// int		f;
 	int		i;
 
 	curr = tbl->nodes;
-	f = 1;
+	// f = 1;
 	ft_putstr("node before ");	
-	while ((idx = set_levels(tbl)) && f)
+	if ((idx = set_levels(tbl))) // && f
 	{
 		if (idx == -1)
 		{
 			printf("There are no available paths to an end Not enough info, can't reach end\n"); // One ending
 			return (0);
 		}
-		f = extract_path(tbl, idx);
 		i = -1;
 		while (tbl->q[++i])
-			tbl->q[i] = NULL;
+		{
+			printf("[%s] \n", tbl->q[i]->name);
+			printf("[%d] \n", tbl->q[i]->level);
+		}
+		data_tunage(tbl);
+		// delete_useless(tbl);
+		// f = extract_path(tbl, idx);
+		// i = -1;
+		// while (tbl->q[++i])
+		// 	tbl->q[i] = NULL;
 	}
 	if (!idx)
 	{
@@ -109,12 +117,21 @@ void		add_to_queue(t_table *tbl, t_node *cur)
 		while (tbl->q[++i])
 		{
 			if (pip->node->visited || !ft_strcmp(tbl->q[i]->name, pip->node->name))
-				flag = 0;
+				{
+					flag = 0;
+				}
 		}
 		if (flag)
 		{
+			if (!ft_strcmp("d", pip->node->name))
+				printf("ffffffffffffff\n");
+			else if (!ft_strcmp("e", pip->node->name))
+				printf("eeeeeeeeeeeeeee\n");
+			printf("{%d}", pip->node->visited);
+			printf("{%d}\n", cur->level);
 			tbl->q[idx] = pip->node;
 			pip->node->prev = cur;
+			pip->node->level = cur->level + 1;
 			idx++;
 		}
 		pip = pip->next;
@@ -132,30 +149,14 @@ int			set_levels(t_table *tbl)
 	flag = 0;
 	cur = tbl->nodes;
 	pip = cur->branch;
-	// if (!ft_strcmp(cur->name, "start"))
-	// 		printf("\nyes\n");
-	// if (cur->branch)
-	// 	printf("\nyes\n");
+	cur->level = 0;
 	while (pip)
 	{
-		if (!ft_strcmp(pip->node->name, "701"))
-			printf("\nyes\n");
 		if (!pip->node->visited)
 			flag = 1;
 		pip = pip->next;
 	}
 	if (!flag)
-	{
-		printf("lol you are wrong\n");
 		return (0);
-	}
-	tbl->q[idx] = cur;
-	while (cur && ft_strcmp(cur->name, tbl->end->name))
-	{
-		add_to_queue(tbl, cur);
-		cur = tbl->q[++idx];
-	}
-	if (!tbl->q[idx])
-		return (-1);
-	return (idx);
+	return (setting_levels(tbl, cur));
 }
