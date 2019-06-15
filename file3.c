@@ -132,14 +132,23 @@ int			set_levels(t_table *tbl)
 	flag = 0;
 	cur = tbl->nodes;
 	pip = cur->branch;
+	// if (!ft_strcmp(cur->name, "start"))
+	// 		printf("\nyes\n");
+	// if (cur->branch)
+	// 	printf("\nyes\n");
 	while (pip)
 	{
+		if (!ft_strcmp(pip->node->name, "701"))
+			printf("\nyes\n");
 		if (!pip->node->visited)
 			flag = 1;
 		pip = pip->next;
 	}
 	if (!flag)
+	{
+		printf("lol you are wrong\n");
 		return (0);
+	}
 	tbl->q[idx] = cur;
 	while (cur && ft_strcmp(cur->name, tbl->end->name))
 	{

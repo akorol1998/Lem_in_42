@@ -16,15 +16,14 @@ int			len_arr(t_node **nodes, t_node ***arr)
 {
 	int		i;
 
+	i = -1;
 	if (!arr)
-	{
-		i = -1;
+	{	
 		while (nodes[++i])
 			;
 	}
 	else
 	{
-		i = -1;
 		while (arr[++i])
 			;
 	}
@@ -48,5 +47,34 @@ int			display_ants(t_table *tbl)
 		printf("\n");
 	}
 	parsing_ants(tbl);
+	return (1);
+}
+
+int			finish_rest(t_table *tbl, int idx)
+{
+	t_node	**node;
+	int		i;
+	int		ants;
+	int		buf;
+
+	ants = 0;
+	buf = -1;
+	while (tbl->path[idx])
+	{
+		node = tbl->path[idx];
+		i = -1;
+		while(node[++i])
+		{
+			if (node[i]->lem || buf == ants)
+			{
+				buf = node[i]->lem;
+				node[i]->lem = ants;
+				ants = buf;
+				if (node[i]->lem)
+					printf("L%d->%s ", node[i]->lem, node[i]->name);
+			}
+		}
+		idx++;
+	}
 	return (1);
 }

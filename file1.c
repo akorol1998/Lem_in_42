@@ -122,11 +122,7 @@ int			reading_links(char *line0, t_table *tbl)
 	while (get_next_line(0, &line))
 	{
 		data = ft_strsplit(line, '-');
-		if(!check_for_links(data, tbl))
-		{
-			free(line);
-			return (0);
-		}
+		check_for_links(data, tbl);
 		free(line);
 	}
 	return (1);
