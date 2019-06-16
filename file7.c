@@ -31,28 +31,7 @@ void		data_tunage(t_table *tbl)
 	delete_input_forks(tbl);
 	refresh_outs(tbl);
 	delete_output_forks(tbl);
-	t_pipe	*br;
-	t_pipe	*br1;
-	t_node	*nd;
-
-	nd = tbl->start;
-	br = nd->branch;
-	printf("[%s]->", nd->name);
-	while (br)
-	{
-		nd = br->node;
-		printf("[%s]->", nd->name);
-		br1 = nd->branch;
-		while (br1)
-		{
-			nd = br1->node;
-			printf("[%s]->", nd->name);
-			br1 = nd->branch;
-		}
-		printf("\n");
-		br = br->next;
-		printf("[%s]->", tbl->start->name);
-	}
+	
 	// in_out_to_zero(tbl);
 }
 

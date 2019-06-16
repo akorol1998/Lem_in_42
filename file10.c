@@ -59,3 +59,62 @@ void		delete_links(t_node *node, int idx)
 		mydx++;
 	}
 }
+
+void		form_paths(t_table *tbl)
+{
+	t_pipe	*br;
+	int		size;
+	int		i;
+
+	i = -1;
+	br = tbl->start->branch;
+	size = 0;
+	while (br)
+	{
+		size++;
+		br = br->next;
+	}
+	tbl->path = (t_node***)malloc(sizeof(t_node**) * size + 1);
+	tbl->path[size] = NULL;
+	while (++i < size)
+	{
+		// printf("what?\n");
+		tbl->path[i] = (t_node**)malloc(sizeof(t_node*) * tbl->rooms + 1);
+		// tbl->path[i][0] = tbl->start;
+		tbl->path[i][tbl->rooms] = NULL;
+	}
+	fill_paths(tbl);
+}
+
+void		fill_paths(t_table *tbl)
+{
+	t_pipe	*pip;
+	t_pipe	*br;
+	t_node	*nd;
+	int		idx;
+	int		i;
+
+	idx = 0;
+	pip = tbl->start->branch;
+	while (pip)
+	{
+		tbl->path[idx][0] = tbl->start;
+		printf("start-[%s]-", tbl->path[idx][0]->name);
+		i = 1;
+		nd = pip->node;
+		tbl->path[idx][i] = nd;
+		printf("[%s]-", tbl->path[idx][i]->name);
+		br = nd->branch;
+		while (br)
+		{
+			i++;
+			nd = br->node;
+			tbl->path[idx][i] = nd;
+			printf("[%s]-", tbl->path[idx][i]->name);
+			br = nd->branch;
+		}
+		idx++;
+		printf("\n");
+		pip = pip->next;
+	}
+}

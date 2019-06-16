@@ -47,7 +47,7 @@ int			display_ants(t_table *tbl)
 		}
 		printf("\n");
 	}
-	parsing_ants(tbl);
+	// parsing_ants(tbl);
 	return (1);
 }
 

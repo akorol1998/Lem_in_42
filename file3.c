@@ -17,31 +17,18 @@ int			launch_algorithm(t_table *tbl)
 {
 	t_node	*curr;
 	int		idx;
-	// int		f;
-	int		i;
 
 	curr = tbl->nodes;
-	// f = 1;
 	ft_putstr("node before ");	
-	if ((idx = set_levels(tbl))) // && f
+	if ((idx = set_levels(tbl)))
 	{
 		if (idx == -1)
 		{
 			printf("There are no available paths to an end Not enough info, can't reach end\n"); // One ending
 			return (0);
 		}
-		i = -1;
-		while (tbl->q[++i])
-		{
-			printf("[%s] \n", tbl->q[i]->name);
-			printf("[%d] \n", tbl->q[i]->level);
-		}
 		data_tunage(tbl);
-		// delete_useless(tbl);
-		// f = extract_path(tbl, idx);
-		// i = -1;
-		// while (tbl->q[++i])
-		// 	tbl->q[i] = NULL;
+		form_paths(tbl);
 	}
 	if (!idx)
 	{

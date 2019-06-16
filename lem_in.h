@@ -19,13 +19,11 @@
 
 typedef struct 			s_table
 {
-	// char				**vert;	// shortest way
 	struct s_node		**q;	// Previous node's name
 	struct s_node		*nodes;	// all the available nodes
 	struct s_node		*start;
 	struct s_node		*end;
 	struct s_node		***path;
-	// char				**unvis;	// unvisited nodes
 	int					ants;	// Number of ants
 	int					rooms;
 
@@ -98,4 +96,7 @@ void					refresh_outs(t_table *tbl);
 void					short_way(int *arr, t_node *node, int idx);
 void					delete_long_paths(int *arr, t_node *node, int size);
 void					delete_links(t_node *node, int idx);
+void					form_paths(t_table *tbl);
+void					fill_paths(t_table *tbl);
+int						make_decision(t_table *tbl, int idx);
 #endif
