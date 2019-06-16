@@ -12,20 +12,20 @@
 
 #include "lem_in.h"
 
-int			count_nodes(t_table *tbl, int idx)
-{
-	t_node	*node;
-	int		size;
+// int			count_nodes(t_table *tbl, int idx)
+// {
+// 	t_node	*node;
+// 	int		size;
 
-	node = tbl->q[idx];
-	size = 1;
-	while (ft_strcmp(node->name, tbl->start->name))
-	{
-		node = node->prev;
-		size++;
-	}
-	return (size);
-}
+// 	node = tbl->q[idx];
+// 	size = 1;
+// 	while (ft_strcmp(node->name, tbl->start->name))
+// 	{
+// 		node = node->prev;
+// 		size++;
+// 	}
+// 	return (size);
+// }
 
 int			finish_ants(t_node **node, int ants)
 {

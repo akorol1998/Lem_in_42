@@ -26,23 +26,23 @@ int			linking(char **data, t_table *tbl)
 		printf("same name");
 		return (1);
 	}
-	if (!ft_strcmp(data[0], "end"))
-			printf("\nhere\n");
 	while (node && ft_strcmp(node->name, data[0]))
-	{
 		node = node->link;
-	}
 	while (node2 && ft_strcmp(node2->name, data[1]))
 		node2 = node2->link;
 	if (node && node2 && connecting_nodes(node, node2))
 	{
+		if (!ft_strcmp("fwe", node->name))
+			printf("fweweweffewfewfew\n");
+		else if (!ft_strcmp("ewe", node->name))
+			printf("ewewewewewe\n");
 		return (1);
 	}
 	else
 	{
 		ft_putstr("Here we go\n");
-		printf("%s\n", node->name);
-		printf("%s\n", node2->name);
+		// printf("%s\n", node->name);
+		// printf("%s\n", node2->name);
 		return (0);				// FREE !!
 	}
 }
@@ -65,7 +65,10 @@ int			connecting_nodes(t_node *node, t_node *node2)
 		while (pip->next)
 		{
 			if (!ft_strcmp(pip->node->name, node2->name))
+			{
+				printf("hey body\n");
 				return (0);
+			}
 			pip = pip->next;
 		}
 		pip->next = (t_pipe *)malloc(sizeof(t_pipe));
@@ -93,7 +96,10 @@ int			connect_node2(t_node *node2, t_node *node)
 		while (pip->next)
 		{
 			if (!ft_strcmp(pip->node->name, node->name))
+			{
+				printf("hey body\n");
 				return (0);
+			}
 			pip = pip->next;
 		}
 		pip->next = (t_pipe *)malloc(sizeof(t_pipe));

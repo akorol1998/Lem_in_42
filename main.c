@@ -111,7 +111,7 @@ int			start_reading(void)
 		creating_arrays(table);
 		flag = launch_algorithm(table);
 		display_ants(table);
-		print_list(table);
+		// print_list(table);
 		printf("Proceed with algorithm\n");
 		return (1);
 		if (!flag)

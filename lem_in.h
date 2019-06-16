@@ -36,7 +36,7 @@ typedef struct			s_node
 {
 	struct s_pipe		*branch;
 	struct s_node		*link;
-	struct s_node		*prev;
+	struct s_pipe		*prev;
 	int					level;
 	int					*pos;	// to check duplicated coordinates
 	char				*name;
@@ -86,4 +86,16 @@ void					bad_links(t_table *tbl);
 void					data_tunage(t_table *tbl);
 void					bad_in_outs(t_table *tbl);
 void					in_out_to_zero(t_table *tbl);
+void					forming_queue(t_table *tbl);
+void					queue_up(t_table *tbl, t_node *cur);
+void					add_to_prev(t_table *tbl, t_node *node, t_node *prev);
+void					delete_input_forks(t_table *tbl);
+void					checking_in_forks(t_node *node);
+void					delete_fork_func(t_node *pre, t_node *node);
+void					delete_output_forks(t_table *tbl);
+void					remove_out_links(t_table *tbl, t_node *node);
+void					refresh_outs(t_table *tbl);
+void					short_way(int *arr, t_node *node, int idx);
+void					delete_long_paths(int *arr, t_node *node, int size);
+void					delete_links(t_node *node, int idx);
 #endif

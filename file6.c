@@ -39,42 +39,23 @@ void		set_direction(t_pipe *branch, t_node *prev)
 	node = branch->node;
 	while ((node->branch && (!ft_strcmp(node->branch->node->name, prev->name) &&
 	prev->level < node->level)) || (node->level == -1))
-	{
-		ft_putstr("deleting ");
-		ft_putstr(node->branch->node->name);
-		ft_putstr("\n");
 		node->branch = node->branch->next;
-	}
 	pip = node->branch;
-	ft_putstr("prev ");
-	ft_putstr(prev->name);
-	ft_putstr(" ");
-	ft_putstr(" end\n");
 	while (pip)
 	{
 		if ((!ft_strcmp(pip->node->name, prev->name) &&
 		prev->level < node->level) || (pip->node->level == -1))
-		{
-			ft_putstr("deleting ");
-			ft_putstr(pip->node->name);
-			ft_putstr("\n");
 			pre_pip->next = pip->next;
-		}
 		else
 			pre_pip = pip;
-		ft_putstr("Pip->node ");	
-		ft_putstr(pip->node->name);
-		ft_putstr(" ");
 		pip = pip->next;
-		ft_putstr(" further\n");
 	}
 }
 
 void		directions(t_table *tbl)
 {
 	int		i;
-	t_pipe	*pip;
-	// t_pipe	*pre_pip;
+t_pipe	*pip;
 
 	i = -1;
 	while (tbl->q[++i])
@@ -119,8 +100,6 @@ void		in_and_out(t_table *tbl, t_node *node)
 	t_pipe	*pip;
 
 	pip = node->branch;
-	if (!ft_strcmp(node->name, "2"))
-		printf("TWO\n");
 	if (ft_strcmp(node->name, tbl->start->name))
 		node->in++;
 	if (!node->out)

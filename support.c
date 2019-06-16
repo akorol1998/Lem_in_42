@@ -45,7 +45,7 @@ void		print_list(t_table *tbl)
 		printf("THE NODE\n");
 		while (n)
 		{
-			if (n->level)
+			if (n->level && n->level != -1)
 			{
 				printf("---------NODE-------\n\n");
 				printf("Address %p\n", n);

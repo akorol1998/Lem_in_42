@@ -17,9 +17,7 @@ void		data_tunage(t_table *tbl)
 	t_pipe	*pip;
 	t_node	*node;
 
-	ft_putstr("ewhgjwk\n");
 	bad_links(tbl);
-	ft_putstr("error\n");
 	directions(tbl);
 	pip = tbl->start->branch;
 	while (pip)
@@ -29,6 +27,32 @@ void		data_tunage(t_table *tbl)
 		pip = pip->next;
 	}
 	bad_in_outs(tbl);
+	forming_queue(tbl);
+	delete_input_forks(tbl);
+	refresh_outs(tbl);
+	delete_output_forks(tbl);
+	t_pipe	*br;
+	t_pipe	*br1;
+	t_node	*nd;
+
+	nd = tbl->start;
+	br = nd->branch;
+	printf("[%s]->", nd->name);
+	while (br)
+	{
+		nd = br->node;
+		printf("[%s]->", nd->name);
+		br1 = nd->branch;
+		while (br1)
+		{
+			nd = br1->node;
+			printf("[%s]->", nd->name);
+			br1 = nd->branch;
+		}
+		printf("\n");
+		br = br->next;
+		printf("[%s]->", tbl->start->name);
+	}
 	// in_out_to_zero(tbl);
 }
 
