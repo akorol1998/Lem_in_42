@@ -103,14 +103,19 @@ void		fill_paths(t_table *tbl)
 		i = 1;
 		nd = pip->node;
 		tbl->path[idx][i] = nd;
+		nd->visited = 1;
 		printf("[%s]-", tbl->path[idx][i]->name);
+		// printf("in[%d]-out[%d]", tbl->path[idx][i]->in, tbl->path[idx][i]->out);
 		br = nd->branch;
 		while (br)
 		{
 			i++;
 			nd = br->node;
+			// if (!nd->visited)
 			tbl->path[idx][i] = nd;
+			nd->visited = 1;
 			printf("[%s]-", tbl->path[idx][i]->name);
+			// printf("in[%d]-out[%d]", tbl->path[idx][i]->in, tbl->path[idx][i]->out);
 			br = nd->branch;
 		}
 		idx++;

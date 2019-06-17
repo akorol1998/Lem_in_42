@@ -51,6 +51,8 @@ void		queue_up(t_table *tbl, t_node *cur)
 		{
 			if (!ft_strcmp(tbl->q[i]->name, pip->node->name))
 			{
+				if (!ft_strcmp(tbl->end->name, pip->node->name))
+					printf("=====Adding previous the end=====\n");
 				add_to_prev(tbl, pip->node, cur);
 				flag = 0;
 			}
@@ -58,6 +60,8 @@ void		queue_up(t_table *tbl, t_node *cur)
 		if (flag)
 		{
 			tbl->q[idx] = pip->node;
+			if (!ft_strcmp(tbl->end->name, pip->node->name))
+				printf("=====Adding previous the end=====\n");
 			add_to_prev(tbl, pip->node, cur);
 			idx++;
 		}
@@ -99,6 +103,8 @@ void		delete_input_forks(t_table *tbl)
 		node = tbl->q[i];
 		if (ft_strcmp(node->name, tbl->end->name) && node->in > 1)
 		{
+			printf ("ddddddddd %d dddddddd\n", debug(tbl, 1));
+			printf ("<<<<<<<<< %d >>>>>>>>\n", tbl->end->in);
 			checking_in_forks(node);
 		}
 	}
@@ -113,11 +119,22 @@ void		checking_in_forks(t_node *node)
 	while (prev)
 	{
 		p_node = prev->node;
-		if (p_node->out > 1 && node->in > 1)
+		if (p_node->out > 1 && node->in > 1) // needs processing after to delete one link
 		{
 			delete_fork_func(p_node, node);
-			node->in--;
+			printf("NUMBER OF IN - [%d]\n", node->in);
 		}
 		prev = prev->next;
 	}
+	prev = node->prev;
+	// while (prev)
+	// {
+	// 	p_node = prev->node;
+	// 	if (node->in > 1)
+	// 	{
+	// 		delete_fork_func(p_node, node);
+	// 		printf("NUMBER OF IN - [%d]\n", node->in);
+	// 	}
+	// 	prev = prev->next;
+	// }
 }

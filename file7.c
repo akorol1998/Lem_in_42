@@ -16,61 +16,65 @@ void		data_tunage(t_table *tbl)
 {
 	t_pipe	*pip;
 	t_node	*node;
+	int		sign;
 
+	sign = 1;
 	bad_links(tbl);
 	directions(tbl);
-	pip = tbl->start->branch;
-	while (pip)
-	{
-		node = pip->node;
-		in_and_out(tbl, node);
-		pip = pip->next;
-	}
-	bad_in_outs(tbl);
+	printf("My debugging [%d]\n", debug(tbl, 1));
+	// while (sign)
+	// {
+		// in_out_to_zero(tbl);
+		sign = 0;
+		pip = tbl->start->branch;
+		while (pip) // Pay attention to this, try using tbl->q instead
+		{
+			node = pip->node;
+			in_and_out(tbl, node);
+			pip = pip->next;
+		}
+		for (int j=0;tbl->q[j];j++)
+			printf("room - [%s]-in-[%d]-out-[%d]\n", tbl->q[j]->name, tbl->q[j]->in, tbl->q[j]->out);
+
+	// 	sign = bad_in_outs(tbl, sign);
+	// }
 	forming_queue(tbl);
 	delete_input_forks(tbl);
-	refresh_outs(tbl);
 	delete_output_forks(tbl);
-	
-	// in_out_to_zero(tbl);
 }
 
 void		in_out_to_zero(t_table *tbl)
 {
-	t_node	*node;
-	t_pipe	*pip;
+	// t_node	*node;
+	// t_pipe	*pip;
+	int		i;
 
-	node = tbl->start;
-	while (node)
+	i = -1;
+	while (tbl->q[++i])
 	{
-		pip = node->branch;
-		while (pip)
-		{
-			pip->node->out = 0;
-			pip->node->in = 0;
-			pip = pip->next;
-		}
-		node = node->link;
+		tbl->q[i]->out = 0;
+		tbl->q[i]->in = 0;
 	}
 }
 
-void		bad_in_outs(t_table *tbl)
+// Deletinf dead ends
+int			bad_in_outs(t_table *tbl, int sign)
 {
 	t_pipe	*pip;
 	t_node	*node;
 	t_pipe	*pre_pip;
+	int		i;
 
-	node = tbl->start;
-	while (node)
+	i = -1;
+	while (tbl->q[++i])
 	{
+		node = tbl->q[i];
 		while (node->branch && (!node->branch->node->out ||
 		!node->branch->node->in) &&
 		ft_strcmp(node->branch->node->name, tbl->end->name) && 
 		ft_strcmp(node->branch->node->name, tbl->start->name))
 		{
-			ft_putstr("delete ");
-			ft_putstr(node->branch->node->name);
-			ft_putstr(" \n");
+			sign = 1;
 			node->branch = node->branch->next;
 		}
 		pip = node->branch;
@@ -80,15 +84,31 @@ void		bad_in_outs(t_table *tbl)
 			ft_strcmp(pip->node->name, tbl->end->name) &&
 			ft_strcmp(pip->node->name, tbl->start->name))
 			{
-				ft_putstr("delete ");
-				ft_putstr(pip->node->name);
-				ft_putstr(" \n");
+				sign = 1;
 				pre_pip->next = pip->next;
 			}
 			else
 				pre_pip = pip;
 			pip = pip->next;
 		}
-		node = node->link;
 	}
+	return (sign);
+}
+
+int			debug(t_table *tbl, int a)
+{
+	t_pipe *pip;
+	int 	i;
+
+	i = 0;
+	if (a)
+		pip = tbl->start->branch;
+	else
+		pip = tbl->end->branch;
+	while (pip)
+	{
+		i++;
+		pip = pip->next;
+	}
+	return (i);
 }

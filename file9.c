@@ -12,6 +12,7 @@
 
 #include "lem_in.h"
 
+// Deleting input links to the node
 void		delete_fork_func(t_node *pre, t_node *node)
 {
 	t_pipe	*pip;
@@ -19,15 +20,17 @@ void		delete_fork_func(t_node *pre, t_node *node)
 
 	while (pre->branch && !ft_strcmp(pre->branch->node->name, node->name))
 	{
-		printf("[%s]-deletes-[%s]\n", pre->branch->node->name, node->name);
+		pre->branch->node->out--;
 		pre->branch = pre->branch->next;
+		node->in--;
 	}
 	pip = pre->branch;
 	while (pip)
 	{
 		if (!ft_strcmp(pip->node->name, node->name))
 		{
-			printf("[%s]-deletes-[%s]\n", pre->name, node->name);
+			node->in--;
+			pip->node->out--;
 			prepip->next = pip->next;
 		}
 		prepip = pip;
@@ -44,12 +47,9 @@ void		delete_output_forks(t_table *tbl)
 		leng++;
 	while (--leng >= 0)
 	{
-		if (!ft_strcmp(tbl->q[leng]->name, "3"))
-			printf("OUT [%d]\n", tbl->q[leng]->out);
 		if (tbl->q[leng]->out > 1 && ft_strcmp(tbl->q[leng]->name, tbl->start->name))
 			remove_out_links(tbl, tbl->q[leng]);
 	}
-	printf("%d", leng);
 }
 
 void		remove_out_links(t_table *tbl, t_node *node)
@@ -79,8 +79,8 @@ void		remove_out_links(t_table *tbl, t_node *node)
 	delete_long_paths(arr, node, size);
 	free(arr);
 	
-	printf("node is %s [%d]\n", node->name, node->out);
-	printf("size is %d\n", size);
+	// printf("node is %s [%d]\n", node->name, node->out); //think about it ;)
+	// printf("size is %d\n", size);
 }
 
 void		refresh_outs(t_table *tbl)
@@ -114,10 +114,10 @@ void		short_way(int *arr, t_node *node, int idx)
 	pip = node->branch;
 	while (pip)
 	{
-		node = pip->node;
+		node = pip->node;// check weather it reaches the end
 		pip = node->branch;
 		count++;
 	}
 	arr[idx] = count;
-	printf("count %d\n", arr[idx]);
+	// printf("count %d\n", arr[idx]);
 }

@@ -30,6 +30,32 @@ int			len_arr(t_node **nodes, t_node ***arr)
 	return (i);
 }
 
+void		parse_lems(t_table *tbl)
+{
+	int		i;
+	int		flag;
+	t_node	**node;
+
+	flag = 1;
+	while(flag)
+	{
+		flag = 0;
+		i = -1;
+		while (tbl->path[++i] && tbl->path[i + 1])
+		{
+			if (len_arr(tbl->path[i], NULL) > len_arr(tbl->path[i + 1], NULL))
+			{
+				node = tbl->path[i + 1];
+				tbl->path[i + 1] = tbl->path[i];
+				tbl->path[i] = node;
+				flag = 1;
+			}
+		}
+	}
+	display_ants(tbl);
+	parsing_ants(tbl);
+}
+
 int			display_ants(t_table *tbl)
 {
 	int		i;
@@ -43,11 +69,9 @@ int			display_ants(t_table *tbl)
 		while (tbl->path[i][++j])
 		{
 			printf("[%s] ", tbl->path[i][j]->name);
-			printf("[%d] ", tbl->path[i][j]->level);
 		}
 		printf("\n");
 	}
-	// parsing_ants(tbl);
 	return (1);
 }
 

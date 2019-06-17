@@ -15,21 +15,28 @@
 int			setting_levels(t_table *tbl, t_node *cur)
 {
 	int		idx;
+	int		flag;
 
 	idx = 0;
 	tbl->q[idx] = cur;
-	while (cur && ft_strcmp(cur->name, tbl->end->name))
+	flag = 0;
+	while (cur) // && ft_strcmp(cur->name, tbl->end->name)
 	{
 		add_to_queue(tbl, cur);
 		cur = tbl->q[++idx];
+		if (cur && !ft_strcmp(cur->name, tbl->end->name))
+			flag = 1;
 	}
-	if (cur && !ft_strcmp(cur->name, tbl->end->name))
-			cur->level = INT_MAX;
-	if (!tbl->q[idx])
+	// if (cur && !ft_strcmp(cur->name, tbl->end->name))
+	tbl->end->level = INT_MAX;
+	// for (int j=0;tbl->q[j];j++)
+		// printf("room - [%s]-level-[%d]\n", tbl->q[j]->name, tbl->q[j]->level);
+	if (!flag)
 		return (-1);
 	return (idx);
 }
 
+// Setting up directions for the nodes
 void		set_direction(t_pipe *branch, t_node *prev)
 {
 	t_pipe	*pip;
@@ -69,6 +76,7 @@ t_pipe	*pip;
 	}
 }
 
+// Deleting same levele links and levele = -1
 void		bad_links(t_table *tbl)
 {
 	t_pipe	*pip;
@@ -78,15 +86,28 @@ void		bad_links(t_table *tbl)
 	node = tbl->start;
 	while (node)
 	{
-		ft_putstr("seg ");
 		while ((node->branch && node->branch->node->level == node->level) || (node->branch && node->branch->node->level == -1))
+		{
+			if (!ft_strcmp(node->name, tbl->end->name))
+			{
+				printf("Level [%d]-name-[%s]\n", node->branch->node->level, node->branch->node->name);
+				printf("End level [%d]-name-[%s]\n", node->level, node->name);
+			}
 			node->branch = node->branch->next;
-		ft_putstr("fault\n");
+		}
 		pip = node->branch;
 		while (pip)
 		{
+			
 			if (pip->node->level == node->level || pip->node->level == -1)
+			{
+				if (!ft_strcmp(node->name, tbl->end->name))
+				{
+					printf("Level [%d]-name-[%s]\n", pip->node->level, pip->node->name);
+					printf("End level [%d]-name-[%s]\n", node->level, node->name);
+				}
 				pre_pip->next = pip->next;
+			}
 			else
 				pre_pip = pip;
 			pip = pip->next;
@@ -106,6 +127,8 @@ void		in_and_out(t_table *tbl, t_node *node)
 	{
 		while (pip)
 		{
+			if (!ft_strcmp(tbl->end->name, node->name))
+				printf("TUTTTTAAAAAAAAAAA\n");
 			node->out++;
 			in_and_out(tbl, pip->node);
 			pip = pip->next;
