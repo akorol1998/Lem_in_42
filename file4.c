@@ -116,6 +116,7 @@ int			parsing_ants(t_table *tbl)
 	int		i;
 	int		ants;
 	int		count;
+	int		u;
 
 	ants = 1;
 	count = 0;
@@ -125,10 +126,10 @@ int			parsing_ants(t_table *tbl)
 	while (ants <= tbl->ants)
 	{
 		i = -1;
-		while (ants <= tbl->ants && tbl->path[++i])
+		while (tbl->path[++i] && ants <= tbl->ants)
 		{
-			if (((len_arr(tbl->path[i], NULL) + (tbl->ants - ants) - 2) -
-			(len_arr(tbl->path[0], NULL) + (tbl->ants - ants) - 2)) < (tbl->ants - ants))
+			u = make_decision(tbl, i);
+			if (tbl->ants - ants > u)
 			{
 				move_lems(tbl->path[i], ants);
 			}
@@ -139,15 +140,31 @@ int			parsing_ants(t_table *tbl)
 				printf("\n");
 				i = 0;
 				move_lems(tbl->path[i], ants);
-				// count++;
+				count++;
 			}
 			ants++;
 			// printf(" = counted");
 		}
-		if (tbl->path[++i])
-			return (end_part_of_parsing(tbl, count));
+		if (tbl->path[i])
+			finish_rest(tbl, i);
 		count++;
 		printf("\n");
 	}
 	return (end_part_of_parsing(tbl, count));
+}
+
+int			make_decision(t_table *tbl, int idx)
+{
+	int		leng;
+	int		sum;
+	int		i;
+
+	leng = len_arr(tbl->path[idx], NULL);
+	sum = 0;
+	i = -1;
+	while (++i < idx)
+	{
+		sum += (leng - len_arr(tbl->path[i], NULL));
+	}
+	return (sum);
 }
