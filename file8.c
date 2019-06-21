@@ -51,8 +51,6 @@ void		queue_up(t_table *tbl, t_node *cur)
 		{
 			if (!ft_strcmp(tbl->q[i]->name, pip->node->name))
 			{
-				if (!ft_strcmp(tbl->end->name, pip->node->name))
-					printf("=====Adding previous the end=====\n");
 				add_to_prev(tbl, pip->node, cur);
 				flag = 0;
 			}
@@ -60,8 +58,6 @@ void		queue_up(t_table *tbl, t_node *cur)
 		if (flag)
 		{
 			tbl->q[idx] = pip->node;
-			if (!ft_strcmp(tbl->end->name, pip->node->name))
-				printf("=====Adding previous the end=====\n");
 			add_to_prev(tbl, pip->node, cur);
 			idx++;
 		}
@@ -69,6 +65,7 @@ void		queue_up(t_table *tbl, t_node *cur)
 	}
 }
 
+// Free prev allocates memmory for prev nodes
 void		add_to_prev(t_table *tbl, t_node *node, t_node *previous)
 {
 	t_pipe *prev;
@@ -103,18 +100,22 @@ void		delete_input_forks(t_table *tbl)
 		node = tbl->q[i];
 		if (ft_strcmp(node->name, tbl->end->name) && node->in > 1)
 		{
-			printf ("ddddddddd %d dddddddd\n", debug(tbl, 1));
 			printf ("<<<<<<<<< %d >>>>>>>>\n", tbl->end->in);
 			checking_in_forks(node);
 		}
 	}
 }
 
+// Some problems here, when this art of the code is commented big3 map is not working i do free what is not allocated
+// Search for thigs that you don`t check for being null
 void		checking_in_forks(t_node *node)
 {
 	t_pipe	*prev;
+	// t_node	*c_node;
 	t_node	*p_node;
+	int		lvl;
 
+	lvl = 0;
 	prev = node->prev;
 	while (prev)
 	{
@@ -126,15 +127,45 @@ void		checking_in_forks(t_node *node)
 		}
 		prev = prev->next;
 	}
-	prev = node->prev;
-	// while (prev)
+	// while (node->in > 1)
 	// {
-	// 	p_node = prev->node;
-	// 	if (node->in > 1)
+	// 	prev = node->prev;
+	// 	c_node = bad_input_link(prev, node);
+	// 	while (prev)
 	// 	{
-	// 		delete_fork_func(p_node, node);
-	// 		printf("NUMBER OF IN - [%d]\n", node->in);
+	// 		p_node = prev->node;
+	// 		if (node->in > 1 && (!c_node || !ft_strcmp(c_node->name, p_node->name))) //May Seg fault
+	// 		{
+	// 			delete_fork_func(p_node, node);
+	// 			printf("NUMBER OF IN - [%d]\n", node->in);
+	// 		}
+	// 		prev = prev->next;
 	// 	}
-	// 	prev = prev->next;
 	// }
+}
+
+t_node		*bad_input_link(t_pipe *prev, t_node *node)
+{
+	t_pipe	*pop;
+	t_node	*room;
+	int		lvl;
+
+	lvl = 0;
+	room = NULL;
+	while (prev)
+	{
+		pop = prev->node->branch;
+		while (pop)
+		{
+			if (!ft_strcmp(pop->node->name, node->name) && prev->node->level > lvl)
+			{
+				lvl = prev->node->level;
+				room = prev->node;
+			}
+			else if (prev->node->level == lvl)
+				room = NULL;
+		}
+		prev = prev->next;
+	}
+	return (room);
 }

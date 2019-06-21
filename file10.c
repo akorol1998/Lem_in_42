@@ -29,21 +29,22 @@ void		delete_long_paths(int *arr, t_node *node, int size)
 			idx = i;
 		}
 	}
-	// printf("shortest [%d] idx [%d]\n", a, idx);
 	delete_links(node, idx);
 }
 
 void		delete_links(t_node *node, int idx)
 {
 	t_pipe	*pip;
+	t_pipe	*del;
 	t_pipe	*prepipe;
 	int		mydx;
 
 	mydx = 0;
 	while (node->branch && mydx != idx)
 	{
-		// printf("deleting %s [%d]\n", node->branch->node->name, mydx);
+		del = node->branch;
 		node->branch = node->branch->next;
+		free(del);
 		mydx++;
 	}
 	pip = node->branch;
@@ -51,8 +52,9 @@ void		delete_links(t_node *node, int idx)
 	{
 		if (pip && mydx != idx)
 		{
-			// printf("deleting %s\n", pip->node->name);
+			del = prepipe->next;
 			prepipe->next = pip->next;
+			free(del);
 		}
 		prepipe = pip;
 		pip = pip->next;
@@ -60,44 +62,38 @@ void		delete_links(t_node *node, int idx)
 	}
 }
 
-void		form_paths(t_table *tbl)
+void		go_to_the_end(t_table *tbl, t_node *nd, int idx, int i)
 {
 	t_pipe	*br;
-	int		size;
-	int		i;
 
-	i = -1;
-	br = tbl->start->branch;
-	size = 0;
+	br = nd->branch;
 	while (br)
 	{
-		size++;
-		br = br->next;
+		i++;
+		nd = br->node;
+		// if (!nd->visited)
+		tbl->path[idx][i] = nd;
+		nd->visited = 1;
+		printf("[%s]-", tbl->path[idx][i]->name);
+		br = nd->branch;
 	}
-	tbl->path = (t_node***)malloc(sizeof(t_node**) * size + 1);
-	tbl->path[size] = NULL;
-	while (++i < size)
-	{
-		// printf("what?\n");
-		tbl->path[i] = (t_node**)malloc(sizeof(t_node*) * tbl->rooms + 1);
-		// tbl->path[i][0] = tbl->start;
-		tbl->path[i][tbl->rooms] = NULL;
-	}
-	fill_paths(tbl);
+	tbl->path[idx][++i] = NULL;
 }
 
 void		fill_paths(t_table *tbl)
 {
 	t_pipe	*pip;
-	t_pipe	*br;
 	t_node	*nd;
 	int		idx;
 	int		i;
 
-	idx = 0;
 	pip = tbl->start->branch;
 	while (pip)
 	{
+		idx = -1;
+		while (tbl->path[++idx])
+			;
+		tbl->path[idx] = (t_node**)malloc(sizeof(t_node*) * tbl->rooms + 1);
 		tbl->path[idx][0] = tbl->start;
 		printf("start-[%s]-", tbl->path[idx][0]->name);
 		i = 1;
@@ -105,21 +101,10 @@ void		fill_paths(t_table *tbl)
 		tbl->path[idx][i] = nd;
 		nd->visited = 1;
 		printf("[%s]-", tbl->path[idx][i]->name);
-		// printf("in[%d]-out[%d]", tbl->path[idx][i]->in, tbl->path[idx][i]->out);
-		br = nd->branch;
-		while (br)
-		{
-			i++;
-			nd = br->node;
-			// if (!nd->visited)
-			tbl->path[idx][i] = nd;
-			nd->visited = 1;
-			printf("[%s]-", tbl->path[idx][i]->name);
-			// printf("in[%d]-out[%d]", tbl->path[idx][i]->in, tbl->path[idx][i]->out);
-			br = nd->branch;
-		}
-		idx++;
+		go_to_the_end(tbl, nd, idx, i);
 		printf("\n");
 		pip = pip->next;
 	}
+	tbl->end->visited = 0;
+	printf("VISITED [%d]\n", tbl->start->visited);
 }

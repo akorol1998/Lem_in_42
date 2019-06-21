@@ -16,22 +16,28 @@
 void		delete_fork_func(t_node *pre, t_node *node)
 {
 	t_pipe	*pip;
+	t_pipe	*del;
 	t_pipe	*prepip;
-
+	
 	while (pre->branch && !ft_strcmp(pre->branch->node->name, node->name))
 	{
-		pre->branch->node->out--;
-		pre->branch = pre->branch->next;
 		node->in--;
+		pre->branch->node->out--;
+		del = pre->branch;
+		pre->branch = pre->branch->next;
+		free(del);
+		
 	}
 	pip = pre->branch;
 	while (pip)
 	{
 		if (!ft_strcmp(pip->node->name, node->name))
 		{
+			del = prepip->next;
 			node->in--;
 			pip->node->out--;
 			prepip->next = pip->next;
+			free(del);
 		}
 		prepip = pip;
 		pip = pip->next;

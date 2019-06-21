@@ -23,23 +23,39 @@ void		data_tunage(t_table *tbl)
 	c = 0;
 	bad_links(tbl);
 	directions(tbl);
-	printf("My debugging [%d]\n", debug(tbl, 1));
+	printf("My debugging\n");
 	while (sign)
 	{
 		in_out_to_zero(tbl);
 		sign = 0;
-		in_and_out(tbl); // Pay attention to this, try using tbl->q instead
-		// for (int j=0;tbl->q[j];j++)
-		// 	printf("room - [%s]-in-[%d]-out-[%d]\n", tbl->q[j]->name, tbl->q[j]->in, tbl->q[j]->out);
+		in_and_out(tbl);
 		sign = bad_in_outs(tbl, sign);
 		c++;
-		printf("======== COUNT [%d] ========\n", c);
-		// count_pip(tbl, g_node);
-		printf("Number of start paths = [%d] end = [%d]\n", tbl->start->out, tbl->end->in);
 	}
+	printf("The start out [%d]\n", tbl->start->out);
 	forming_queue(tbl);
 	delete_input_forks(tbl);
+	// sign = 1;
+	// c = 0;
+	// while (sign)
+	// {
+	// 	in_out_to_zero(tbl);
+	// 	sign = 0;
+	// 	in_and_out(tbl);
+	// 	sign = bad_in_outs(tbl, sign);
+	// 	c++;
+	// }
 	delete_output_forks(tbl);
+	// sign = 1;
+	// c = 0;
+	// while (sign)
+	// {
+	// 	in_out_to_zero(tbl);
+	// 	sign = 0;
+	// 	in_and_out(tbl);
+	// 	sign = bad_in_outs(tbl, sign);
+	// 	c++;
+	// }
 }
 
 void		in_out_to_zero(t_table *tbl)
@@ -60,6 +76,7 @@ void		in_out_to_zero(t_table *tbl)
 int			bad_in_outs(t_table *tbl, int sign)
 {
 	t_pipe	*pip;
+	t_pipe	*del;
 	t_node	*node;
 	t_pipe	*pre_pip;
 	int		i;
@@ -75,18 +92,18 @@ int			bad_in_outs(t_table *tbl, int sign)
 		ft_strcmp(node->branch->node->name, tbl->end->name) && 
 		ft_strcmp(node->branch->node->name, tbl->start->name))
 		{
-			if (!ft_strcmp(node->branch->node->name, "Uhn0") || !ft_strcmp(node->branch->node->name, "Ymh6") || !ft_strcmp(node->branch->node->name, "Ymh6") ||
-			!ft_strcmp(node->branch->node->name, "Vhr1") || !ft_strcmp(node->branch->node->name, "Tel3") || !ft_strcmp(node->branch->node->name, "Vqj7") ||
-			!ft_strcmp(node->branch->node->name, "Gdk9") || !ft_strcmp(node->branch->node->name, "Set8") || !ft_strcmp(node->branch->node->name, "Auo9") ||
-			!ft_strcmp(node->branch->node->name, "Nm_3") || !ft_strcmp(node->branch->node->name, "S_f1") || !ft_strcmp(node->branch->node->name, "Pfg8") ||
-			!ft_strcmp(node->branch->node->name, "Stw5") || !ft_strcmp(node->branch->node->name, "Hfr1") || !ft_strcmp(node->branch->node->name, "Rhe3") ||
-			!ft_strcmp(node->branch->node->name, "Mkr2") || !ft_strcmp(node->branch->node->name, "Wp_5") || !ft_strcmp(node->branch->node->name, "C_m9") ||
-			!ft_strcmp(node->branch->node->name, "Gns8") || !ft_strcmp(node->branch->node->name, "Get3") || !ft_strcmp(node->branch->node->name, "Jpz8") ||
-			!ft_strcmp(node->branch->node->name, "Yti2") || !ft_strcmp(node->branch->node->name, "Itx6") || !ft_strcmp(node->branch->node->name, "A_d4") ||
-			!ft_strcmp(node->branch->node->name, "Jiu8") || !ft_strcmp(node->branch->node->name, "Phk1") || !ft_strcmp(node->branch->node->name, "Rw_8") ||
-			!ft_strcmp(node->branch->node->name, "Gjx4") || !ft_strcmp(node->branch->node->name, "Rhz6") || !ft_strcmp(node->branch->node->name, "Kli2") ||
-			!ft_strcmp(node->branch->node->name, "Tyy1") || !ft_strcmp(node->branch->node->name, "Ieg6") || !ft_strcmp(node->branch->node->name, "B_q2") ||
-			!ft_strcmp(node->branch->node->name, "Bqx3") || !ft_strcmp(node->branch->node->name, "Ezw4"))
+			if (!ft_strcmp(node->branch->node->name, "K_d2") || !ft_strcmp(node->branch->node->name, "Tdz2") || !ft_strcmp(node->branch->node->name, "Dio3") ||
+			!ft_strcmp(node->branch->node->name, "Jmy2") || !ft_strcmp(node->branch->node->name, "Pci3") || !ft_strcmp(node->branch->node->name, "Pmw2") ||
+			!ft_strcmp(node->branch->node->name, "Gxx1") || !ft_strcmp(node->branch->node->name, "Kqa2") || !ft_strcmp(node->branch->node->name, "Jgc5") ||
+			!ft_strcmp(node->branch->node->name, "Ycp6") || !ft_strcmp(node->branch->node->name, "Hnk6") || !ft_strcmp(node->branch->node->name, "Jrp4") ||
+			!ft_strcmp(node->branch->node->name, "Rao6") || !ft_strcmp(node->branch->node->name, "Uhr4") || !ft_strcmp(node->branch->node->name, "Zzf2") ||//
+			!ft_strcmp(node->branch->node->name, "Rw_2") || !ft_strcmp(node->branch->node->name, "Vpe9") || !ft_strcmp(node->branch->node->name, "Baj8") ||
+			!ft_strcmp(node->branch->node->name, "E_w8") || !ft_strcmp(node->branch->node->name, "Ecx4") || !ft_strcmp(node->branch->node->name, "Gae2") ||
+			!ft_strcmp(node->branch->node->name, "Seh9") || !ft_strcmp(node->branch->node->name, "Tw_0") || !ft_strcmp(node->branch->node->name, "Rsc2") ||
+			!ft_strcmp(node->branch->node->name, "Gbm4") || !ft_strcmp(node->branch->node->name, "Zkb7") || !ft_strcmp(node->branch->node->name, "Zfe8") ||
+			!ft_strcmp(node->branch->node->name, "Yhr2") || !ft_strcmp(node->branch->node->name, "Dkf2") || !ft_strcmp(node->branch->node->name, "Jma2") ||
+			!ft_strcmp(node->branch->node->name, "S_x0") || !ft_strcmp(node->branch->node->name, "Jjo2") || !ft_strcmp(node->branch->node->name, "Dii9") ||
+			!ft_strcmp(node->branch->node->name, "Oo_2") || !ft_strcmp(node->branch->node->name, "Irl9"))
 			{
 				g_node = node->branch->node;
 				// count_pip(tbl, g_node);
@@ -94,7 +111,9 @@ int			bad_in_outs(t_table *tbl, int sign)
 			}
 			
 			sign = 1;
+			del = node->branch;
 			node->branch = node->branch->next;
+			free(del);
 		}
 		pip = node->branch;
 		while (pip)
@@ -105,7 +124,9 @@ int			bad_in_outs(t_table *tbl, int sign)
 			{
 				sign = 1;
 				// printf("Deleting {%s}\n", pip->node->name);
+				del = pre_pip->next;
 				pre_pip->next = pip->next;
+				free(del);
 			}
 			else
 				pre_pip = pip;
@@ -113,22 +134,4 @@ int			bad_in_outs(t_table *tbl, int sign)
 		}
 	}
 	return (sign);
-}
-
-int			debug(t_table *tbl, int a)
-{
-	t_pipe *pip;
-	int 	i;
-
-	i = 0;
-	if (a)
-		pip = tbl->start->branch;
-	else
-		pip = tbl->end->branch;
-	while (pip)
-	{
-		i++;
-		pip = pip->next;
-	}
-	return (i);
 }

@@ -39,6 +39,7 @@ t_node		*create_node(void)
 	node->pos = NULL;
 	node->link = NULL;
 	node->branch = NULL;
+	node->vert = NULL;
 	node->name = NULL;
 	node->visited = 0;
 	node->branch = NULL;

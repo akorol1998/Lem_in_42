@@ -48,7 +48,6 @@ int			linking(char **data, t_table *tbl)
 }
 
 // Very careful with linking nodes to each other, so that you didn't create infinite loop in the future
-
 int			connecting_nodes(t_node *node, t_node *node2)
 {
 	t_pipe	*pip;
@@ -113,13 +112,25 @@ int			connect_node2(t_node *node2, t_node *node)
 int			creating_arrays(t_table *tbl)
 {
 	int		i;
+	t_pipe	*br;
 
 	i = -1;
 	tbl->q = (t_node**)malloc(sizeof(t_node*) * tbl->rooms + 1);
 	tbl->q[tbl->rooms] = NULL;
 	while (++i < tbl->rooms)
 		tbl->q[i] = NULL;
-	i = -1;
+	br = tbl->start->branch;
+	i = 0;
+	while (br)
+	{
+		i++;
+		br = br->next;
+	}
+	printf("So many [%d]\n", i);
+	tbl->path = (t_node***)malloc(sizeof(t_node**) * i + 1);
+	tbl->path[i] = NULL;
+	while (i--)
+		tbl->path[i] = NULL;
 	return (1);
 }
 

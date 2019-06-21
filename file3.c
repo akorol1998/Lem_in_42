@@ -19,16 +19,18 @@ int			launch_algorithm(t_table *tbl)
 	int		idx;
 
 	curr = tbl->nodes;
-	ft_putstr("node before ");	
-	if ((idx = set_levels(tbl)))
+	ft_putstr("node before ");
+	while ((idx = set_levels(tbl)))
 	{
 		if (idx == -1)
 		{
 			printf("There are no available paths to an end Not enough info, can't reach end\n"); // One ending
 			return (0);
 		}
+		printf("BABY\n");
 		data_tunage(tbl);
-		form_paths(tbl);
+		fill_paths(tbl);
+		add_branches(tbl);
 	}
 	if (!idx)
 	{
