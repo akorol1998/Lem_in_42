@@ -125,16 +125,26 @@ void		bad_links(t_table *tbl)
 		// 	printf("Node level [%d]\n", tbl->q[i]->level);
 		// }
 		j = -1;
+		printf("Sup man\n");
+		if (!ft_strcmp("Kys5", node->name)) //Debug this
+		{
+			for(int k = 0;node->vert[k];k++)
+				printf("node [%s]", node->vert[k]->name);
+		}
 		while (node->vert && node->vert[++j])
 		{
-			// if (!ft_strcmp("Kys5", node->name)) //Debug this
-			// {
-			// 	printf("Here is node [%s]-Level [%d]\n", node->vert[j]->name, node->vert[j]->level);
-			// }
 			if (node->vert[j]->level == node->level || node->vert[j]->level == -1)
 			{
 				delete_from_vert(node, j);
+				j--; // Play with this boys :)
 			}
+
+		}
+		printf("\n");
+		if (!ft_strcmp("Kys5", node->name)) //Debug this
+		{
+			for(int k = 0;node->vert[k];k++)
+				printf("node [%s]", node->vert[k]->name);
 		}
 		// pip = node->branch;
 		// while (pip)
