@@ -44,33 +44,32 @@ int			launch_algorithm(t_table *tbl)
 
 void		add_to_queue(t_table *tbl, t_node *cur)
 {
-	t_pipe	*pip;
+	int		j;
 	int		i;
 	int		flag;
 	int		idx;
 
 	idx = -1;
+	j = -1;
 	while (tbl->q[++idx])
 		;
-	pip = cur->branch;
-	while (pip)
+	while (cur->vert[++j])
 	{
 		i = -1;
 		flag = 1;
 		while (tbl->q[++i])
 		{
-			if (pip->node->visited || !ft_strcmp(tbl->q[i]->name, pip->node->name))
+			if (cur->vert[j]->visited || !ft_strcmp(tbl->q[i]->name, cur->vert[j]->name))
 				flag = 0;
 		}
 		if (flag)
 		{
 			// printf("name is {%s}\n", cur->name);
-			tbl->q[idx] = pip->node;
-			// pip->node->prev = cur;
-			pip->node->level = cur->level + 1;
+			tbl->q[idx] = cur->vert[j];
+			// cur->vert[j]->prev = cur;
+			cur->vert[j]->level = cur->level + 1;
 			idx++;
 		}
-		pip = pip->next;
 	}
 }
 
@@ -79,18 +78,17 @@ int			set_levels(t_table *tbl)
 	t_node	*cur;
 	int		idx;
 	int		flag;
-	t_pipe	*pip;
+	int		i;
 
 	idx = 0;
 	flag = 0;
+	i = -1;
 	cur = tbl->nodes;
-	pip = cur->branch;
 	cur->level = 0;
-	while (pip)
+	while (cur->vert[++i])
 	{
-		if (!pip->node->visited)
+		if (!cur->vert[i]->visited)
 			flag = 1;
-		pip = pip->next;
 	}
 	if (!flag)
 		return (0);

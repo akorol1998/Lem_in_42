@@ -38,6 +38,7 @@ void		clean_branch(t_pipe *pip)
 	{
 		clean_branch(pip->next);
 		free(pip->next);
+		pip->next = NULL;
 	}
 }
 

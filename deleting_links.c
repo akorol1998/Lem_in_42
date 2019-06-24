@@ -42,6 +42,7 @@ int			setting_levels(t_table *tbl, t_node *cur)
 		add_to_queue(tbl, cur);
 		cur = tbl->q[++idx];
 	}
+	printf("Boy [%d]\n", idx);
 	if (cur && !ft_strcmp(cur->name, tbl->end->name))
 		flag = 1;
 	tbl->end->level = INT_MAX;
@@ -51,66 +52,62 @@ int			setting_levels(t_table *tbl, t_node *cur)
 }
 
 // Setting up directions for the nodes
-void		set_direction(t_pipe *branch, t_node *prev, t_table *tbl)
+void		set_direction(t_node *part, t_node *root)
 {
-	t_pipe	*pip;
-	t_node	*node;
-	t_pipe	*del;
-	t_pipe	*pre_pip;
+	// t_pipe	*pip;
+	// t_node	*node;
+	// t_pipe	*del;
+	// t_pipe	*pre_pip;
+	int		k;
 
-	node = branch->node;
-	while (node->branch && (!ft_strcmp(node->branch->node->name, prev->name) &&
-	prev->level < node->level)) // || (node->level == -1)
+	k = -1;
+	while (part->vert && part->vert[++k])
 	{
-		del = node->branch;
-		node->branch = node->branch->next;
-		free(del);
+		if (!ft_strcmp(part->vert[k]->name, root->name) && root->level < part->level)
+			delete_from_vert(part, k);
 	}
-	pip = node->branch;
-	while (pip)
-	{
-		if (!ft_strcmp(pip->node->name, prev->name) &&
-		prev->level < node->level) // || (pip->node->level == -1)
-		{
-			del = pre_pip->next;
-			pre_pip->next = pip->next;
-			free(del);
-		}
-		else
-			pre_pip = pip;
-		pip = pip->next;
-	}
-	node = tbl->start;
+	// pip = node->branch;
+	// while (pip)
+	// {
+	// 	if (!ft_strcmp(pip->node->name, root->name) &&
+	// 	root->level < node->level) // || (pip->node->level == -1)
+	// 	{
+	// 		del = pre_pip->next;
+	// 		pre_pip->next = pip->next;
+	// 		free(del);
+	// 	}
+	// 	else
+	// 		pre_pip = pip;
+	// 	pip = pip->next;
+	// }
+	// node = tbl->start;
 }
 
 void		directions(t_table *tbl)
 {
 	int		i;
-	t_pipe	*pip;
+	int		j;
 
 	i = -1;
 	while (tbl->q[++i])
 	{
-		pip = tbl->q[i]->branch;
-		while (pip)
-		{
-			set_direction(pip, tbl->q[i], tbl);
-			pip = pip->next;
-		}
+		j = -1;
+		while (tbl->q[i]->vert[++j])
+			set_direction(tbl->q[i]->vert[j], tbl->q[i]);
 	}
 }
 
 // Deleting same levele links and levele = -1
 void		bad_links(t_table *tbl)
 {
-	t_pipe	*pip;
-	t_pipe	*del;
+	// t_pipe	*pip;
+	// t_pipe	*del;
 	t_node	*node;
-	t_pipe	*pre_pip;
+	// t_pipe	*pre_pip;
 	int		i;
+	int		j;
 
 	i = -1;
-	node = tbl->start;
 	g_node = NULL;
 	while (tbl->q[++i])
 	{
@@ -120,60 +117,44 @@ void		bad_links(t_table *tbl)
 		// 	printf("End {%s}, in-[%d] out-[%d]\n", tbl->q[i]->name, tbl->q[i]->in, tbl->q[i]->out);
 		// 	printf("Level of the END [%d]\n", tbl->end->level);
 		// }
-		if (!ft_strcmp(node->name, "Uhr4"))
-		{
-			g_node = node;
-			// count_pip(tbl, g_node);
-			printf("Node {%s}, in-[%d] out-[%d]\n", tbl->q[i]->name, tbl->q[i]->in, tbl->q[i]->out);
-			printf("Node level [%d]\n", tbl->q[i]->level);
-		}
-		while ((node->branch && node->branch->node->level == node->level) || (node->branch && node->branch->node->level == -1))
-		{
-			del = node->branch;
-			node->branch = node->branch->next;
-			free(del);
-		}
-		pip = node->branch;
-		while (pip)
-		{
-			
-			if (pip->node->level == node->level || pip->node->level == -1)
-			{
-				del = pre_pip->next;
-				pre_pip->next = pip->next;
-				free(del);
-			}
-			else
-				pre_pip = pip;
-			pip = pip->next;
-		}
-		if (g_node)
-		{
-			printf("<< ");
-			count_pip(tbl, g_node);
-			printf(" >>\n");
-		}
-	}
-}
-
-void		in_and_out(t_table *tbl)
-{
-	int		i;
-	t_pipe	*pip;
-
-	i = -1;
-	while (tbl->q[++i])
-	{
-		pip = tbl->q[i]->branch;
-		// if (!ft_strcmp(tbl->q[i]->name, "Uhr4"))
+		// if (!ft_strcmp(node->name, "Uhr4"))
+		// {
+		// 	g_node = node;
+		//	count_pip(tbl, g_node);
 		// 	printf("Node {%s}, in-[%d] out-[%d]\n", tbl->q[i]->name, tbl->q[i]->in, tbl->q[i]->out);
-		while (pip)
+		// 	printf("Node level [%d]\n", tbl->q[i]->level);
+		// }
+		j = -1;
+		while (node->vert && node->vert[++j])
 		{
-			tbl->q[i]->out++;
-			pip->node->in++;
-			pip = pip->next;
-			// if (!ft_strcmp(tbl->q[i]->name, "Uhr4"))
-			// 	printf("Node {%s}, in-[%d] out-[%d]\n", tbl->q[i]->name, tbl->q[i]->in, tbl->q[i]->out);
+			// if (!ft_strcmp("Kys5", node->name)) //Debug this
+			// {
+			// 	printf("Here is node [%s]-Level [%d]\n", node->vert[j]->name, node->vert[j]->level);
+			// }
+			if (node->vert[j]->level == node->level || node->vert[j]->level == -1)
+			{
+				delete_from_vert(node, j);
+			}
 		}
+		// pip = node->branch;
+		// while (pip)
+		// {
+			
+		// 	if (pip->node->level == node->level || pip->node->level == -1)
+		// 	{
+		// 		del = pre_pip->next;
+		// 		pre_pip->next = pip->next;
+		// 		free(del);
+		// 	}
+		// 	else
+		// 		pre_pip = pip;
+		// 	pip = pip->next;
+		// }
+		// if (g_node)
+		// {
+		// 	printf("<< ");
+		// 	count_pip(tbl, g_node);
+		// 	printf(" >>\n");
+		// }
 	}
 }

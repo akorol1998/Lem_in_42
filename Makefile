@@ -19,10 +19,11 @@ SRC =   main.c	\
 		file3.c \
 		file4.c \
 		file5.c \
-		file6.c \
-		file7.c \
-		file8.c \
-		file9.c \
+		array_manipulation.c \
+		deleting_links.c \
+		data_tunage.c \
+		queue_action.c \
+		delete_out_forks.c \
 		file10.c \
 		save_links.c \
 		support.c

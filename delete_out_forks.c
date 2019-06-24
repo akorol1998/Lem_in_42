@@ -12,38 +12,6 @@
 
 #include "lem_in.h"
 
-// Deleting input links to the node
-void		delete_fork_func(t_node *pre, t_node *node)
-{
-	t_pipe	*pip;
-	t_pipe	*del;
-	t_pipe	*prepip;
-	
-	while (pre->branch && !ft_strcmp(pre->branch->node->name, node->name))
-	{
-		node->in--;
-		pre->branch->node->out--;
-		del = pre->branch;
-		pre->branch = pre->branch->next;
-		free(del);
-		
-	}
-	pip = pre->branch;
-	while (pip)
-	{
-		if (!ft_strcmp(pip->node->name, node->name))
-		{
-			del = prepip->next;
-			node->in--;
-			pip->node->out--;
-			prepip->next = pip->next;
-			free(del);
-		}
-		prepip = pip;
-		pip = pip->next;
-	}
-}
-
 void		delete_output_forks(t_table *tbl)
 {
 	int		leng;
@@ -54,33 +22,36 @@ void		delete_output_forks(t_table *tbl)
 	while (--leng >= 0)
 	{
 		if (tbl->q[leng]->out > 1 && ft_strcmp(tbl->q[leng]->name, tbl->start->name))
+		{
+			printf("name - %d\n", tbl->q[leng]->out);
+			int	k = -1;
+			while (tbl->q[leng]->vert[++k])
+				;
+			printf("real out %d\n", k);
 			remove_out_links(tbl, tbl->q[leng]);
+			exit(1);
+			
+		}
 	}
 }
 
 void		remove_out_links(t_table *tbl, t_node *node)
 {
-	t_pipe *pip;
 	int		size;
 	int		*arr;
 	int		idx;
 
-	size = 0;
-	tbl = NULL;
-	pip = node->branch;
-	while (pip)
-	{
-		size++;
-		pip = pip->next;
-	}
+	size = -1;
+	while (node->vert && node->vert[++size])
+		;
 	arr = (int*)malloc(sizeof(int) * size);
-	pip = node->branch;
-	idx = -1;
-	while (pip)
+	idx = 0;
+	while (node->vert && node->vert[idx])
 	{
-		++idx;
-		short_way(arr, pip->node, idx);
-		pip = pip->next;
+		ft_putstr("<< ");
+		short_way(arr, node->vert[idx], tbl, idx);
+		idx++;
+		ft_putstr(" >>\n");
 	}
 	delete_long_paths(arr, node, size);
 	free(arr);
@@ -93,37 +64,43 @@ void		refresh_outs(t_table *tbl)
 {
 	int		j;
 	int		k;
-	t_pipe	*br;
-
 
 	j = -1;
 	while (tbl->q[++j])
 	{
 		k = -1;
-		br = tbl->q[j]->branch;
-		while (br)
-		{
-			k++;
-			br = br->next;
-		}
+		while (tbl->q[j]->vert[++k])
+			tbl->q[j]->vert[k]->in++;
 		k++;
 		tbl->q[j]->out = k;
 	}
 }
 
-void		short_way(int *arr, t_node *node, int idx)
+void		short_way(int *arr, t_node *node, t_table *tbl, int idx)
 {
 	int		count;
-	t_pipe	*pip;
+	int		i;
 
 	count = 1;
-	pip = node->branch;
-	while (pip)
+	while (node && ft_strcmp(node->name, tbl->end->name))
 	{
-		node = pip->node;// check weather it reaches the end
-		pip = node->branch;
+		i = -1;
+		while (node->vert && node->vert[++i] &&
+		node->vert[i]->level < node->level) // Need to go to the room that is lower by level, may be problem with the room of the same level.
+			;
+		printf("[%s]\n", node->vert[i]->name);
+		printf("[%s]\n", node->name);
+		node = node->vert[i];
 		count++;
 	}
-	arr[idx] = count;
-	// printf("count %d\n", arr[idx]);
+	if (!node || ft_strcmp(node->name, tbl->end->name)) // check weather it reaches the end
+	{
+		printf("Didn't reach the end\n");
+		arr[idx] = INT_MAX;
+	}
+	else
+	{
+		arr[idx] = count;
+	}
+	printf("count %d\n", arr[idx]);
 }
