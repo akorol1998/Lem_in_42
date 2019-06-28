@@ -54,21 +54,28 @@ void		data_tunage(t_table *tbl)
 	}
 	printf("The start out [%d]\n", tbl->start->out);
 	forming_queue(tbl); //+
-	in_out_to_zero(tbl);
-	refresh_outs(tbl);
+	sign = 1;
+	c = 0;
+	while (sign)
+	{
+		in_out_to_zero(tbl);
+		sign = 0;
+		in_and_out(tbl);
+		sign = bad_in_outs(tbl, sign);
+		c++;
+	}
 	delete_input_forks(tbl); //+
-	in_out_to_zero(tbl);
-	in_and_out(tbl);
-	// sign = 1;
-	// c = 0;
-	// while (sign)
-	// {
-	// 	in_out_to_zero(tbl);
-	// 	sign = 0;
-	// 	in_and_out(tbl);
-	// 	sign = bad_in_outs(tbl, sign);
-	// 	c++;
-	// }
+	sign = 1;
+	c = 0;
+	while (sign)
+	{
+		in_out_to_zero(tbl);
+		sign = 0;
+		in_and_out(tbl);
+		sign = bad_in_outs(tbl, sign);
+		c++;
+	}
+	ft_putstr("dead\n");
 	delete_output_forks(tbl);
 	// exit(1);
 	// sign = 1;

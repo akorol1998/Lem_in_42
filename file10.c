@@ -30,6 +30,7 @@ void		delete_long_paths(int *arr, t_node *node, int size)
 			idx = i;
 		}
 	}
+	printf("Index [%d]\n", idx);
 	save = node->vert[idx];
 	// for(int k=0;node->vert[k];k++)
 	// 	printf("counting %d\n", k);
@@ -51,9 +52,12 @@ void		delete_links(t_node *node, t_node *save)
 	printf("Pokemon\n");
 	while (node->vert && node->vert[++i])
 	{
+		ft_putstr("still here\n");
+		if (!save)
+			ft_putstr("save Seg fault\n");
 		if (ft_strcmp(save->name, node->vert[i]->name))
 		{
-			printf("Deleting {%s}\n", node->vert[i]->name);
+			ft_putstr("Inside\n");
 			delete_from_vert(node, i);
 			i--;
 		}
@@ -79,48 +83,42 @@ void		delete_links(t_node *node, t_node *save)
 
 void		go_to_the_end(t_table *tbl, t_node *nd, int idx, int i)
 {
-	t_pipe	*br;
+	t_node	**verty;
 
-	br = nd->branch;
-	while (br)
+	verty = nd->vert;
+	while (verty && verty[0])
 	{
 		i++;
-		nd = br->node;
-		// if (!nd->visited)
+		nd = verty[0];
 		tbl->path[idx][i] = nd;
 		nd->visited = 1;
 		printf("[%s]-", tbl->path[idx][i]->name);
-		br = nd->branch;
+		verty = nd->vert;
 	}
 	tbl->path[idx][++i] = NULL;
 }
 
 void		fill_paths(t_table *tbl)
 {
-	t_pipe	*pip;
 	t_node	*nd;
 	int		idx;
 	int		i;
 	int		j;
 
 	j = -1;
-	pip = tbl->start->branch;
 	while (tbl->start->vert[++j])
 	{
 		idx = -1;
 		while (tbl->path[++idx])
 			;
 		tbl->path[idx] = (t_node**)malloc(sizeof(t_node*) * tbl->rooms + 1);
-		tbl->path[idx][0] = tbl->start;
-		printf("start-[%s]-", tbl->path[idx][0]->name);
-		i = 1;
-		nd = tbl->start->vert[j]->vert[0];
+		i = 0;
+		nd = tbl->start->vert[j];
 		tbl->path[idx][i] = nd;
 		nd->visited = 1;
 		printf("[%s]-", tbl->path[idx][i]->name);
 		go_to_the_end(tbl, nd, idx, i);
 		printf("\n");
-		pip = pip->next;
 	}
 	tbl->end->visited = 0;
 	printf("VISITED [%d]\n", tbl->start->visited);

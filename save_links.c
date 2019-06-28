@@ -45,38 +45,27 @@ void		clean_branch(t_pipe *pip)
 void		add_branches(t_table *tbl)
 {
 	t_node	*node;
-	t_pipe	*pip;
 	int		i;
 
 	node = tbl->start;
-	while (node)
+	
+	while(node)
 	{
-		if (node->branch)
-		{
-			clean_branch(node->branch);
-			free(node->branch);
-		}
-		i = 0;
+		// ft_putstr("Free this\n");
 		if (node->vert)
-		{
-			node->branch = (t_pipe*)malloc(sizeof(t_pipe));
-			node->branch->node = node->vert[0];
-			pip = node->branch;
-			while (node->vert[++i])
-			{
-				pip->next = (t_pipe*)malloc(sizeof(t_pipe));
-				pip->next->node = node->vert[i];
-				pip = pip->next;
-			}
-			pip->next = NULL;
-		}
-		if (node->prev)
-		{
-			clean_branch(node->prev);
-			free(node->prev);
-		}
-		node->prev = NULL;
+			free(node->vert);
+		// ft_putstr(" + ");
+		if (node->pre_arr)
+			free(node->pre_arr);
+		// ft_putstr(" + ");
 		node->level = -1;
+		node->pre_arr = NULL;
+		node->vert = NULL;
+		node->out = 0;
+		node->in = 0;
 		node = node->link;
 	}
+	i = -1;
+	while (tbl->q[++i])
+		tbl->q[i] = NULL;
 }

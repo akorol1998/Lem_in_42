@@ -24,6 +24,7 @@ SRC =   main.c	\
 		data_tunage.c \
 		queue_action.c \
 		delete_out_forks.c \
+		lems.c \
 		file10.c \
 		save_links.c \
 		support.c

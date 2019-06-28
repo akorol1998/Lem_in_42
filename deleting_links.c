@@ -129,15 +129,17 @@ void		bad_links(t_table *tbl)
 		// }
 		j = -1;
 		// printf("Sup man\n");
-		// if (!ft_strcmp("Kys5", node->name)) //Debug this
-		// {
-		// 	for(int k = 0;node->vert[k];k++)
-		// 		printf("node [%s]", node->vert[k]->name);
-		// }
+		if (!ft_strcmp("Neq1", node->name)) //Debug this
+		{
+			printf("Zhest [%d]\n", node->level);
+			for(int k = 0;node->vert[k];k++)
+				printf("node [%s]-lvl-[%d]\n", node->vert[k]->name, node->vert[k]->level);
+		}
 		while (node->vert && node->vert[++j])
 		{
 			if (node->vert[j]->level == node->level || node->vert[j]->level == -1)
 			{
+				printf("Fuck name[%s][%d]\n", node->vert[j]->name, node->vert[j]->level);
 				delete_from_vert(node, j);
 				j--; // Play with this boys :)
 			}

@@ -109,8 +109,7 @@ int			start_reading(void)
 
 		reading_links(line, table);
 		creating_arrays(table);
-		save_links(table);
-		
+		save_links(table);		
 		flag = launch_algorithm(table);
 		parse_lems(table);
 		printf("Proceed with algorithm\n");

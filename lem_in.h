@@ -35,10 +35,10 @@ typedef struct			s_node
 	struct s_pipe		*branch;
 	struct s_node		*link;
 	struct s_pipe		*prev;
-	struct s_node		**pre_arr;
-	struct s_node		**vert;
+	struct s_node		**pre_arr; // clean this
+	struct s_node		**vert; // clean this
 	int					level;
-	int					*pos;	// to check duplicated coordinates
+	int					*pos;
 	char				*name;
 	int					lem;
 	int					in;
@@ -111,4 +111,9 @@ void					delete_from_vert(t_node *node, int idx);
 void					prev_to_arr(t_table *tbl);
 void					free_prev_links(t_table *tbl);
 void					clean_branch(t_pipe *pip);
+void					swarming(t_table *tbl);
+int						what_to_do(int ant, t_table *tbl, int *i, int *f);
+int						move_ants(t_node **arr, int ant);
 #endif
+
+// -0 lems

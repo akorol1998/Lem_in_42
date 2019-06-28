@@ -29,7 +29,7 @@ void		delete_output_forks(t_table *tbl)
 			printf("Evpatiy {%s}\n", tbl->q[leng]->name);
 			int	k = -1;
 			while (tbl->q[leng]->vert[++k])
-				;
+				printf("vert [%s]-lvl-[%d]-in-[%d]-out-[%d]\n", tbl->q[leng]->vert[k]->name, tbl->q[leng]->vert[k]->level, tbl->q[leng]->vert[k]->in, tbl->q[leng]->vert[k]->out);
 			printf("real out %d\n", k);
 			remove_out_links(tbl, tbl->q[leng]);
 			// exit(1);
@@ -56,7 +56,6 @@ void		remove_out_links(t_table *tbl, t_node *node)
 		idx++;
 		ft_putstr(" >>\n");
 	}
-	
 	delete_long_paths(arr, node, size);
 	free(arr);
 	
@@ -87,6 +86,8 @@ void		short_way(int *arr, t_node *node, t_table *tbl, int idx)
 
 	count = 1;
 	printf("Start node-[%s]\n", node->name);
+	for (int k = 0;node->vert[k];k++)
+		printf("node [%s]\n", node->vert[k]->name);
 	while (node && ft_strcmp(node->name, tbl->end->name))
 	{
 		i = -1;
@@ -94,7 +95,10 @@ void		short_way(int *arr, t_node *node, t_table *tbl, int idx)
 		node->vert[i]->level < node->level) // Need to go to the room that is lower by level, may be problem with the room of the same level.
 			printf("Lower [%d]-name-[%s]\n", node->vert[i]->level, node->vert[i]->name);
 		node = node->vert[i];
-		printf("[%s]\n", node->name);
+		if (!node)
+			ft_putstr("zhopa\n");
+		else
+			printf("check it [%s]-in-[%d]-out-[%d]\n", node->name, node->in, node->out);
 		count++;
 	}
 	if (!node || ft_strcmp(node->name, tbl->end->name)) // check weather it reaches the end

@@ -53,7 +53,7 @@ void		parse_lems(t_table *tbl)
 		}
 	}
 	display_ants(tbl);
-	parsing_ants(tbl);
+	swarming(tbl);
 }
 
 int			display_ants(t_table *tbl)
