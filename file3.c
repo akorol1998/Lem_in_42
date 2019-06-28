@@ -29,8 +29,11 @@ int			launch_algorithm(t_table *tbl)
 		}
 		printf("BABY\n");
 		data_tunage(tbl);
+		for(int k = 0;tbl->end->vert[k];k++)
+			printf("End vertecies %s\n", tbl->end->vert[k]->name);
+		exit(1);
 		fill_paths(tbl);
-		add_branches(tbl);
+		// add_branches(tbl);
 	}
 	if (!idx)
 	{

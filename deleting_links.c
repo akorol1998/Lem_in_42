@@ -64,7 +64,10 @@ void		set_direction(t_node *part, t_node *root)
 	while (part->vert && part->vert[++k])
 	{
 		if (!ft_strcmp(part->vert[k]->name, root->name) && root->level < part->level)
+		{
 			delete_from_vert(part, k);
+			k--;
+		}
 	}
 	// pip = node->branch;
 	// while (pip)
@@ -125,12 +128,12 @@ void		bad_links(t_table *tbl)
 		// 	printf("Node level [%d]\n", tbl->q[i]->level);
 		// }
 		j = -1;
-		printf("Sup man\n");
-		if (!ft_strcmp("Kys5", node->name)) //Debug this
-		{
-			for(int k = 0;node->vert[k];k++)
-				printf("node [%s]", node->vert[k]->name);
-		}
+		// printf("Sup man\n");
+		// if (!ft_strcmp("Kys5", node->name)) //Debug this
+		// {
+		// 	for(int k = 0;node->vert[k];k++)
+		// 		printf("node [%s]", node->vert[k]->name);
+		// }
 		while (node->vert && node->vert[++j])
 		{
 			if (node->vert[j]->level == node->level || node->vert[j]->level == -1)
@@ -140,12 +143,12 @@ void		bad_links(t_table *tbl)
 			}
 
 		}
-		printf("\n");
-		if (!ft_strcmp("Kys5", node->name)) //Debug this
-		{
-			for(int k = 0;node->vert[k];k++)
-				printf("node [%s]", node->vert[k]->name);
-		}
+		// printf("\n");
+		// if (!ft_strcmp("Kys5", node->name)) //Debug this
+		// {
+		// 	for(int k = 0;node->vert[k];k++)
+		// 		printf("node [%s]", node->vert[k]->name);
+		// }
 		// pip = node->branch;
 		// while (pip)
 		// {

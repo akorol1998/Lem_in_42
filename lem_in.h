@@ -100,7 +100,7 @@ void					remove_out_links(t_table *tbl, t_node *node);
 void					refresh_outs(t_table *tbl);
 void					short_way(int *arr, t_node *node, t_table *tbl, int idx);
 void					delete_long_paths(int *arr, t_node *node, int size);
-void					delete_links(t_node *node, int idx);
+void					delete_links(t_node *node, t_node *save);
 void					fill_paths(t_table *tbl);
 int						make_decision(t_table *tbl, int idx);
 void					parse_lems(t_table *tbl);

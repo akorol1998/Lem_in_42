@@ -17,6 +17,7 @@ void		delete_long_paths(int *arr, t_node *node, int size)
 	int		a;
 	int		i;
 	int		idx;
+	t_node	*save;
 
 	i = -1;
 	a = 999999;
@@ -29,37 +30,51 @@ void		delete_long_paths(int *arr, t_node *node, int size)
 			idx = i;
 		}
 	}
-	delete_links(node, idx);
+	save = node->vert[idx];
+	// for(int k=0;node->vert[k];k++)
+	// 	printf("counting %d\n", k);
+	// printf("[%s]\n", save->name);
+	// printf("Node [%s]\n", node->name);
+	delete_links(node, save);
 }
 
-void		delete_links(t_node *node, int idx)
+void		delete_links(t_node *node, t_node *save)
 {
-	t_pipe	*pip;
-	t_pipe	*del;
-	t_pipe	*prepipe;
-	int		mydx;
+	// t_pipe	*pip;
+	// t_pipe	*del;
+	// t_pipe	*prepipe;
+	// int		mydx;
+		int		i;
 
-	mydx = 0;
-	while (node->branch && mydx != idx)
+	// mydx = 0;
+	i = -1;
+	printf("Pokemon\n");
+	while (node->vert && node->vert[++i])
 	{
-		del = node->branch;
-		node->branch = node->branch->next;
-		free(del);
-		mydx++;
-	}
-	pip = node->branch;
-	while (pip)
-	{
-		if (pip && mydx != idx)
+		if (ft_strcmp(save->name, node->vert[i]->name))
 		{
-			del = prepipe->next;
-			prepipe->next = pip->next;
-			free(del);
+			printf("Deleting {%s}\n", node->vert[i]->name);
+			delete_from_vert(node, i);
+			i--;
 		}
-		prepipe = pip;
-		pip = pip->next;
-		mydx++;
+		// del = node->branch;
+		// node->branch = node->branch->next;
+		// free(del);
+		// mydx++;
 	}
+	// pip = node->branch;
+	// while (pip)
+	// {
+	// 	if (pip && mydx != idx)
+	// 	{
+	// 		del = prepipe->next;
+	// 		prepipe->next = pip->next;
+	// 		free(del);
+	// 	}
+	// 	prepipe = pip;
+	// 	pip = pip->next;
+	// 	mydx++;
+	// }
 }
 
 void		go_to_the_end(t_table *tbl, t_node *nd, int idx, int i)
@@ -86,9 +101,11 @@ void		fill_paths(t_table *tbl)
 	t_node	*nd;
 	int		idx;
 	int		i;
+	int		j;
 
+	j = -1;
 	pip = tbl->start->branch;
-	while (pip)
+	while (tbl->start->vert[++j])
 	{
 		idx = -1;
 		while (tbl->path[++idx])
@@ -97,7 +114,7 @@ void		fill_paths(t_table *tbl)
 		tbl->path[idx][0] = tbl->start;
 		printf("start-[%s]-", tbl->path[idx][0]->name);
 		i = 1;
-		nd = pip->node;
+		nd = tbl->start->vert[j]->vert[0];
 		tbl->path[idx][i] = nd;
 		nd->visited = 1;
 		printf("[%s]-", tbl->path[idx][i]->name);

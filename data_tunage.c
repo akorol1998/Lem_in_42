@@ -70,14 +70,14 @@ void		data_tunage(t_table *tbl)
 	// 	c++;
 	// }
 	delete_output_forks(tbl);
-	exit(1);
+	// exit(1);
 	// sign = 1;
 	// c = 0;
 	// while (sign)
 	// {
 	// 	in_out_to_zero(tbl);
 	// 	sign = 0;
-	// 	in_and_out(tbl);
+		// in_and_out(tbl);
 	// 	sign = bad_in_outs(tbl, sign);
 	// 	c++;
 	// }
@@ -158,6 +158,7 @@ int			bad_in_outs(t_table *tbl, int sign)
 				// 	printf("Deleting {%s}\n", node->branch->node->name);
 				// }
 				delete_from_vert(node, j);
+				j--;
 				sign = 1;
 				// del = node->branch;
 				// node->branch = node->branch->next;
