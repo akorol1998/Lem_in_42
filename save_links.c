@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   save_links.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akorol <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/29 16:18:16 by akorol            #+#    #+#             */
+/*   Updated: 2019/06/29 16:18:17 by akorol           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 // allocating memmory for 2d array of names of the links
@@ -51,13 +63,10 @@ void		add_branches(t_table *tbl)
 	
 	while(node)
 	{
-		// ft_putstr("Free this\n");
 		if (node->vert)
 			free(node->vert);
-		// ft_putstr(" + ");
 		if (node->pre_arr)
 			free(node->pre_arr);
-		// ft_putstr(" + ");
 		node->level = -1;
 		node->pre_arr = NULL;
 		node->vert = NULL;

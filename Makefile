@@ -17,7 +17,6 @@ SRC =   main.c	\
 		file1.c \
 		file2.c \
 		file3.c \
-		file4.c \
 		file5.c \
 		array_manipulation.c \
 		deleting_links.c \

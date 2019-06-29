@@ -60,7 +60,7 @@ void		prev_to_arr(t_table *tbl)
 			}
 		}
 	}
-	printf("Total is [%s]\n", tbl->q[i-1]->name);
+	// printf("Total is [%s]\n", tbl->q[i-1]->name);
 }
 
 void		free_prev_links(t_table *tbl)

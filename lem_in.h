@@ -55,7 +55,6 @@ typedef struct			s_pipe
 t_node		*g_node;
 
 void					print_list(t_table *tbl); // delete this
-void					count_pip(t_table *tbl, t_node *node); // delete this
 t_table					*create_table();
 int						ant_check(char	*line);
 t_node					*create_node(void);

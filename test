@@ -1,75 +1,34 @@
-
-void		add_to_queue(t_table *tbl, t_node *node)
-{
-	t_pipe	*pip;
-	int		i;
-	int		flag;
-	int		idx;
-
-	idx = -1;
-	pip = node->branch;
-	while (tbl->q[++idx])
-		;
-	while (pip)
-	{
-		i = -1;
-		flag = 1;
-		while (tbl->q[++i])
-		{
-			if (!ft_strcmp(tbl->q[i]->name, pip->node->name))
-				flag = 0;
-		}
-		if (flag)
-		{
-			tbl->q[idx] = pip->node;
-			pip->node->prev = node;
-			idx++;
-		}
-		pip = pip->next;
-	}
-}
-
-void		extract_path(t_table *tbl)
-{
-	int		i;
-	int		j;
-
-	i = -1;
-	while (tbl->q[++i])
-		;
-	j = -1;
-	while (tbl->path[++j])
-		;
-	tbl->path[j] = (int*)malloc(sizeof(int) * i);
-	printf("%d\n", i);
-	printf("%d\n", j);
-	printf("Extracting path");
-}
-
-int			set_levels(t_table *tbl)
-{
-	t_node	*cur;
-	int		idx;
-
-	idx = 0;
-	cur = tbl->nodes;
-	tbl->q[idx] = cur;
-	while (cur && ft_strcmp(cur->name, tbl->end->name))
-	{
-		add_to_queue(tbl, cur);
-		cur = tbl->q[++idx];
-		ft_putstr("Room = ");
-		if (cur)
-		{
-			ft_putstr(cur->name);
-			ft_putstr("\n");
-		}
-	}
-	ft_putstr("here is a node ");
-	ft_putstr(cur->name);
-	ft_putstr("\n");
-	ft_putstr("here is end name ");
-	ft_putstr(tbl->end->name);
-	ft_putstr("\n");
-	return (1);
-}
+L1->Ned1 L2->Qaz9 L3->Ciq0
+L4->Ned1 L1->Riz8 L5->Qaz9 L2->Iwt9 L6->Ciq0 L3->Gyh9
+L7->Ned1 L4->Riz8 L1->B_i4 L8->Qaz9 L5->Iwt9 L2->Bmi9 L6->Gyh9 L3->Jej0
+L9->Ned1 L7->Riz8 L4->B_i4 L1->Npc7 L10->Qaz9 L8->Iwt9 L5->Bmi9 L2->Mwq2 L6->Jej0 L3->P_s4
+L11->Ned1 L9->Riz8 L7->B_i4 L4->Npc7 L1->Vb_2 L10->Iwt9 L8->Bmi9 L5->Mwq2 L2->Ijv7 L6->P_s4 L3->Pvh6
+L12->Ned1 L11->Riz8 L9->B_i4 L7->Npc7 L4->Vb_2 L1->Qn_1 L10->Bmi9 L8->Mwq2 L5->Ijv7 L2->Kms0 L6->Pvh6 L3->Hqf9
+L12->Riz8 L11->B_i4 L9->Npc7 L7->Vb_2 L4->Qn_1 L1->Roq2 L10->Mwq2 L8->Ijv7 L5->Kms0 L2->Cqs7 L6->Hqf9 L3->Jms8
+L12->B_i4 L11->Npc7 L9->Vb_2 L7->Qn_1 L4->Roq2 L1->Onw4 L10->Ijv7 L8->Kms0 L5->Cqs7 L2->A__1 L6->Jms8 L3->I_v9
+L12->Npc7 L11->Vb_2 L9->Qn_1 L7->Roq2 L4->Onw4 L1->Bkg3 L10->Kms0 L8->Cqs7 L5->A__1 L2->Kbh2 L6->I_v9 L3->Tgi8
+L12->Vb_2 L11->Qn_1 L9->Roq2 L7->Onw4 L4->Bkg3 L1->Mcj2 L10->Cqs7 L8->A__1 L5->Kbh2 L2->Fi_9 L6->Tgi8 L3->Mqc3
+L12->Qn_1 L11->Roq2 L9->Onw4 L7->Bkg3 L4->Mcj2 L1->Min7 L10->A__1 L8->Kbh2 L5->Fi_9 L2->Kfn6 L6->Mqc3 L3->Fmw4
+L12->Roq2 L11->Onw4 L9->Bkg3 L7->Mcj2 L4->Min7 L1->Iv_5 L10->Kbh2 L8->Fi_9 L5->Kfn6 L2->Wbw6 L6->Fmw4 L3->Zrp3
+L12->Onw4 L11->Bkg3 L9->Mcj2 L7->Min7 L4->Iv_5 L1->Ioz5 L10->Fi_9 L8->Kfn6 L5->Wbw6 L2->V_d4 L6->Zrp3 L3->Ayg7
+L12->Bkg3 L11->Mcj2 L9->Min7 L7->Iv_5 L4->Ioz5 L1->Uvu8 L10->Kfn6 L8->Wbw6 L5->V_d4 L2->Zie0 L6->Ayg7 L3->Ej_7
+L12->Mcj2 L11->Min7 L9->Iv_5 L7->Ioz5 L4->Uvu8 L1->N_e5 L10->Wbw6 L8->V_d4 L5->Zie0 L2->Tuz1 L6->Ej_7 L3->Nms5
+L12->Min7 L11->Iv_5 L9->Ioz5 L7->Uvu8 L4->N_e5 L1->Z_a4 L10->V_d4 L8->Zie0 L5->Tuz1 L2->Uom4 L6->Nms5 L3->Rut4
+L12->Iv_5 L11->Ioz5 L9->Uvu8 L7->N_e5 L4->Z_a4 L1->Bde4 L10->Zie0 L8->Tuz1 L5->Uom4 L2->Cje0 L6->Rut4 L3->Thd0
+L12->Ioz5 L11->Uvu8 L9->N_e5 L7->Z_a4 L4->Bde4 L1->Efs7 L10->Tuz1 L8->Uom4 L5->Cje0 L2->Web2 L6->Thd0 L3->Wj_9
+L12->Uvu8 L11->N_e5 L9->Z_a4 L7->Bde4 L4->Efs7 L1->X_d0 L10->Uom4 L8->Cje0 L5->Web2 L2->E_r6 L6->Wj_9 L3->S_h2
+L12->N_e5 L11->Z_a4 L9->Bde4 L7->Efs7 L4->X_d0 L1->Wpz8 L10->Cje0 L8->Web2 L5->E_r6 L2->F_u4 L6->S_h2 L3->T_t5
+L12->Z_a4 L11->Bde4 L9->Efs7 L7->X_d0 L4->Wpz8 L1->Yqi0 L10->Web2 L8->E_r6 L5->F_u4 L2->Tje3 L6->T_t5 L3->Mgd5
+L12->Bde4 L11->Efs7 L9->X_d0 L7->Wpz8 L4->Yqi0 L1->Jap3 L10->E_r6 L8->F_u4 L5->Tje3 L2->F_r2 L6->Mgd5 L3->Uhh2
+L12->Efs7 L11->X_d0 L9->Wpz8 L7->Yqi0 L4->Jap3 L1->Znm3 L10->F_u4 L8->Tje3 L5->F_r2 L2->Yy_2 L6->Uhh2 L3->Bpx8
+L12->X_d0 L11->Wpz8 L9->Yqi0 L7->Jap3 L4->Znm3 L1->Nbp4 L10->Tje3 L8->F_r2 L5->Yy_2 L2->Fem2 L6->Bpx8 L3->El_4
+L12->Wpz8 L11->Yqi0 L9->Jap3 L7->Znm3 L4->Nbp4 L1->Fts5 L10->F_r2 L8->Yy_2 L5->Fem2 L2->Tqz1 L6->El_4 L3->Mfe4
+L12->Yqi0 L11->Jap3 L9->Znm3 L7->Nbp4 L4->Fts5 L1->Zq_1 L10->Yy_2 L8->Fem2 L5->Tqz1 L2->Nbg3 L6->Mfe4 L3->Chj5
+L12->Jap3 L11->Znm3 L9->Nbp4 L7->Fts5 L4->Zq_1 L1->Sej6 L10->Fem2 L8->Tqz1 L5->Nbg3 L2->Ibs4 L6->Chj5 L3->Hem6
+L12->Znm3 L11->Nbp4 L9->Fts5 L7->Zq_1 L4->Sej6 L1->Hoo3 L10->Tqz1 L8->Nbg3 L5->Ibs4 L2->Kah7 L6->Hem6 L3->Mao7
+L12->Nbp4 L11->Fts5 L9->Zq_1 L7->Sej6 L4->Hoo3 L1->Ke_0 L10->Nbg3 L8->Ibs4 L5->Kah7 L2->Ypk6 L6->Mao7 L3->Ia_0
+L12->Fts5 L11->Zq_1 L9->Sej6 L7->Hoo3 L4->Ke_0 L10->Ibs4 L8->Kah7 L5->Ypk6 L2->Ke_0 L6->Ia_0 L3->Ozj2
+L12->Zq_1 L11->Sej6 L9->Hoo3 L7->Ke_0 L10->Kah7 L8->Ypk6 L5->Ke_0 L6->Ozj2 L3->Ke_0
+L12->Sej6 L11->Hoo3 L9->Ke_0 L10->Ypk6 L8->Ke_0 L6->Ke_0
+L12->Hoo3 L11->Ke_0 L10->Ke_0
+L12->Ke_0

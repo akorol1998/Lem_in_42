@@ -22,27 +22,16 @@ int			linking(char **data, t_table *tbl)
 	node = tbl->nodes;
 	node2 = tbl->nodes;
 	if (!ft_strcmp(data[0], data[1]))
-	{
-		printf("same name");
 		return (1);
-	}
 	while (node && ft_strcmp(node->name, data[0]))
 		node = node->link;
 	while (node2 && ft_strcmp(node2->name, data[1]))
 		node2 = node2->link;
 	if (node && node2 && connecting_nodes(node, node2))
-	{
-		if (!ft_strcmp("fwe", node->name))
-			printf("fweweweffewfewfew\n");
-		else if (!ft_strcmp("ewe", node->name))
-			printf("ewewewewewe\n");
 		return (1);
-	}
 	else
 	{
 		ft_putstr("Here we go\n");
-		// printf("%s\n", node->name);
-		// printf("%s\n", node2->name);
 		return (0);				// FREE !!
 	}
 }
@@ -126,7 +115,6 @@ int			creating_arrays(t_table *tbl)
 		i++;
 		br = br->next;
 	}
-	printf("So many [%d]\n", i);
 	tbl->path = (t_node***)malloc(sizeof(t_node**) * i + 1);
 	tbl->path[i] = NULL;
 	while (i--)

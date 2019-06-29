@@ -19,7 +19,7 @@ int			launch_algorithm(t_table *tbl)
 	int		idx;
 
 	curr = tbl->nodes;
-	ft_putstr("node before ");
+	// ft_putstr("node before ");
 	while ((idx = set_levels(tbl)))
 	{
 		if (idx == -1)
@@ -27,7 +27,7 @@ int			launch_algorithm(t_table *tbl)
 			printf("There are no available paths to an end Not enough info, can't reach end\n"); // One ending
 			return (0);
 		}
-		printf("BABY\n");
+		// printf("BABY\n");
 		data_tunage(tbl);
 		for(int k = 0;tbl->end->vert[k];k++)
 			printf("End vertecies %s it's level %d\n", tbl->end->vert[k]->name, tbl->end->vert[k]->level);
@@ -67,9 +67,7 @@ void		add_to_queue(t_table *tbl, t_node *cur)
 		}
 		if (flag)
 		{
-			// printf("name is {%s}\n", cur->name);
 			tbl->q[idx] = cur->vert[j];
-			// cur->vert[j]->prev = cur;
 			cur->vert[j]->level = cur->level + 1;
 			idx++;
 		}

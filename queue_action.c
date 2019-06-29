@@ -99,19 +99,12 @@ void		delete_input_forks(t_table *tbl)
 	{
 		node = tbl->q[i];
 		if (ft_strcmp(node->name, tbl->end->name) && node->in > 1)
-		{
-			printf ("<<<<<<<<< %d >>>>>>>>\n", tbl->end->in);
 			checking_in_forks(node);
-		}
 	}
-	printf("Ended here\n");
 }
 
-// Some problems here, when this art of the code is commented big3 map is not working i do free what is not allocated
-// Search for thigs that you don`t check for being null
 void		checking_in_forks(t_node *node)
 {
-	// t_node	*c_node;
 	t_node	*p_node;
 	int		lvl;
 	int		j;
@@ -121,35 +114,13 @@ void		checking_in_forks(t_node *node)
 	while (node->pre_arr && node->pre_arr[++j])
 	{
 		p_node = node->pre_arr[j];
-		if (p_node->out > 1 && node->in > 1) // needs processing after to delete one link
-		{
+		if (p_node->out > 1 && node->in > 1)
 			delete_fork_func(p_node, node);
-			printf("NUMBER OF IN - [%d]\n", node->in);
-		}
 	}
-	// while (node->in > 1)
-	// {
-	// 	prev = node->prev;
-	// 	c_node = bad_input_link(prev, node);
-	// 	while (prev)
-	// 	{
-	// 		p_node = prev->node;
-	// 		if (node->in > 1 && (!c_node || !ft_strcmp(c_node->name, p_node->name))) //May Seg fault
-	// 		{
-	// 			delete_fork_func(p_node, node);
-	// 			printf("NUMBER OF IN - [%d]\n", node->in);
-	// 		}
-	// 		prev = prev->next;
-	// 	}
-	// }
 }
 
-// Deleting input links to the node
 void		delete_fork_func(t_node *pre, t_node *node)
 {
-	// t_pipe	*pip;
-	// t_pipe	*del;
-	// t_pipe	*prepip;
 	int		i;
 
 	i = -1;
@@ -160,26 +131,9 @@ void		delete_fork_func(t_node *pre, t_node *node)
 			node->in--;
 			pre->vert[i]->out--;
 			delete_from_vert(pre, i);
-			// del
-			// pre->branch = pre->branch->next;
-			// free(del);
 		}
 		
 	}
-	// pip = pre->branch;
-	// while (pip)
-	// {
-	// 	if (!ft_strcmp(pip->node->name, node->name))
-	// 	{
-	// 		del = prepip->next;
-	// 		node->in--;
-	// 		pip->node->out--;
-	// 		prepip->next = pip->next;
-	// 		free(del);
-	// 	}
-	// 	prepip = pip;
-	// 	pip = pip->next;
-	// }
 }
 
 

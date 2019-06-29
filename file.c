@@ -90,21 +90,9 @@ int			check_for_links(char **data, t_table *tbl)
 		while (data && data[++i])
 			free(data[i]);
 		free(data);
-		printf("here zero");
 		return (0);
 	}
 	k = linking(data, tbl);
-	// t_pipe	*tub;
-	// t_node	*node;
-
-	// node = tbl->end;
-	// tub = node->branch;
-	// if (tub)
-	// {
-	// 	ft_putstr(node->name);
-	// 	ft_putstr("\n");
-	// 	tub = tub->next;
-	// }
 	i = -1;
 	while (data && data[++i])
 		free(data[i]);

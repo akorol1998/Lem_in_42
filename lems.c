@@ -112,3 +112,19 @@ int			move_ants(t_node **arr, int ant)
 	}
 	return (f);
 }
+
+int			make_decision(t_table *tbl, int idx)
+{
+	int		leng;
+	int		sum;
+	int		i;
+
+	leng = len_arr(tbl->path[idx], NULL);
+	sum = 0;
+	i = -1;
+	while (++i < idx)
+	{
+		sum += (leng - len_arr(tbl->path[i], NULL));
+	}
+	return (sum);
+}
