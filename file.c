@@ -23,6 +23,7 @@ t_table		*create_table()
 	point->end = NULL;
 	point->ants = 0;
 	point->rooms = 0;
+	point->msg = NULL;
 	return (point);
 }
 

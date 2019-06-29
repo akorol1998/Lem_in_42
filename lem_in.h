@@ -16,6 +16,7 @@
 # define LEM_IN_H
 # include "libft/libft.h"
 # include "limits.h"
+# include "errno.h"
 
 typedef struct 			s_table
 {
@@ -26,6 +27,7 @@ typedef struct 			s_table
 	struct s_node		***path;
 	int					ants;	// Number of ants
 	int					rooms;
+	char				*msg;
 
 }						t_table;		// have to use linked list to handle unpredictable number of rooms
 

@@ -21,12 +21,17 @@ int			get_ants(t_table *tbl)
 	line = NULL;
 	while (1)
 	{
-		get_next_line(0, &line);
+		if (!get_next_line(0, &line))
+			break;
 		if (ant_check(line))
 		{
 			ants = ft_atoi(line);
 			break ;
 		}
+		if (line[0] == '#' && ft_strchr(line, ':'))
+			tbl->msg = !tbl->msg ? ft_strdup(line) : NULL;
+		if (!ft_strcmp(line, "##start"))
+			break;
 		free(line);
 	}
 	free(line);
@@ -81,6 +86,8 @@ char		*reading_rooms(t_table *tbl)
 	line = NULL;
 	while (get_next_line(0, &line))
 	{
+		if (line[0] == '#' && ft_strchr(line, ':'))
+			tbl->msg = !tbl->msg ? ft_strdup(line) : NULL;
 		if (ft_strchr(line, '-'))
 			return (line);
 		if (!check_line(line, tbl))
@@ -95,22 +102,23 @@ char		*reading_rooms(t_table *tbl)
 
 int			start_reading(void)
 {
-	t_table	*table;
+	t_table	*tbl;
 	char	*line;
 	int		flag;
 
-	table = create_table();
-	get_ants(table);
+	tbl = create_table();
+	if (!get_ants(tbl))
+		return (0);
 	flag = 0;
-	if ((line = reading_rooms(table)) && table->start && table->end)
+	if ((line = reading_rooms(tbl)) && tbl->start && tbl->end)
 	{
 
-		reading_links(line, table);
-		creating_arrays(table);
-		save_links(table);		
-		flag = launch_algorithm(table);
-		parse_lems(table);
-		
+		reading_links(line, tbl);
+		creating_arrays(tbl);
+		save_links(tbl);		
+		flag = launch_algorithm(tbl);
+		parse_lems(tbl);
+		printf("%s \n", tbl->msg);
 		if (!flag)
 		{
 			printf("Error \n");
@@ -124,6 +132,7 @@ int			start_reading(void)
 
 int		main(void)
 {
-	start_reading();
+	if (!start_reading())
+		ft_putstr(strerror(EINVAL));
 	return (0);
 }
