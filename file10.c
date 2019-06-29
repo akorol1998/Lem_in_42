@@ -112,6 +112,9 @@ void		fill_paths(t_table *tbl)
 		while (tbl->path[++idx])
 			;
 		tbl->path[idx] = (t_node**)malloc(sizeof(t_node*) * tbl->rooms + 1);
+		// i = -1;
+		// while (++i < tbl->rooms + 1)
+		// 	tbl->path[idx][i] = NULL;
 		i = 0;
 		nd = tbl->start->vert[j];
 		tbl->path[idx][i] = nd;

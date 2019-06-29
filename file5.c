@@ -18,7 +18,7 @@ int			len_arr(t_node **nodes, t_node ***arr)
 
 	i = -1;
 	if (!arr)
-	{	
+	{
 		while (nodes[++i])
 			;
 	}

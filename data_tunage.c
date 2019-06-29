@@ -23,24 +23,6 @@ void		data_tunage(t_table *tbl)
 	c = 0;
 	
 	bad_links(tbl); //+
-	// int	i = -1;
-	// int j;
-	// t_node *node;
-	// while (tbl->q[++i])
-	// {
-	// 	node = tbl->q[i];
-
-	// 	printf("Main Node [%s]\n {", tbl->q[i]->name);
-	// 	j = -1;
-	// 	while (tbl->q[i]->vert[++j])
-	// 	{
-	// 		if (!ft_strcmp("Kys5", node->name)) //Debug this
-	// 		{
-	// 			printf("Here is node [%s]-Level [%d]\n", node->vert[j]->name, node->vert[j]->level);
-	// 		}
-	// 	}
-	// 	printf("}\n");
-	// }
 	directions(tbl); //+
 	printf("My debugging\n");
 	while (sign)

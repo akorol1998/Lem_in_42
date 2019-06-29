@@ -25,6 +25,7 @@ void		swarming(t_table *tbl)
 	path = tbl->path;
 	f = 1;
 	count = 0;
+	printf("NUMBER OF ANTS IS           %D\n", tbl->ants);
 	while (f)
 	{
 		f = 0;
@@ -34,9 +35,10 @@ void		swarming(t_table *tbl)
 			move_ants(path[i], ant);
 			ant++;
 		}
+		printf("\n");
 		count += what_to_do(ant, tbl, &i, &f);
 	}
-	printf("Lines %d\n", count-1);
+	printf("Lines %d\n", count);
 }
 
 int			cycle_move(t_table *tbl)
@@ -69,17 +71,14 @@ int			what_to_do(int ant, t_table *tbl, int *i, int *f)
 	{
 		(*i) = -1;
 		(*f) = 1;
-		printf("\n");
 	}
-	else if (ant > tbl->ants)
+	if (ant > tbl->ants)
 	{
-		if (tbl->path && !tbl->path[(*i)])
-			printf("tmp");
+		(*f) = 0;
 		return (cycle_move(tbl));
 	}
-	else if (tbl->ants - ant <= make_decision(tbl, *i))
+	if ((*i) != -1 && tbl->ants - ant <= make_decision(tbl, (*i)))
 	{
-		printf("third");
 		(*f) = 1;
 		(*i) = -1;
 	}
@@ -101,12 +100,12 @@ int			move_ants(t_node **arr, int ant)
 		if (arr[i]->lem)
 		{
 			arr[i + 1]->lem = arr[i]->lem;
-			printf("L%d-%s", arr[i + 1]->lem, arr[i + 1]->name);
+			printf(" L%d-%s", arr[i + 1]->lem, arr[i + 1]->name);
 		}
 		if (!i && ant != -1)
 		{
 			arr[i]->lem = ant;
-			printf("L%d-%s", arr[i]->lem, arr[i]->name);
+			printf(" L%d-%s", arr[i]->lem, arr[i]->name);
 		}
 		else
 			arr[i]->lem = 0;

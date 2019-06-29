@@ -27,127 +27,126 @@
 // 	return (size);
 // }
 
-int			finish_ants(t_node **node, int ants)
-{
-	int		i;
-	int		buf;
-	int		flag;
+// int			finish_ants(t_node **node, int ants)
+// {
+// 	int		i;
+// 	int		buf;
+// 	int		flag;
 
-	i = 0;
-	buf = -1;
-	flag = 0;
-	while(node[++i])
-	{
-		if (node[i]->lem || buf == ants)
-		{
-			buf = node[i]->lem;
-			node[i]->lem = ants;
-			ants = buf;
-			flag = 1;
-			if (node[i]->lem)
-				printf("L%d->%s ", node[i]->lem, node[i]->name);
-		}
-	}
-	return (flag);
-}
+// 	i = 0;
+// 	buf = -1;
+// 	flag = 0;
+// 	while(node[++i])
+// 	{
+// 		if (node[i]->lem || buf == ants)
+// 		{
+// 			buf = node[i]->lem;
+// 			node[i]->lem = ants;
+// 			ants = buf;
+// 			flag = 1;
+// 			if (node[i]->lem)
+// 				printf("L%d->%s ", node[i]->lem, node[i]->name);
+// 		}
+// 	}
+// 	return (flag);
+// }
 
-int			move_lems(t_node **node, int ants)
-{
-	int		i;
-	int		buf;
-	int		flag;
+// // int			move_lems(t_node **node, int ants)
+// {
+// 	int		i;
+// 	int		buf;
+// 	int		flag;
 
-	i = 0;
-	buf = -1;
-	flag = 0;
-	if (!ants)
-		return (finish_ants(node, ants));
-	while(node[++i])
-	{
-		if (node[i]->lem || buf == ants || i == 1)
-		{
-			buf = node[i]->lem;
-			node[i]->lem = ants;
-			ants = buf;
-			if (node[i]->lem)
-			{
-				flag = 1;
-				printf("L%d->%s ", node[i]->lem, node[i]->name);
-			}
-		}
-		// else if (i == 1)
-		// {
-		// 	// if (node[i]->lem)
-		// 	buf = node[i]->lem;
-		// 	node[i]->lem = ants; // Possibly need to add line with ants = buf;
-		// 	ants = buf;
-		// 	if (node[i]->lem)
-		// 		printf("L%d->%s ", node[i]->lem, node[i]->name);
-		// 	flag = 1;
-		// }
-	}
-	return (flag);
-}
+// 	i = 0;
+// 	buf = -1;
+// 	flag = 0;
+// 	if (!ants)
+// 		return (finish_ants(node, ants));
+// 	while(node[++i])
+// 	{
+// 		if (node[i]->lem || buf == ants || i == 1)
+// 		{
+// 			buf = node[i]->lem;
+// 			node[i]->lem = ants;
+// 			ants = buf;
+// 			if (node[i]->lem)
+// 			{
+// 				flag = 1;
+// 				printf("L%d->%s ", node[i]->lem, node[i]->name);
+// 			}
+// 		}
+// 		// else if (i == 1)
+// 		// {
+// 		// 	// if (node[i]->lem)
+// 		// 	buf = node[i]->lem;
+// 		// 	node[i]->lem = ants; // Possibly need to add line with ants = buf;
+// 		// 	ants = buf;
+// 		// 	if (node[i]->lem)
+// 		// 		printf("L%d->%s ", node[i]->lem, node[i]->name);
+// 		// 	flag = 1;
+// 		// }
+// 	}
+// 	return (flag);
+// }
 
-int		end_part_of_parsing(t_table *tbl, int count)
-{
-	int 	flag;
-	int		i;
+// int		end_part_of_parsing(t_table *tbl, int count)
+// {
+// 	int 	flag;
+// 	int		i;
 
-	flag = 1;
-	while (flag)
-	{
-		flag = 0;
-		i = -1;
-		while (tbl->path[++i])
-		{
-			if (move_lems(tbl->path[i], 0))
-				flag = 1;
-		}
-		count++;
-		printf("\n");
-	}
-	printf("number of lines [%d]\n", count);
-	return (1);
-}
+// 	flag = 1;
+// 	while (flag)
+// 	{
+// 		flag = 0;
+// 		i = -1;
+// 		while (tbl->path[++i])
+// 		{
+// 			if (move_lems(tbl->path[i], 0))
+// 				flag = 1;
+// 		}
+// 		count++;
+// 		printf("\n");
+// 	}
+// 	printf("number of lines [%d]\n", count);
+// 	return (1);
+// }
 
-int			parsing_ants(t_table *tbl)
-{
-	int		i;
-	int		ants;
-	int		count;
-	int		u;
+// int			parsing_ants(t_table *tbl)
+// {
+// 	int		i;
+// 	int		ants;
+// 	int		count;
+// 	int		u;
 
-	ants = 1;
-	count = 0;
-	printf("NUMBER OF ANTS IS           %D\n", tbl->ants);
-	if (!tbl->path[0])
-		return (0);
-	while (ants <= tbl->ants)
-	{
-		i = -1;
-		while (tbl->path[++i] && ants <= tbl->ants)
-		{
-			u = make_decision(tbl, i);
-			if (tbl->ants - ants > u)
-				move_lems(tbl->path[i], ants);
-			else
-			{
-				finish_rest(tbl, i);
-				printf("\n");
-				i = 0;
-				move_lems(tbl->path[i], ants);
-				count++;
-			}
-			ants++;
-		}
-		if (tbl->path[i])
-			finish_rest(tbl, i);
-		count++;
-		printf("\n");
-	}
-	return (end_part_of_parsing(tbl, count));
-}
+// 	ants = 1;
+// 	count = 0;
+// 	if (!tbl->path[0])
+// 		return (0);
+// 	while (ants <= tbl->ants)
+// 	{
+// 		i = -1;
+// 		while (tbl->path[++i] && ants <= tbl->ants)
+// 		{
+// 			u = make_decision(tbl, i);
+// 			if (tbl->ants - ants > u)
+// 				move_lems(tbl->path[i], ants);
+// 			else
+// 			{
+// 				finish_rest(tbl, i);
+// 				printf("\n");
+// 				i = 0;
+// 				move_lems(tbl->path[i], ants);
+// 				count++;
+// 			}
+// 			ants++;
+// 		}
+// 		if (tbl->path[i])
+// 			finish_rest(tbl, i);
+// 		count++;
+// 		printf("\n");
+// 	}
+// 	return (end_part_of_parsing(tbl, count));
+// }
 
 int			make_decision(t_table *tbl, int idx)
 {
