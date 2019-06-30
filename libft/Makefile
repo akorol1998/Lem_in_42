@@ -70,11 +70,37 @@ SRC =   ft_bzero.c \
         ft_lstadd.c \
         ft_lstiter.c \
         ft_lstmap.c \
-		ft_add_break.c \
-		ft_min.c \
-		ft_max.c \
-		get_next_line.c \
-		ft_strsplit.c \
+        ft_add_break.c \
+        ft_min.c \
+        ft_max.c \
+        get_next_line.c \
+        ft_strsplit.c \
+        check.c\
+        conv_c.c\
+        conv_o.c\
+        conv_u.c\
+        conv_u_2.c\
+        customize.c\
+        f_shit.c\
+        f_string.c\
+        filling.c\
+        nan_inf.c\
+        piece.c\
+        piece_hex.c\
+        piece_hex_2.c\
+        pre_tuner.c\
+        process_c.c\
+        process_d.c\
+        process_d_2.c\
+        process_p.c\
+        process_s.c\
+        process_s_2.c\
+        processing2.c\
+        test.c\
+        tuner.c\
+        tuning_f.c\
+        zero_case.c\
+        new_f_file.c\
 
 CFLAGS = -Wextra -Wall -Werror
 

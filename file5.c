@@ -18,15 +18,11 @@ int			len_arr(t_node **nodes, t_node ***arr)
 
 	i = -1;
 	if (!arr)
-	{	
 		while (nodes[++i])
 			;
-	}
 	else
-	{
 		while (arr[++i])
 			;
-	}
 	return (i);
 }
 
@@ -46,35 +42,29 @@ int			display_ants(t_table *tbl)
 		}
 		printf("\n");
 	}
-	parsing_ants(tbl);
+	swarming(tbl);
 	return (1);
 }
 
-int			finish_rest(t_table *tbl, int idx)
+void		finish_rest(t_table *tbl, int i)
 {
-	t_node	**node;
-	int		i;
-	int		ants;
-	int		buf;
-
-	ants = 0;
-	buf = -1;
-	while (tbl->path[idx])
+	t_node	**path;
+	int		leng;
+	
+	while (tbl->path[i])
 	{
-		node = tbl->path[idx];
-		i = -1;
-		while(node[++i])
+		path = tbl->path[i];
+		leng = len_arr(path, NULL);
+		leng--;
+		while (leng-- && path[leng])
 		{
-			if (node[i]->lem || buf == ants)
+			if (path[leng]->lem)
 			{
-				buf = node[i]->lem;
-				node[i]->lem = ants;
-				ants = buf;
-				if (node[i]->lem)
-					printf("L%d->%s ", node[i]->lem, node[i]->name);
+				path[leng + 1]->lem = path[leng]->lem;
+				printf(" L%d-%s", path[leng + 1]->lem, path[leng + 1]->name);
 			}
+			path[leng]->lem = 0;
 		}
-		idx++;
+		i++;
 	}
-	return (1);
 }

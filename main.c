@@ -21,14 +21,17 @@ int			get_ants(t_table *tbl)
 	line = NULL;
 	while (1)
 	{
-		get_next_line(0, &line);
+		if (!get_next_line(0, &line))
+			break;
 		if (ant_check(line))
 		{
 			ants = ft_atoi(line);
-			// printf("foo\n");
 			break ;
 		}
-		// printf("goo\n");
+		if (line[0] == '#' && ft_strchr(line, ':'))
+			tbl->msg = !tbl->msg ? ft_strdup(line) : NULL;
+		if (!ft_strcmp(line, "##start"))
+			break;
 		free(line);
 	}
 	free(line);
@@ -83,6 +86,8 @@ char		*reading_rooms(t_table *tbl)
 	line = NULL;
 	while (get_next_line(0, &line))
 	{
+		if (line[0] == '#' && ft_strchr(line, ':'))
+			tbl->msg = !tbl->msg ? ft_strdup(line) : NULL;
 		if (ft_strchr(line, '-'))
 			return (line);
 		if (!check_line(line, tbl))
@@ -111,6 +116,7 @@ int			start_reading(void)
 		creating_arrays(table);
 		flag = launch_algorithm(table);
 		display_ants(table);
+		printf("%s\n", table->msg);
 		// print_list(table);
 		printf("Proceed with algorithm\n");
 		return (1);
@@ -129,6 +135,7 @@ int			start_reading(void)
 
 int		main(void)
 {
-	start_reading();
+	if (!start_reading())
+		ft_putstr(strerror(EINVAL));
 	return (0);
 }

@@ -51,18 +51,19 @@ void		making_path(t_table *tbl, int idx, int	j, int size)
 
 	node = tbl->q[idx];
 	tbl->path[j][size] = node; // End node, don't mark as visited
+	node = node->prev;
 	while (ft_strcmp(node->name, tbl->start->name))
 	{
-		node = node->prev;
+		// node = node->prev;
 		node->visited = 1;
 		ft_putstr(" middle node");
 		ft_putstr(node->name);
 		ft_putstr("\n");
 		size--;
 		tbl->path[j][size] = node;
+		node = node->prev;
 	}
-	if (!ft_strcmp(node->name, tbl->start->name))
-		node->visited = 0;
+	tbl->start->visited = 0;
 	ft_putnbr(tbl->end->visited);
 	ft_putstr("\n");
 }
@@ -132,10 +133,6 @@ int			set_levels(t_table *tbl)
 	flag = 0;
 	cur = tbl->nodes;
 	pip = cur->branch;
-	// if (!ft_strcmp(cur->name, "start"))
-	// 		printf("\nyes\n");
-	// if (cur->branch)
-	// 	printf("\nyes\n");
 	while (pip)
 	{
 		if (!ft_strcmp(pip->node->name, "701"))

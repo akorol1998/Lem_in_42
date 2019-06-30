@@ -15,6 +15,7 @@
 #ifndef LEM_IN_H
 # define LEM_IN_H
 # include "libft/libft.h"
+# include <errno.h>
 
 typedef struct 			s_table
 {
@@ -27,6 +28,7 @@ typedef struct 			s_table
 	// char				**unvis;	// unvisited nodes
 	int					ants;	// Number of ants
 	int					rooms;
+	char				*msg;
 
 }						t_table;		// have to use linked list to handle unpredictable number of rooms
 
@@ -75,6 +77,9 @@ int						parsing_ants(t_table *tbl);
 int						len_arr(t_node **nodes, t_node ***arr);
 int						finish_ants(t_node **node, int ants);
 int						end_part_of_parsing(t_table *tbl, int count);
-int						finish_rest(t_table *tbl, int idx);
 int						make_decision(t_table *tbl, int idx);
+int						move_ants(t_node **arr, int *ant);
+int						what_to_do(int ant, t_table *tbl, int *i, int *f);
+void					swarming(t_table *tbl);
+void					finish_rest(t_table *tbl, int i);
 #endif
