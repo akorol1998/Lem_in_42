@@ -12,6 +12,7 @@
 
 #include "lem_in.h"
 
+// no get next line
 int			ant_check(char	*line)
 {
 	int		i;
@@ -25,6 +26,7 @@ int			ant_check(char	*line)
 	return (1);
 }
 
+// no get next line
 int			start_end_node(char c, char **data, t_node *node, t_table *tbl)
 {
 	int		i;
@@ -63,8 +65,8 @@ int			read_line(t_table *tbl, char c)
 	int		r;
 
 	get_next_line(0, &line);
+	join_map(tbl, line);
 	data = ft_strsplit(line, ' ');
-	node = create_node();
 	r = 0;
 	if (check_room(data))
 	{
@@ -81,25 +83,37 @@ int				check_line(char *line, t_table *tbl)
 	char		**data;
 	t_node		*node;
 
-	data = ft_strsplit(line, ' ');
-	if (check_room(data))
-	{
-		node = create_node();
-		fill_node(data, node, tbl);
-	}
-	else if (!ft_strcmp(line, "##start"))
+	if (!ft_strcmp(line, "##start"))
 	{
 		if (!read_line(tbl, 's'))
+		{
+			ft_printf("1");
 			return (0);
+		}
 	}
 	else if (!ft_strcmp(line, "##end"))
 	{
 		if (!read_line(tbl, 'e'))
+		{
+			ft_printf("2");
 			return (0);
+		}
 	}
-	else if (!(line[0] == '#'))
+	else if (line[0] == '#')
 	{
-		printf("not a comment - %s\n", line);
+		ft_printf("Comment - '%s'\n", line);
+		return (1);
+	}
+	else
+	{
+		printf("yopta");
+		data = ft_strsplit(line, ' ');
+		if (check_room(data))
+		{
+			node = create_node();
+			fill_node(data, node, tbl);
+			return (1);
+		}
 		return (0);
 	}
 	return (1);
@@ -110,6 +124,7 @@ int			reading_links(char *line0, t_table *tbl)
 	char	*line;
 	char	**data;
 	t_node	*node;
+	int		res;
 
 	line = NULL;
 	node = tbl->nodes;
@@ -117,12 +132,19 @@ int			reading_links(char *line0, t_table *tbl)
 		node = node->link;
 	node->link = tbl->end;
 	data = ft_strsplit(line0, '-');
-	check_for_links(data, tbl);
-	free(line0);
+	if (!(res = check_for_links(data, tbl)))
+	{
+		return (0);
+	}
 	while (get_next_line(0, &line))
 	{
+		join_map(tbl, line);
 		data = ft_strsplit(line, '-');
-		check_for_links(data, tbl);
+		if (!(res = check_for_links(data, tbl)))
+		{
+			free(line);
+			return (0);
+		}
 		free(line);
 	}
 	return (1);

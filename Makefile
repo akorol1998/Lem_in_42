@@ -20,11 +20,12 @@ SRC =   main.c	\
 		file4.c \
 		file5.c \
 		lems.c \
+		help_file.c \
 		support.c\
 
 CFLAGS = -Wextra -Wall -Werror
 
-LIB = libft/libft.a
+LIB = printf/libftprintf.a
 
 OBJ = $(SRC:%.c=%.o)
 
@@ -37,14 +38,14 @@ $(OBJ):%.o:%.c
 	gcc $(CFLAGS) -c $< -o $@
 
 $(LIB):
-	make -C libft/
+	make -C printf
 
 clean:
-	make clean -C libft
+	make clean -C printf
 	rm -f *.o
 
 fclean: clean
-	make fclean -C libft
+	make fclean -C printf
 	rm -f $(NAME)
 
 re: fclean all

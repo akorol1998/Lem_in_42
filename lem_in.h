@@ -14,21 +14,20 @@
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
-# include "libft/libft.h"
+# include "printf/ft_printf.h"
 # include <errno.h>
 
 typedef struct 			s_table
 {
-	// char				**vert;	// shortest way
 	struct s_node		**q;	// Previous node's name
 	struct s_node		*nodes;	// all the available nodes
 	struct s_node		*start;
 	struct s_node		*end;
 	struct s_node		***path;
-	// char				**unvis;	// unvisited nodes
 	int					ants;	// Number of ants
 	int					rooms;
 	char				*msg;
+	char				*map;
 
 }						t_table;		// have to use linked list to handle unpredictable number of rooms
 
@@ -82,4 +81,8 @@ int						move_ants(t_node **arr, int *ant);
 int						what_to_do(int ant, t_table *tbl, int *i, int *f);
 void					swarming(t_table *tbl);
 void					finish_rest(t_table *tbl, int i);
+int						check_link(t_table *tbl);
+void					join_map(t_table *tbl, char *line);
+void					clean_function(t_table *tbl);
+
 #endif

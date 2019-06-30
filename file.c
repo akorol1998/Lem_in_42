@@ -21,9 +21,11 @@ t_table		*create_table()
 	point->nodes = NULL;
 	point->start = NULL;
 	point->end = NULL;
+	point->path = NULL;
 	point->ants = 0;
 	point->rooms = 0;
 	point->msg = NULL;
+	point->map = NULL;
 	return (point);
 }
 
@@ -33,20 +35,19 @@ t_node		*create_node(void)
 
 
 	node = (t_node*)malloc(sizeof(t_node));
+	node->branch = NULL;
+	node->link = NULL;
+	node->prev = NULL;
 	node->weight = 99999;
 	node->current = 1;
-	node->lem = 0;
 	node->pos = NULL;
-	node->link = NULL;
-	node->branch = NULL;
 	node->name = NULL;
+	node->lem = 0;
 	node->visited = 0;
-	node->branch = NULL;
-	node->prev = NULL;
 	return (node);
 }
 
-// This fucntion frees "data array" !
+// This fucntion frees "data array" ! no get next line
 int			fill_node(char **data, t_node *node, t_table *tbl)
 {
 	t_node	*tbl_node;
@@ -71,38 +72,29 @@ int			fill_node(char **data, t_node *node, t_table *tbl)
 	return (1);
 }
 
-// This function usually frees "data array" !
-int			check_for_links(char **data, t_table *tbl)
+// This function usually frees "data array" ! no get next line
+int				check_for_links(char **data, t_table *tbl)
 {
-	int		i;
-	int		k;
-	static int	c;
+	int			i;
+	int			k;
+	int			c;
 
-	c++;
+	c = 0;
 	i = -1;
 	while (data && data[++i])
 			;
 	if (i != 2)
 	{
 		i = -1;
+		if (data && data[0] && data[0][0] == '#')
+			c = 1;
 		while (data && data[++i])
 			free(data[i]);
 		free(data);
-		printf("here zero");
-		return (0);
+		return (c);
+	
 	}
 	k = linking(data, tbl);
-	// t_pipe	*tub;
-	// t_node	*node;
-
-	// node = tbl->end;
-	// tub = node->branch;
-	// if (tub)
-	// {
-	// 	ft_putstr(node->name);
-	// 	ft_putstr("\n");
-	// 	tub = tub->next;
-	// }
 	i = -1;
 	while (data && data[++i])
 		free(data[i]);

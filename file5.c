@@ -35,12 +35,12 @@ int			display_ants(t_table *tbl)
 	while (tbl->path[++i])
 	{
 		j = -1;
-		printf("path is: ");
+		ft_printf("path is: ");
 		while (tbl->path[i][++j])
 		{
-			printf("[%s] ", tbl->path[i][j]->name);
+			ft_printf("[%s] ", tbl->path[i][j]->name);
 		}
-		printf("\n");
+		ft_printf("\n");
 	}
 	swarming(tbl);
 	return (1);
@@ -61,7 +61,7 @@ void		finish_rest(t_table *tbl, int i)
 			if (path[leng]->lem)
 			{
 				path[leng + 1]->lem = path[leng]->lem;
-				printf(" L%d-%s", path[leng + 1]->lem, path[leng + 1]->name);
+				ft_printf(" L%d-%s", path[leng + 1]->lem, path[leng + 1]->name);
 			}
 			path[leng]->lem = 0;
 		}

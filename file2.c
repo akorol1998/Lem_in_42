@@ -23,11 +23,9 @@ int			linking(char **data, t_table *tbl)
 	node2 = tbl->nodes;
 	if (!ft_strcmp(data[0], data[1]))
 	{
-		printf("same name");
+		ft_printf("same name");
 		return (1);
 	}
-	if (!ft_strcmp(data[0], "end"))
-			printf("\nhere\n");
 	while (node && ft_strcmp(node->name, data[0]))
 	{
 		node = node->link;
@@ -41,8 +39,6 @@ int			linking(char **data, t_table *tbl)
 	else
 	{
 		ft_putstr("Here we go\n");
-		printf("%s\n", node->name);
-		printf("%s\n", node2->name);
 		return (0);				// FREE !!
 	}
 }
@@ -119,4 +115,3 @@ int			creating_arrays(t_table *tbl)
 		tbl->path[i] = NULL;
 	return (1);
 }
-
