@@ -58,21 +58,21 @@ int			check_num(char **data, t_table *tbl)
 	node = tbl->nodes;
 	while (node)
 	{
-		if (node->pos[0] == ft_atoi(data[1]) && node->pos[1] == ft_atoi(data[2]))
-			return (0);	
+		if (node->pos[0] == ft_atoi(data[1]) &&
+		node->pos[1] == ft_atoi(data[2]))
+			return (0);
 		node = node->link;
 	}
 	return (1);
 }
 
-// freeing data
 int			check_room(char **data, t_table *tbl)
 {
 	int		k;
 
 	k = -1;
 	while (data[++k])
-			;
+		;
 	if (k != 3)
 	{
 		k = -1;
@@ -102,7 +102,6 @@ char		*reading_rooms(t_table *tbl)
 		join_map(tbl, line);
 		if (line[0] == '#' && ft_strchr(line, ':'))
 			tbl->msg = !tbl->msg ? ft_strdup(line) : NULL;
-		
 		if (line[0] != '#' && ft_strchr(line, '-'))
 			return (line);
 		if (!check_line(line, tbl))
@@ -115,50 +114,6 @@ char		*reading_rooms(t_table *tbl)
 	return (NULL);
 }
 
-int			start_reading(t_table *tbl)
-{
-	char	*line;
-	int		flag;
-
-	if (!get_ants(tbl))
-	{
-		clean_function(tbl);
-		return (0);
-	}		
-	flag = 0;
-	if ((line = reading_rooms(tbl)) && tbl->start && tbl->end)
-	{
-		if (!reading_links(line, tbl))
-		{
-			ft_printf("Invalid links!\n");
-			free(line);
-			clean_function(tbl);
-			return (0);
-		}
-		free(line);
-		creating_arrays(tbl);
-		ft_printf("%s\n", tbl->map);
-		flag = launch_algorithm(tbl);
-		if (flag)
-		{
-			display_ants(tbl);
-			if (tbl->msg)
-				ft_printf("%s\n", tbl->msg);
-			return (1);
-		}
-		else
-		{
-			clean_function(tbl);
-			ft_printf("%s\n", strerror(EIO));
-			return (0);
-		}
-	}
-	else
-		ft_printf("%s\n", strerror(EIO));
-	clean_function(tbl);
-	return (0);
-}
-
 int			main(void)
 {
 	t_table	*tbl;
@@ -166,6 +121,6 @@ int			main(void)
 	tbl = create_table();
 	if (start_reading(tbl))
 		clean_function(tbl);
-	system("leaks lem-in");
+	// system("leaks lem-in");
 	return (0);
 }

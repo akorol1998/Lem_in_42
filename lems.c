@@ -100,7 +100,7 @@ int			move_ants(t_node **arr, int *ant)
 	f = 0;
 	(*ant) = (*ant) == -1 ? -1 : (*ant) + 1;
 	if (!i && (*ant) != -1)
-		ft_printfgit ("L%d-%s ", (*ant), arr[i]->name);
+		ft_printf("L%d-%s ", (*ant), arr[i]->name);
 	while (--i >= 0 && arr[i])
 	{
 		if (arr[i]->lem)

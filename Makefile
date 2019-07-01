@@ -19,6 +19,7 @@ SRC =   main.c	\
 		file3.c \
 		file4.c \
 		file5.c \
+		trash.c \
 		lems.c \
 		help_file.c \
 		support.c\

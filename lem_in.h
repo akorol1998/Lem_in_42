@@ -53,8 +53,11 @@ typedef struct			s_pipe
 
 void					print_list(t_table *tbl); // delete this
 t_table					*create_table();
+int						get_ants(t_table *tbl);
+char					*reading_rooms(t_table *tbl);
 int						ant_check(char	*line);
 t_node					*create_node(void);
+int						setting_level(t_table *tbl, t_node *cur);
 int						check_room(char **data, t_table *tbl);
 int						fill_node(char **data, t_node *node, t_table *tbl);
 int						read_line(t_table *tbl, char c);
@@ -65,7 +68,9 @@ int						reading_links(char *line0, t_table *tbl);
 int						linking(char **data, t_table *tbl);
 int						connecting_nodes(t_node *node, t_node *node2);
 int						connect_node2(t_node *node2, t_node *node);
+int						arr_and_algo(t_table *tbl);
 int						creating_arrays(t_table *tbl);
+int						start_reading(t_table *tbl);
 int						launch_algorithm(t_table *tbl);
 int						list_len(char **list);
 int						set_levels(t_table *tbl);
@@ -86,4 +91,6 @@ void					join_map(t_table *tbl, char *line);
 void					clean_function(t_table *tbl);
 int						room_in_path(t_table *tbl);
 void					recursive_node(t_table *tbl, t_node *node);
+int						check_valid_line(char *line, t_table *tbl);
+void					add_to_queue(t_table *tbl, t_node *cur);
 #endif

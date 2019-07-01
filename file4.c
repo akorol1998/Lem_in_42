@@ -12,21 +12,6 @@
 
 #include "lem_in.h"
 
-int			count_nodes(t_table *tbl, int idx)
-{
-	t_node	*node;
-	int		size;
-
-	node = tbl->q[idx];
-	size = 0;
-	while (ft_strcmp(node->name, tbl->start->name))
-	{
-		node = node->prev;
-		size++;
-	}
-	return (size);
-}
-
 void		recursive_pip(t_pipe *pip)
 {
 	if (pip->next)
@@ -70,4 +55,54 @@ void		clean_function(t_table *tbl)
 	if (tbl->map)
 		free(tbl->map);
 	recursive_node(tbl, tbl->nodes);
+}
+
+int			arr_and_algo(t_table *tbl)
+{
+	int		flag;
+
+	flag = 0;
+	creating_arrays(tbl);
+	ft_printf("%s\n", tbl->map);
+	flag = launch_algorithm(tbl);
+	if (flag)
+	{
+		display_ants(tbl);
+		if (tbl->msg)
+			ft_printf("%s\n", tbl->msg);
+		return (1);
+	}
+	else
+	{
+		clean_function(tbl);
+		ft_printf("%s\n", strerror(EIO));
+		return (0);
+	}
+}
+
+int			start_reading(t_table *tbl)
+{
+	char	*line;
+
+	if (!get_ants(tbl))
+	{
+		clean_function(tbl);
+		return (0);
+	}		
+	if ((line = reading_rooms(tbl)) && tbl->start && tbl->end)
+	{
+		if (!reading_links(line, tbl))
+		{
+			ft_printf("Invalid links!\n");
+			free(line);
+			clean_function(tbl);
+			return (0);
+		}
+		free(line);
+		arr_and_algo(tbl);
+	}
+	else
+		ft_printf("%s\n", strerror(EIO));
+	clean_function(tbl);
+	return (0);
 }

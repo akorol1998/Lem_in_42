@@ -56,7 +56,7 @@ int			launch_algorithm(t_table *tbl)
 	return (1);
 }
 
-void		making_path(t_table *tbl, int idx, int	j, int size)
+void		making_path(t_table *tbl, int idx, int j, int size)
 {
 	t_node	*node;
 
@@ -77,7 +77,7 @@ int			extract_path(t_table *tbl, int idx)
 {
 	int		i;
 	int		j;
-	int 	size;
+	int		size;
 
 	i = -1;
 	while (tbl->q[++i])
@@ -125,46 +125,9 @@ void		add_to_queue(t_table *tbl, t_node *cur)
 			{
 				tbl->q[idx] = pip->node;
 				pip->node->prev = cur;
-				idx++;	
+				idx++;
 			}
 		}
 		pip = pip->next;
 	}
-}
-
-int			set_levels(t_table *tbl)
-{
-	t_node	*cur;
-	int		idx;
-	int		flag;
-	int		end;
-	t_pipe	*pip;
-
-	idx = 0;
-	flag = 0;
-	cur = tbl->nodes;
-	pip = cur->branch;
-	while (pip)
-	{
-		if (!pip->node->visited)
-			flag = 1;
-		pip = pip->next;
-	}
-	if (!flag)
-		return (0);
-	tbl->q[idx] = cur;
-	flag = -1;
-	end = 0;
-	while (tbl->q[idx] && cur && ft_strcmp(cur->name, tbl->end->name))
-	{
-		add_to_queue(tbl, cur);
-		cur = tbl->q[++idx];
-		if (cur && !ft_strcmp(cur->name, tbl->end->name))
-			end = 1;
-	}
-	if (!end && !len_arr(NULL, tbl->path))
-		return (-1);
-	else if (!end && len_arr(NULL, tbl->path))
-		return (0);
-	return (idx);
 }

@@ -32,10 +32,8 @@ int			linking(char **data, t_table *tbl)
 	if (node && node2 && connecting_nodes(node, node2))
 		return (1);
 	else
-		return (0);				// FREE !!
+		return (0);
 }
-
-// Very careful with linking nodes to each other, so that you didn't create infinite loop in the future
 
 int			connecting_nodes(t_node *node, t_node *node2)
 {

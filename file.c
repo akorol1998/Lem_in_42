@@ -12,9 +12,9 @@
 
 #include "lem_in.h"
 
-t_table		*create_table()
+t_table			*create_table(void)
 {
-	t_table	*point;
+	t_table		*point;
 
 	point = (t_table*)malloc(sizeof(t_table));
 	point->q = NULL;
@@ -29,10 +29,9 @@ t_table		*create_table()
 	return (point);
 }
 
-t_node		*create_node(void)
+t_node			*create_node(void)
 {
-	t_node	*node;
-
+	t_node		*node;
 
 	node = (t_node*)malloc(sizeof(t_node));
 	node->branch = NULL;
@@ -47,11 +46,10 @@ t_node		*create_node(void)
 	return (node);
 }
 
-// This fucntion frees "data array" ! no get next line
-int			fill_node(char **data, t_node *node, t_table *tbl)
+int				fill_node(char **data, t_node *node, t_table *tbl)
 {
-	t_node	*tbl_node;
-	int		i;
+	t_node		*tbl_node;
+	int			i;
 
 	i = -1;
 	tbl_node = tbl->nodes;
@@ -72,7 +70,6 @@ int			fill_node(char **data, t_node *node, t_table *tbl)
 	return (1);
 }
 
-// This function usually frees "data array" ! no get next line
 int				check_for_links(char **data, t_table *tbl)
 {
 	int			i;
@@ -82,7 +79,7 @@ int				check_for_links(char **data, t_table *tbl)
 	c = 0;
 	i = -1;
 	while (data && data[++i])
-			;
+		;
 	if (i != 2)
 	{
 		i = -1;
@@ -92,12 +89,11 @@ int				check_for_links(char **data, t_table *tbl)
 			free(data[i]);
 		free(data);
 		return (c);
-	
 	}
 	k = linking(data, tbl);
 	i = -1;
 	while (data && data[++i])
 		free(data[i]);
 	free(data);
-	return (1); //pay attention
+	return (1);
 }
