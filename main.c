@@ -135,7 +135,7 @@ int			start_reading(t_table *tbl)
 		}
 		free(line);
 		creating_arrays(tbl);
-		printf("%s\n", tbl->map);
+		ft_printf("%s\n", tbl->map);
 		flag = launch_algorithm(tbl);
 		if (flag)
 		{
@@ -147,7 +147,7 @@ int			start_reading(t_table *tbl)
 		else
 		{
 			clean_function(tbl);
-			ft_printf(" Darova %s\n", strerror(EINVAL)); // Another type of error needed
+			ft_printf(" Links problems %s\n", strerror(EINVAL)); // Another type of error needed
 			return (0);
 		}
 	}
