@@ -25,7 +25,9 @@ void		swarming(t_table *tbl)
 	path = tbl->path;
 	f = 1;
 	count = 0;
-	ft_printf("NUMBER OF ANTS IS           %d\n", tbl->ants);
+	ft_putstr("NUMBER OF ANTS IS           ");
+	ft_putnbr(tbl->ants);
+	ft_putstr("\n");
 	while (f)
 	{
 		f = 0;
@@ -37,7 +39,9 @@ void		swarming(t_table *tbl)
 		ft_printf("\n");
 		count += what_to_do(ant, tbl, &i, &f);
 	}
-	ft_printf("Lines %d\n", count);
+	ft_putstr("Lines ");
+	ft_putnbr(count);
+	ft_putstr("\n");
 }
 
 int			cycle_move(t_table *tbl)
@@ -61,7 +65,7 @@ int			cycle_move(t_table *tbl)
 				f = 1;
 		}
 		c++;
-		ft_printf("\n");
+		ft_putstr("\n");
 	}
 	return (c);
 }
@@ -95,18 +99,20 @@ int			move_ants(t_node **arr, int *ant)
 	i -= 1;
 	f = 0;
 	(*ant) = (*ant) == -1 ? -1 : (*ant) + 1;
+	if (!i && (*ant) != -1)
+		ft_printfgit ("L%d-%s ", (*ant), arr[i]->name);
 	while (--i >= 0 && arr[i])
 	{
 		if (arr[i]->lem)
 		{
 			f = 1;
 			arr[i + 1]->lem = arr[i]->lem;
-			ft_printf(" L%d-%s", arr[i + 1]->lem, arr[i + 1]->name);
+			ft_printf("L%d-%s ", arr[i + 1]->lem, arr[i + 1]->name);
 		}
 		if (!i && (*ant) != -1)
 		{
 			arr[i]->lem = (*ant);
-			ft_printf(" L%d-%s", arr[i]->lem, arr[i]->name);
+			ft_printf("L%d-%s ", arr[i]->lem, arr[i]->name);
 		}
 		else
 			arr[i]->lem = 0;

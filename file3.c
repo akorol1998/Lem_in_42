@@ -41,7 +41,7 @@ int			launch_algorithm(t_table *tbl)
 	f = 1;
 	if (!check_link(tbl))
 	{
-		ft_printf("Start has no linkage or all available paths are taken\n");
+		ft_printf("Path is not valid!\n");
 		return (0);
 	}
 	while ((idx = set_levels(tbl)) && f)
@@ -114,14 +114,19 @@ void		add_to_queue(t_table *tbl, t_node *cur)
 		flag = 1;
 		while (tbl->q[++i])
 		{
-			if (pip->node->visited || !ft_strcmp(tbl->q[i]->name, pip->node->name)) // end room
+			if (pip->node->visited ||
+			!ft_strcmp(tbl->q[i]->name, pip->node->name))
 				flag = 0;
 		}
 		if (flag)
 		{
-			tbl->q[idx] = pip->node;
-			pip->node->prev = cur;
-			idx++;
+			if (ft_strcmp(cur->name, tbl->start->name) ||
+			ft_strcmp(pip->node->name, tbl->end->name) || !room_in_path(tbl))
+			{
+				tbl->q[idx] = pip->node;
+				pip->node->prev = cur;
+				idx++;	
+			}
 		}
 		pip = pip->next;
 	}
@@ -157,7 +162,9 @@ int			set_levels(t_table *tbl)
 		if (cur && !ft_strcmp(cur->name, tbl->end->name))
 			end = 1;
 	}
-	if (!end)
+	if (!end && !len_arr(NULL, tbl->path))
 		return (-1);
+	else if (!end && len_arr(NULL, tbl->path))
+		return (0);
 	return (idx);
 }

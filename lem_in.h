@@ -55,11 +55,11 @@ void					print_list(t_table *tbl); // delete this
 t_table					*create_table();
 int						ant_check(char	*line);
 t_node					*create_node(void);
-int						check_room(char **data);
+int						check_room(char **data, t_table *tbl);
 int						fill_node(char **data, t_node *node, t_table *tbl);
 int						read_line(t_table *tbl, char c);
 int						check_line(char *line, t_table *tbl);
-int						check_num(char **data);
+int						check_num(char **data, t_table *tbl);
 int						check_for_links(char **data, t_table *tbl);
 int						reading_links(char *line0, t_table *tbl);
 int						linking(char **data, t_table *tbl);
@@ -84,5 +84,6 @@ void					finish_rest(t_table *tbl, int i);
 int						check_link(t_table *tbl);
 void					join_map(t_table *tbl, char *line);
 void					clean_function(t_table *tbl);
-
+int						room_in_path(t_table *tbl);
+void					recursive_node(t_table *tbl, t_node *node);
 #endif

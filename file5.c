@@ -61,10 +61,28 @@ void		finish_rest(t_table *tbl, int i)
 			if (path[leng]->lem)
 			{
 				path[leng + 1]->lem = path[leng]->lem;
-				ft_printf(" L%d-%s", path[leng + 1]->lem, path[leng + 1]->name);
+				ft_printf("L%d-%s ", path[leng + 1]->lem, path[leng + 1]->name);
 			}
 			path[leng]->lem = 0;
 		}
 		i++;
 	}
+}
+
+int			room_in_path(t_table *tbl)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	j = -1;
+	while (tbl->path[++i])
+	{
+		j = -1;
+		while (tbl->path[i][++j])
+			;
+		if (j == 1 && !ft_strcmp(tbl->path[i][0]->name, tbl->end->name))
+			return (1);
+	}
+	return (0);
 }

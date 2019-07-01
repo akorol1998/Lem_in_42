@@ -33,12 +33,19 @@ int			start_end_node(char c, char **data, t_node *node, t_table *tbl)
 
 	i = -1;
 	if (c == 'e' && !tbl->end)
+	{
 		tbl->end = node;
+		node = tbl->nodes;
+		while (node->link)
+			node = node->link;
+		node->link = tbl->end;
+		node = tbl->end;
+	}
 	else if (c == 's' && !tbl->start)
 	{
 		tbl->start = node;
 		if (tbl->nodes)
-			{
+		{
 			node->link = tbl->nodes;
 			tbl->nodes = node;
 		}
@@ -64,17 +71,43 @@ int			read_line(t_table *tbl, char c)
 	t_node	*node;
 	int		r;
 
-	get_next_line(0, &line);
-	join_map(tbl, line);
-	data = ft_strsplit(line, ' ');
 	r = 0;
-	if (check_room(data))
+	while (1)
 	{
-		node = create_node();
-		r = start_end_node(c, data, node, tbl);
-		tbl->rooms++;
+		get_next_line(0, &line);
+		join_map(tbl, line);
+		if (line && line[0] == '#')
+		{
+			if (!ft_strcmp(line, "##start") || !ft_strcmp(line, "##end"))
+			{
+				ft_printf("Don't know how to process this!\n");
+				free(line);
+				return (0);
+			}
+			free(line);
+		}
+		else
+		{
+			data = ft_strsplit(line, ' ');
+			if (check_room(data, tbl))
+			{
+				node = create_node();
+				if (!(r = start_end_node(c, data, node, tbl)))
+				{
+					r = -1;
+					while (data && data[++r])
+						free(data[r]);
+					free(data);
+					r = 0;
+					recursive_node(tbl, node);
+					free(node);
+				}
+				tbl->rooms++;
+			}
+			free(line);
+			break ;
+		}
 	}
-	free(line);
 	return (r);
 }
 
@@ -86,29 +119,19 @@ int				check_line(char *line, t_table *tbl)
 	if (!ft_strcmp(line, "##start"))
 	{
 		if (!read_line(tbl, 's'))
-		{
-			ft_printf("1");
 			return (0);
-		}
 	}
 	else if (!ft_strcmp(line, "##end"))
 	{
 		if (!read_line(tbl, 'e'))
-		{
-			ft_printf("2");
 			return (0);
-		}
 	}
 	else if (line[0] == '#')
-	{
-		ft_printf("Comment - '%s'\n", line);
 		return (1);
-	}
 	else
 	{
-		printf("yopta");
 		data = ft_strsplit(line, ' ');
-		if (check_room(data))
+		if (check_room(data, tbl))
 		{
 			node = create_node();
 			fill_node(data, node, tbl);
@@ -123,14 +146,9 @@ int			reading_links(char *line0, t_table *tbl)
 {
 	char	*line;
 	char	**data;
-	t_node	*node;
 	int		res;
 
 	line = NULL;
-	node = tbl->nodes;
-	while (node->link)
-		node = node->link;
-	node->link = tbl->end;
 	data = ft_strsplit(line0, '-');
 	if (!(res = check_for_links(data, tbl)))
 	{

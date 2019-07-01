@@ -22,10 +22,7 @@ int			linking(char **data, t_table *tbl)
 	node = tbl->nodes;
 	node2 = tbl->nodes;
 	if (!ft_strcmp(data[0], data[1]))
-	{
-		ft_printf("same name");
 		return (1);
-	}
 	while (node && ft_strcmp(node->name, data[0]))
 	{
 		node = node->link;
@@ -33,14 +30,9 @@ int			linking(char **data, t_table *tbl)
 	while (node2 && ft_strcmp(node2->name, data[1]))
 		node2 = node2->link;
 	if (node && node2 && connecting_nodes(node, node2))
-	{
 		return (1);
-	}
 	else
-	{
-		ft_putstr("Here we go\n");
 		return (0);				// FREE !!
-	}
 }
 
 // Very careful with linking nodes to each other, so that you didn't create infinite loop in the future

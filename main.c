@@ -26,30 +26,24 @@ int			get_ants(t_table *tbl)
 			break ;
 		join_map(tbl, line);
 		if (ant_check(line))
-		{
 			ants = ft_atoi(line);
-			break ;
-		}
-		if (line[0] == '#' && ft_strchr(line, ':'))
-			tbl->msg = !tbl->msg ? ft_strdup(line) : NULL;
-		if (!ft_strcmp(line, "##start"))
-			break;
-		free(line);
+		break ;
 	}
 	free(line);
 	if (ants < 0 || !ants)
 	{
-		ft_printf("Something is wrong\n");
+		ft_printf("%s\n", strerror(EIO));
 		return (0);
 	}
 	tbl->ants = ants;
 	return (1);
 }
 
-int			check_num(char **data)
+int			check_num(char **data, t_table *tbl)
 {
 	int		i;
 	int		k;
+	t_node	*node;
 
 	i = 0;
 	while (data[++i])
@@ -61,11 +55,18 @@ int			check_num(char **data)
 				return (0);
 		}
 	}
+	node = tbl->nodes;
+	while (node)
+	{
+		if (node->pos[0] == ft_atoi(data[1]) && node->pos[1] == ft_atoi(data[2]))
+			return (0);	
+		node = node->link;
+	}
 	return (1);
 }
 
 // freeing data
-int			check_room(char **data)
+int			check_room(char **data, t_table *tbl)
 {
 	int		k;
 
@@ -80,8 +81,12 @@ int			check_room(char **data)
 		free(data);
 		return (0);
 	}
-	else if (!check_num(data))
+	else if (!check_num(data, tbl))
 	{
+		k = -1;
+		while (data && data[++k])
+			free(data[k]);
+		free(data);
 		return (0);
 	}
 	return (1);
@@ -103,12 +108,10 @@ char		*reading_rooms(t_table *tbl)
 		if (!check_line(line, tbl))
 		{
 			free(line);
-			ft_printf("here");
 			return (NULL);
 		}
 		free(line);
 	}
-	ft_printf("hello\n");
 	return (NULL);
 }
 
@@ -125,10 +128,9 @@ int			start_reading(t_table *tbl)
 	flag = 0;
 	if ((line = reading_rooms(tbl)) && tbl->start && tbl->end)
 	{
-		ft_printf("{%s}\n", line);
 		if (!reading_links(line, tbl))
 		{
-			ft_printf("Bad links\n");
+			ft_printf("Invalid links!\n");
 			free(line);
 			clean_function(tbl);
 			return (0);
@@ -147,12 +149,12 @@ int			start_reading(t_table *tbl)
 		else
 		{
 			clean_function(tbl);
-			ft_printf(" Links problems %s\n", strerror(EINVAL)); // Another type of error needed
+			ft_printf("%s\n", strerror(EIO));
 			return (0);
 		}
 	}
 	else
-		ft_printf("No Start or\n no End or\n some another unknown ERROR\n");
+		ft_printf("%s\n", strerror(EIO));
 	clean_function(tbl);
 	return (0);
 }
@@ -162,8 +164,8 @@ int			main(void)
 	t_table	*tbl;
 
 	tbl = create_table();
-	if (!start_reading(tbl))
-		ft_printf("%s\n", strerror(EINVAL));
+	if (start_reading(tbl))
+		clean_function(tbl);
 	system("leaks lem-in");
 	return (0);
 }

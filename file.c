@@ -99,5 +99,5 @@ int				check_for_links(char **data, t_table *tbl)
 	while (data && data[++i])
 		free(data[i]);
 	free(data);
-	return (k);
+	return (1); //pay attention
 }
