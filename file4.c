@@ -14,7 +14,7 @@
 
 void		recursive_pip(t_pipe *pip)
 {
-	if (pip->next)
+	if (pip && pip->next)
 	{
 		recursive_pip(pip->next);
 		free(pip->next);
@@ -27,16 +27,24 @@ void		recursive_node(t_table *tbl, t_node *node)
 	{
 		recursive_node(tbl, node->link);
 		free(node->link);
+		node->link = NULL;
 	}
 	if (node && node->branch)
 	{
 		recursive_pip(node->branch);
 		free(node->branch);
+		node->branch = NULL;
 	}
 	if (node && node->name)
+	{
 		free(node->name);
+		node->name = NULL;
+	}
 	if (node && node->pos)
+	{
 		free(node->pos);
+		node->pos = NULL;
+	}
 }
 
 void		clean_function(t_table *tbl)
@@ -45,15 +53,19 @@ void		clean_function(t_table *tbl)
 
 	if (tbl->q)
 		free(tbl->q);
+	tbl->q = NULL;
 	i = -1;
 	while (tbl->path && tbl->path[++i])
 		free(tbl->path[i]);
 	if (tbl->path)
 		free(tbl->path);
+	tbl->path = NULL;
 	if (tbl->msg)
 		free(tbl->msg);
+	tbl->msg = NULL;
 	if (tbl->map)
 		free(tbl->map);
+	tbl->map = NULL;
 	recursive_node(tbl, tbl->nodes);
 }
 
@@ -88,7 +100,7 @@ int			start_reading(t_table *tbl)
 	{
 		clean_function(tbl);
 		return (0);
-	}		
+	}
 	if ((line = reading_rooms(tbl)) && tbl->start && tbl->end)
 	{
 		if (!reading_links(line, tbl))
@@ -99,10 +111,12 @@ int			start_reading(t_table *tbl)
 			return (0);
 		}
 		free(line);
-		arr_and_algo(tbl);
+		return (arr_and_algo(tbl));
 	}
 	else
+	{
 		ft_printf("%s\n", strerror(EIO));
-	clean_function(tbl);
-	return (0);
+		clean_function(tbl);
+		return (0);
+	}
 }

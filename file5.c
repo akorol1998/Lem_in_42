@@ -31,7 +31,7 @@ int			display_ants(t_table *tbl)
 	int		i;
 	int		j;
 
-	i =	-1;
+	i = -1;
 	while (tbl->path[++i])
 	{
 		j = -1;
@@ -50,7 +50,7 @@ void		finish_rest(t_table *tbl, int i)
 {
 	t_node	**path;
 	int		leng;
-	
+
 	while (tbl->path[i])
 	{
 		path = tbl->path[i];
@@ -85,4 +85,29 @@ int			room_in_path(t_table *tbl)
 			return (1);
 	}
 	return (0);
+}
+
+void		really_add(t_node *cur, t_pipe *pip, t_table *tbl, int *idx)
+{
+	int		i;
+	int		flag;
+
+	i = -1;
+	flag = 1;
+	while (tbl->q[++i])
+	{
+		if (pip->node->visited ||
+		!ft_strcmp(tbl->q[i]->name, pip->node->name))
+			flag = 0;
+	}
+	if (flag)
+	{
+		if (ft_strcmp(cur->name, tbl->start->name) ||
+		ft_strcmp(pip->node->name, tbl->end->name) || !room_in_path(tbl))
+		{
+			tbl->q[(*idx)] = pip->node;
+			pip->node->prev = cur;
+			(*idx)++;
+		}
+	}
 }

@@ -22,7 +22,6 @@ SRC =   main.c	\
 		trash.c \
 		lems.c \
 		help_file.c \
-		support.c\
 
 CFLAGS = -Wextra -Wall -Werror
 

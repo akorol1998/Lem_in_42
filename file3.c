@@ -99,8 +99,6 @@ int			extract_path(t_table *tbl, int idx)
 void		add_to_queue(t_table *tbl, t_node *cur)
 {
 	t_pipe	*pip;
-	int		i;
-	int		flag;
 	int		idx;
 
 	idx = -1;
@@ -110,24 +108,7 @@ void		add_to_queue(t_table *tbl, t_node *cur)
 	pip = cur->branch;
 	while (pip)
 	{
-		i = -1;
-		flag = 1;
-		while (tbl->q[++i])
-		{
-			if (pip->node->visited ||
-			!ft_strcmp(tbl->q[i]->name, pip->node->name))
-				flag = 0;
-		}
-		if (flag)
-		{
-			if (ft_strcmp(cur->name, tbl->start->name) ||
-			ft_strcmp(pip->node->name, tbl->end->name) || !room_in_path(tbl))
-			{
-				tbl->q[idx] = pip->node;
-				pip->node->prev = cur;
-				idx++;
-			}
-		}
+		really_add(cur, pip, tbl, &idx);
 		pip = pip->next;
 	}
 }

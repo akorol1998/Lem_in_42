@@ -121,6 +121,5 @@ int			main(void)
 	tbl = create_table();
 	if (start_reading(tbl))
 		clean_function(tbl);
-	// system("leaks lem-in");
 	return (0);
 }

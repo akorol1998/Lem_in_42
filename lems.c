@@ -25,23 +25,20 @@ void		swarming(t_table *tbl)
 	path = tbl->path;
 	f = 1;
 	count = 0;
-	ft_putstr("NUMBER OF ANTS IS           ");
-	ft_putnbr(tbl->ants);
-	ft_putstr("\n");
+	ft_printf("NUMBER OF ANTS IS           %d\n", tbl->ants);
 	while (f)
 	{
 		f = 0;
 		while (path && path[++i] && ant < tbl->ants &&
 		(tbl->ants - ant > make_decision(tbl, i) || tbl->ants == ant))
 			move_ants(path[i], &ant);
-		if ((path[i] && tbl->ants - ant < make_decision(tbl, i)) || ant == tbl->ants)
+		if ((path[i] && tbl->ants - ant < make_decision(tbl, i))
+		|| ant == tbl->ants)
 			finish_rest(tbl, i);
 		ft_printf("\n");
 		count += what_to_do(ant, tbl, &i, &f);
 	}
-	ft_putstr("Lines ");
-	ft_putnbr(count);
-	ft_putstr("\n");
+	ft_printf("Lines %d\n", count);
 }
 
 int			cycle_move(t_table *tbl)
@@ -82,7 +79,8 @@ int			what_to_do(int ant, t_table *tbl, int *i, int *f)
 		(*f) = 0;
 		return (cycle_move(tbl));
 	}
-	if (tbl->path[*i] && (*i) != -1 && tbl->ants - ant <= make_decision(tbl, (*i)))
+	if (tbl->path[*i] && (*i) != -1 &&
+	tbl->ants - ant <= make_decision(tbl, (*i)))
 	{
 		(*f) = 1;
 		(*i) = -1;
@@ -95,8 +93,7 @@ int			move_ants(t_node **arr, int *ant)
 	int		i;
 	int		f;
 
-	i = len_arr(arr, NULL);
-	i -= 1;
+	i = len_arr(arr, NULL) - 1;
 	f = 0;
 	(*ant) = (*ant) == -1 ? -1 : (*ant) + 1;
 	if (!i && (*ant) != -1)
@@ -125,7 +122,7 @@ int			make_decision(t_table *tbl, int idx)
 	int		leng;
 	int		sum;
 	int		i;
-	
+
 	leng = len_arr(tbl->path[idx], NULL);
 	sum = 0;
 	i = -1;

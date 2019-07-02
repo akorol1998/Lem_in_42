@@ -10,27 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 #ifndef LEM_IN_H
 # define LEM_IN_H
 # include "printf/ft_printf.h"
 # include <errno.h>
 
-typedef struct 			s_table
+typedef struct			s_table
 {
-	struct s_node		**q;	// Previous node's name
-	struct s_node		*nodes;	// all the available nodes
+	struct s_node		**q;
+	struct s_node		*nodes;
 	struct s_node		*start;
 	struct s_node		*end;
 	struct s_node		***path;
-	int					ants;	// Number of ants
+	int					ants;
 	int					rooms;
 	char				*msg;
 	char				*map;
 
-}						t_table;		// have to use linked list to handle unpredictable number of rooms
-
+}						t_table;
 
 typedef struct			s_node
 {
@@ -39,7 +36,7 @@ typedef struct			s_node
 	struct s_node		*prev;
 	int					weight;
 	int					current;
-	int					*pos;	// to check duplicated coordinates
+	int					*pos;
 	char				*name;
 	int					lem;
 	char				visited;
@@ -51,7 +48,7 @@ typedef struct			s_pipe
 	struct s_pipe		*next;
 }						t_pipe;
 
-void					print_list(t_table *tbl); // delete this
+void					print_list(t_table *tbl);
 t_table					*create_table();
 int						get_ants(t_table *tbl);
 char					*reading_rooms(t_table *tbl);
@@ -93,4 +90,6 @@ int						room_in_path(t_table *tbl);
 void					recursive_node(t_table *tbl, t_node *node);
 int						check_valid_line(char *line, t_table *tbl);
 void					add_to_queue(t_table *tbl, t_node *cur);
+void					really_add(t_node *cur, t_pipe *pip,
+t_table *tbl, int *idx);
 #endif

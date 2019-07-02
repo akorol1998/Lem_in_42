@@ -12,8 +12,7 @@
 
 #include "lem_in.h"
 
-
-int			ant_check(char	*line)
+int			ant_check(char *line)
 {
 	int		i;
 
@@ -48,7 +47,7 @@ void		join_map(t_table *tbl, char *line)
 	}
 }
 
-int				check_line(char *line, t_table *tbl)
+int			check_line(char *line, t_table *tbl)
 {
 	if (!ft_strcmp(line, "##start"))
 	{
